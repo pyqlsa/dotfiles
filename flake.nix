@@ -54,6 +54,24 @@
         };
       };
 
+      nixosConfigurations.wilderness = lib.nixosSystem {
+        inherit system pkgs;
+
+        modules = [
+          ./hosts/wilderness
+          ./modules
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.pyqlsa = import ./home {
+              inherit system lib pkgs inputs;
+              inherit (pkgs) config;
+            };
+          }
+        ];
+      };
+
       nixosConfigurations.nixos-9500 = lib.nixosSystem {
         inherit system pkgs;
 
