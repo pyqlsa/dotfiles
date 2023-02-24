@@ -14,10 +14,9 @@ in
 
   config = mkIf (cfg.hardware.amd.enable) {
     # amd, pt.1
-    #boot.kernelPackages = pkgs.linuxPackages_latest;
-    boot.kernelPackages = pkgs.linuxPackages_testing;
+    boot.kernelPackages = pkgs.linuxPackages_latest;
+    # amdgpu driver has x11 blank cursor bug
     #boot.initrd.kernelModules = [ "amdgpu" ];
-    #boot.initrd.kernelModules = [ "modesetting" ];
     # opencl
     hardware.opengl.enable = true;
     hardware.opengl.extraPackages = with pkgs; [
@@ -26,6 +25,10 @@ in
       # amdvlk in addition to mesa radv videoDrivers
       amdvlk
     ];
+    #HIP
+    #systemd.tmpfiles.rules = [
+    #  "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.hip}"
+    #];
     # vulkan
     hardware.opengl.driSupport = true;
     # for 32-bit apps
