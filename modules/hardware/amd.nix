@@ -22,6 +22,8 @@ in
     hardware.opengl.extraPackages = with pkgs; [
       rocm-opencl-icd
       rocm-opencl-runtime
+      # unsure if necessary
+      #rocm-runtime
       # amdvlk in addition to mesa radv videoDrivers
       amdvlk
     ];
