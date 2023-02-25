@@ -135,22 +135,6 @@ in
           xterm.enable = false;
         };
         displayManager.defaultSession = "none+i3";
-        displayManager.lightdm = {
-          enable = true;
-          background = cfg.desktop.i3.background;
-          greeters.slick = {
-            enable = true;
-            extraConfig = ''
-              draw-grid=true
-              show-hostname=true
-              show-keyboard=true
-              show-a11y=true
-              show-power=true
-              show-clock=true
-              show-quit=true
-            '';
-          };
-        };
         layout = "us";
         windowManager.i3 = {
           enable = true;

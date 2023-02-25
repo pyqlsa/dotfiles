@@ -25,6 +25,9 @@
       wifiInterface = "wlp0s20f3";
       showPower = true;
     };
+    lightdm = {
+      enable = true;
+    };
   };
 
   sys.hardware.audio.server = "pulse";

@@ -20,10 +20,6 @@ in
           xfce.enable = true;
         };
         displayManager.defaultSession = "xfce";
-        displayManager.lightdm = {
-          enable = true;
-          background = sys.desktop.wallpaper;
-        };
         layout = "us";
       };
     };

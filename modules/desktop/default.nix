@@ -5,9 +5,9 @@
 }: {
   imports = [
     ./core.nix
-    ./gnome.nix
     ./i3.nix
     ./images
+    ./lightdm.nix
     ./picom.nix
     ./xfce.nix
   ];

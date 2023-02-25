@@ -24,6 +24,9 @@
       enable = true;
       displayCommand = "${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --auto --right-of DP-2";
     };
+    lightdm = {
+      enable = true;
+    };
   };
 
   sys.hardware.nvidia = {
