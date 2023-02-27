@@ -5,7 +5,7 @@
 }:
 with lib; let
   cfg = config.sys;
-  i3StatusBarConfig = ''
+  statusBarConfig = ''
     general {
       output_format = i3bar
       colors = true
@@ -127,7 +127,6 @@ in
     # allow for running gnome things outside of gnome (like for using themes)
     programs.dconf.enable = true;
     environment.pathsToLink = [ "/libexec" ];
-    hardware.acpilight.enable = true;
     services = {
       xserver = {
         enable = true;
@@ -339,9 +338,7 @@ in
                 urgent_workspace   #2F343A #661A1A #DBDBDB
                 binding_mode       #2F343A #661A1A #DBDBDB
               }
-              status_command ${pkgs.i3status}/bin/i3status -c ${
-              pkgs.writeText "i3status-config" i3StatusBarConfig
-            }
+              status_command ${pkgs.i3status}/bin/i3status -c ${pkgs.writeText "i3status-config" statusBarConfig}
             }
           '';
         };

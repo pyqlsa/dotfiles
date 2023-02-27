@@ -67,6 +67,7 @@ in
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.acpilight.enable = true;
   # 9500-specific
   # Boot loader
   boot.kernelParams = lib.mkDefault [ "acpi_rev_override" ];
