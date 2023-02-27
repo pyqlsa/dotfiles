@@ -146,11 +146,11 @@
     "glow-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1676173159,
-        "narHash": "sha256-tbmNSTlysWynQSEAgPBTRcjcl5Jagv36611encnX4Qw=",
+        "lastModified": 1677464396,
+        "narHash": "sha256-Qw8Ndl0Trir9a+2hcK195SEE1W5h4gVCaYYCk7Z01/0=",
         "owner": "pyqlsa",
         "repo": "glow.nvim",
-        "rev": "6b540141bcdd59a48cd45efeac58a9db3d82f579",
+        "rev": "fcb7edb679fb99334885ef1490c9911ee7a5996c",
         "type": "github"
       },
       "original": {
@@ -291,11 +291,11 @@
         "vscode-nvim": "vscode-nvim"
       },
       "locked": {
-        "lastModified": 1676269063,
-        "narHash": "sha256-W7QUwNB+lF7q2F8AsT/yNCno25JGJoFQKTE4gCIUI7U=",
+        "lastModified": 1677464782,
+        "narHash": "sha256-2k8jsK1QsUgRUqdVrC4HCHtlJOnce+G9Hkc9BwBP87U=",
         "owner": "pyqlsa",
         "repo": "neovim-flake",
-        "rev": "6ea3fb85df08df5f534d96ff053d7d88cbbce78b",
+        "rev": "00c9780e0919f8f971565ceea8065b35c118eb82",
         "type": "github"
       },
       "original": {
