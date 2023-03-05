@@ -21,7 +21,7 @@
       family = font-name;
       style = "Italic";
     };
-    size = 7;
+    size = 8;
   };
   #cursor.style = "Beam";
   colors = {
