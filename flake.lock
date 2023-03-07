@@ -329,6 +329,27 @@
         "type": "github"
       }
     },
+    "nixos-rocm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1677469112,
+        "narHash": "sha256-lriPF15Aabr+3NjCBTV6SpTIME1lyyBLlOKWBr3El4g=",
+        "owner": "pyqlsa",
+        "repo": "nixos-rocm",
+        "rev": "45ac550dd380c08f3b55cd738bf06c327c82c700",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pyqlsa",
+        "ref": "7000",
+        "repo": "nixos-rocm",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1677342105,
@@ -592,6 +613,7 @@
       "inputs": {
         "home-manager": "home-manager",
         "neovim-flake": "neovim-flake",
+        "nixos-rocm": "nixos-rocm",
         "nixpkgs": "nixpkgs"
       }
     },

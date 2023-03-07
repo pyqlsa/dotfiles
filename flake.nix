@@ -18,6 +18,11 @@
       url = "github:pyqlsa/neovim-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-rocm = {
+      url = "github:pyqlsa/nixos-rocm/7000";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -37,6 +42,14 @@
           # or create an overlay inline with the default package
           #(final: prev: {
           #  neovimPQ = inputs.neovim-flake.packages.${system}.default;
+          #})
+          # only pull in select packages from the rocm overlay
+          #(final: prev: {
+          #  rocm-runtime = inputs.nixos-rocm.packages.${system}.rocm-runtime;
+          #  rocm-opencl-runtime = inputs.nixos-rocm.packages.${system}.rocm-opencl-runtime;
+          #  rocm-opencl-icd = inputs.nixos-rocm.packages.${system}.rocm-opencl-icd;
+          #  hip = inputs.nixos-rocm.packages.${system}.hip;
+          #  hashcat-rocm = inputs.nixos-rocm.packages.${system}.hashcat-rocm;
           #})
         ];
       };

@@ -21,8 +21,8 @@ in
     # opencl
     hardware.opengl.enable = true;
     hardware.opengl.extraPackages = with pkgs; [
-      #rocm-opencl-icd
-      #rocm-opencl-runtime
+      rocm-opencl-icd
+      rocm-opencl-runtime
       # unsure if necessary
       #rocm-runtime
       # amdvlk in addition to mesa radv videoDrivers
@@ -52,5 +52,8 @@ in
         #videoDrivers = [ "modesetting" ];
       };
     };
+    sys.software = with pkgs; [
+      hashcat
+    ];
   };
 }
