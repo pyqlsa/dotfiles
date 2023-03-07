@@ -9,6 +9,7 @@
     ./security.nix
     ./software.nix
     ./vim.nix
+    ./virt.nix
     ./when-virtual.nix
   ];
 }
