@@ -32,7 +32,7 @@
     graphical = true;
   };
 
-  sys.hardware.audio.server = "pulse";
+  sys.hardware.audio.server = "pipewire";
 
   sys.security.sshd.enable = true;
 

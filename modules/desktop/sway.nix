@@ -17,7 +17,7 @@ with lib; let
     executable = true;
 
     text = ''
-      dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+      dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
       systemctl --user stop pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
       systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
     '';
@@ -49,25 +49,24 @@ with lib; let
     [[block]]
     block = "disk_space"
     path = "/"
-    alias = "/"
-    info_type = "used"
-    format = "{used} / {total}"
-    unit = "GB"
     interval = 20
+    format = " $icon $used / $total "
     warning = 80.0
     alert = 90.0
+    info_type = "used"
+    alert_unit = "GB"
 
     [[block]]
     block = "memory"
-    format_mem = "{mem_used}"
+    format = " $icon $mem_used "
     interval = 5
     warning_mem = 70
     critical_mem = 90
 
     [[block]]
     block = "cpu"
+    format = " $icon $utilization "
     interval = 1
-    format = "{utilization}"
 
     #[[block]]
     #block = "temperature"
@@ -80,12 +79,12 @@ with lib; let
 
     [[block]]
     block = "sound"
-    format = "{output_description} {volume}"
+    format = " $output_description $volume "
 
     [[block]]
     block = "time"
     interval = 5
-    format = "%a %b %d %H:%M %Z %Y"
+    format = " $timestamp.datetime(f:'%a %b %d %H:%M %Z %Y') "
   '';
 
   makoConfig = ''
@@ -177,7 +176,7 @@ with lib; let
       exec ${pkgs.blueman}/bin/blueman-applet''}
 
     # --- Helpers ---
-    exec_always dbus-sway-environment
+    exec dbus-sway-environment
     #exec_always configure-gtk
 
     # --- Style ---
