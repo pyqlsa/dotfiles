@@ -63,8 +63,11 @@ in
     zip
     unzip
     # graphical
-    conky
     firefox
+    # productivity
+    libreoffice-qt
+    hunspell
+    hunspellDicts.en_US-large
     # dev
     gcc
     git
