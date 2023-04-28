@@ -31,7 +31,6 @@ in
       #rocm-runtime
       # amdvlk in addition to mesa radv videoDrivers
       amdvlk
-      mesa_23
     ];
     hardware.opengl.extraPackages32 = with pkgs; [
       #rocm-opencl-icd
