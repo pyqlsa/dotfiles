@@ -16,10 +16,14 @@ in
   config = mkIf (cfg.hardware.amd.enable) {
     # amd, pt.1
     boot.kernelPackages = pkgs.linuxPackages_latest;
-    # amdgpu driver has x11 blank cursor bug
+    #boot.initrd.availableKernelModules = [ "amdgpu" ];
     boot.initrd.kernelModules = [ "amdgpu" ];
     # opencl
     hardware.opengl.enable = true;
+    # vulkan
+    hardware.opengl.driSupport = true;
+    # for 32-bit apps
+    hardware.opengl.driSupport32Bit = true;
     hardware.opengl.extraPackages = with pkgs; [
       rocm-opencl-icd
       rocm-opencl-runtime
@@ -27,6 +31,7 @@ in
       #rocm-runtime
       # amdvlk in addition to mesa radv videoDrivers
       amdvlk
+      mesa_23
     ];
     hardware.opengl.extraPackages32 = with pkgs; [
       #rocm-opencl-icd
@@ -40,10 +45,6 @@ in
     systemd.tmpfiles.rules = [
       "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.hip}"
     ];
-    # vulkan
-    hardware.opengl.driSupport = true;
-    # for 32-bit apps
-    hardware.opengl.driSupport32Bit = true;
 
     # amd, pt.2
     services = mkIf (cfg.hardware.amd.graphical) {
@@ -53,6 +54,8 @@ in
       };
     };
     sys.software = with pkgs; [
+      clinfo
+      rocminfo
       hashcat
     ];
   };
