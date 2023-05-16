@@ -162,6 +162,10 @@ with lib; let
     # need to solve media playing detection before continuing to use
     # todo...
 
+    # --- Helpers ---
+    exec dbus-sway-environment
+    #exec_always configure-gtk
+
     # just sleep the screen
     exec ${sleepy-screens}
 
@@ -170,14 +174,10 @@ with lib; let
 
     ${optionalString config.networking.networkmanager.enable ''
       # network manager applet
-      exec ${pkgs.networkmanagerapplet}/bin/nm-applet''}
+      exec_always ${pkgs.networkmanagerapplet}/bin/nm-applet --indicator''}
     ${optionalString config.hardware.bluetooth.enable ''
       # blueman applet
       exec ${pkgs.blueman}/bin/blueman-applet''}
-
-    # --- Helpers ---
-    exec dbus-sway-environment
-    #exec_always configure-gtk
 
     # --- Style ---
     # Font for window titles. Will also be used by the bar unless a different font
@@ -452,6 +452,7 @@ in
       libnotify
       i3status-rust
       foot # another terminal emulator
+      networkmanagerapplet # networking
       # gtk appears to not be an issue when configuring through home-manager
       #configure-gtk
       #dracula-theme # gtk theme
