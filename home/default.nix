@@ -69,14 +69,19 @@ in
     hunspell
     hunspellDicts.en_US-large
     # dev
-    gcc
     git
     gnumake
-    go_1_19
     jq
     neovimPQ
-    python-with-my-packages
     shellcheck
+    # - go
+    go_1_19
+    gcc
+    # - python
+    python-with-my-packages
+    # - rust
+    cargo
+    rustc
     # media
     geeqie
     gimp
