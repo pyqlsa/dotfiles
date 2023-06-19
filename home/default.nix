@@ -12,7 +12,7 @@ let
     ];
   python-with-my-packages = pkgs.python310.withPackages my-python-packages;
   my-nerdfonts = pkgs.nerdfonts.override { fonts = [ "FiraCode" "FiraMono" ]; };
-  font-name = "FuraMono Nerd Font Mono";
+  font-name = "FiraMono Nerd Font Mono";
 
   uiTheme = with pkgs; {
     dark = true;

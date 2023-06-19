@@ -15,7 +15,7 @@ encSwapLabel="nix-enc-swap"
 display_help() {
   echo "A helper script for intial disk partitioning."
   echo
-  echo "Usage: $(basename "{0}") [options...]" >&2
+  echo "Usage: $(basename "${0}") [options...]" >&2
   echo
   echo "    -h, --help"
   echo "                          display this help text."

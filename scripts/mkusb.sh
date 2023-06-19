@@ -9,7 +9,7 @@ force="false"
 display_help() {
   echo "A helper script for making a bootable usb from an iso."
   echo
-  echo "Usage: $(basename "{0}") [options...]" >&2
+  echo "Usage: $(basename "${0}") [options...]" >&2
   echo
   echo "    -h, --help"
   echo "                          display this help text."

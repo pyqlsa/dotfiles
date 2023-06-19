@@ -56,6 +56,7 @@ in
       clinfo
       rocminfo
       hashcat
+      hashcat-utils
     ];
   };
 }

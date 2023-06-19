@@ -16,7 +16,7 @@
     neovim-flake = {
       #url = "git+ssh://git@github.com/pyqlsa/neovim-flake?ref=main";
       url = "github:pyqlsa/neovim-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
+      #inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixos-rocm = {
@@ -118,6 +118,15 @@
               inherit (pkgs) config;
             };
           }
+        ];
+      };
+
+      nixosConfigurations.baseIso = lib.nixosSystem {
+        inherit system pkgs;
+
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+          ./iso
         ];
       };
 
