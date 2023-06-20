@@ -82,6 +82,7 @@ in
     # - rust
     cargo
     rustc
+    rustfmt
     # media
     geeqie
     gimp
