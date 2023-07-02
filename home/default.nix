@@ -157,7 +157,9 @@ in
     enable = true;
     enableAutosuggestions = true;
     enableCompletion = true;
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting = {
+      enable = true;
+    };
     dotDir = ".config/zsh";
     shellAliases = {
       l = "ls -alh";
