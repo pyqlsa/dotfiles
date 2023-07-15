@@ -47,6 +47,16 @@
     fsType = "vfat";
   };
 
+  boot.initrd.luks.devices."enc-data" = {
+    device = "/dev/disk/by-label/enc-data";
+    keyFile = "/mnt-root/root/swap.key";
+  };
+
+  fileSystems."/data" = {
+    device = "/dev/disk/by-label/data";
+    fsType = "btrfs";
+  };
+
   swapDevices = [
     {
       device = "/dev/disk/by-uuid/67c5d97b-cc8c-4e07-8ddb-d3f8e05554d5";
