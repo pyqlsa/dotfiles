@@ -64,6 +64,7 @@ in
     unzip
     # graphical
     firefox
+    chromium
     # productivity
     libreoffice-qt
     hunspell
