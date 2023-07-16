@@ -21,6 +21,9 @@
     enable = true;
     sway = {
       enable = true;
+      bar = {
+        disks = [ "/" "/data" ];
+      };
     };
     gdm = {
       enable = true;

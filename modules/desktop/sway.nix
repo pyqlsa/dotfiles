@@ -46,16 +46,22 @@ with lib; let
   #};
 
   statusBarConfig = ''
-    [[block]]
-    block = "disk_space"
-    path = "/"
-    interval = 20
-    format = " $icon $used / $total "
-    warning = 80.0
-    alert = 90.0
-    info_type = "used"
-    alert_unit = "GB"
+    ${lib.strings.concatMapStrings (d: ''
+        [[block]]
+        block = "disk_space"
+        path = "${d}"
+        interval = 20
+        format = " $icon (${d}) Free $available / $total "
+        warning = 80.0
+        alert = 90.0
+        info_type = "used"
+        alert_unit = "GB"
+        [[block.click]]
+        button = "right"
+        update = true
 
+      '')
+      cfg.desktop.sway.bar.disks}
     [[block]]
     block = "memory"
     format = " $icon $mem_used "
@@ -352,6 +358,14 @@ in
       type = types.package;
       description = "Background image to use";
       default = cfg.desktop.wallpaper;
+    };
+    bar = {
+      disks = mkOption {
+        type = with types; listOf string;
+        description = "Paths to report disk space in status bar";
+        default = [ "/" ];
+        example = [ "/" "/data" ];
+      };
     };
     wifiInterface =
       mkOption {
