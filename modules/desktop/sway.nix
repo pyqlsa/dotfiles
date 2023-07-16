@@ -85,7 +85,7 @@ with lib; let
 
     [[block]]
     block = "sound"
-    format = " $output_description $volume "
+    format = " {$output_description |}({$volume|mute}) "
 
     [[block]]
     block = "time"
