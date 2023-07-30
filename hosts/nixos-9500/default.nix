@@ -25,7 +25,7 @@
       wifiInterface = "wlp0s20f3";
       showPower = true;
     };
-    lightdm = {
+    gdm = {
       enable = true;
     };
   };

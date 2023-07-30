@@ -20,7 +20,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # tmp
-  boot.tmpOnTmpfs = true;
+  boot.tmp.useTmpfs = true;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/23111bb2-ae0f-44cd-80d8-87f9f96bc3e8";
