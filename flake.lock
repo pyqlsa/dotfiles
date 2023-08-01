@@ -290,11 +290,11 @@
         "vscode-nvim": "vscode-nvim"
       },
       "locked": {
-        "lastModified": 1688874883,
-        "narHash": "sha256-GHznNvw3UcyUSaNy3JDkLE6ykCChWZSjvvObnkhrsyI=",
+        "lastModified": 1690775641,
+        "narHash": "sha256-y8zJSMamcorp6ljxzvXIGfQYW10eM5FmX4pneE1G8iU=",
         "owner": "pyqlsa",
         "repo": "neovim-flake",
-        "rev": "d910d63048d0f25302316e148f9a8c8da84c4b16",
+        "rev": "e34293529ab78c3b82526a5c82c276548d098251",
         "type": "github"
       },
       "original": {

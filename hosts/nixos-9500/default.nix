@@ -22,8 +22,6 @@
     picom.enable = true;
     i3 = {
       enable = true;
-      wifiInterface = "wlp0s20f3";
-      showPower = true;
     };
     gdm = {
       enable = true;

@@ -11,6 +11,7 @@
     ./lightdm.nix
     ./picom.nix
     ./sway.nix
+    ./tiling.nix
     ./xfce.nix
   ];
 }

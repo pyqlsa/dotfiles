@@ -21,6 +21,8 @@
     enable = true;
     sway = {
       enable = true;
+    };
+    tiling = {
       bar = {
         disks = [ "/" "/data" ];
       };
