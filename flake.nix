@@ -85,11 +85,11 @@
         ];
       };
 
-      nixosConfigurations.nixos-9500 = lib.nixosSystem {
+      nixosConfigurations."9500" = lib.nixosSystem {
         inherit system pkgs;
 
         modules = [
-          ./hosts/nixos-9500
+          ./hosts/9500
           ./modules
           home-manager.nixosModules.home-manager
           {
