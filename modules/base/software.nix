@@ -4,6 +4,7 @@
 , ...
 }: {
   sys.software = with pkgs; [
+    file
     openssl
     squashfsTools
   ];
