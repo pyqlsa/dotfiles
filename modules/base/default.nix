@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./nix.nix
+    ./ns.nix
     ./regional.nix
     ./security.nix
     ./software.nix

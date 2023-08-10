@@ -62,6 +62,9 @@ in
     wget
     zip
     unzip
+    # vpn
+    protonvpn-gui
+    protonvpn-cli
     # graphical
     firefox
     chromium
