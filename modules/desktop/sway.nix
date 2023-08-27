@@ -130,9 +130,6 @@ with lib; let
     # notifications
     exec ${pkgs.mako}/bin/mako --config ${pkgs.writeText "mako-config" makoConfig}
 
-    ${optionalString config.networking.networkmanager.enable ''
-      # network manager applet
-      exec_always ${pkgs.networkmanagerapplet}/bin/nm-applet --indicator''}
     ${optionalString config.hardware.bluetooth.enable ''
       # blueman applet
       exec ${pkgs.blueman}/bin/blueman-applet''}
@@ -240,6 +237,12 @@ with lib; let
     bindsym --release $mod+Print exec ${pkgs.grim}/bin/grim - | ${processScreenshot}
     bindsym --release $mod+Shift+Print exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${processScreenshot}
 
+    #set $gnome-schema org.gnome.desktop.interface
+    #exec_always {
+    #  gsettings set $gnome-schema gtk-theme 'Breeze-Dark'
+    #  gsettings set $gnome-schema icon-theme 'breeze-dark'
+    #}
+
     ${cfg.desktop.tiling.resizeBlockConfig}
 
     ${cfg.desktop.tiling.barBlockConfig}
@@ -295,7 +298,7 @@ in
       libnotify
       i3status-rust
       foot # another terminal emulator
-      networkmanagerapplet # networking
+      networkmanagerapplet # to get nm-connection-editor
       # gtk appears to not be an issue when configuring through home-manager
       #configure-gtk
       #dracula-theme # gtk theme
