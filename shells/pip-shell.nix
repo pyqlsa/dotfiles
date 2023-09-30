@@ -2,10 +2,12 @@
 (pkgs.buildFHSUserEnv {
   name = "pipzone";
   targetPkgs = pkgs: (with pkgs; [
-    python310
-    python310Packages.pip
-    python310Packages.virtualenv
-    python310Packages.setuptools
+    (python311.withPackages (ps:
+      with ps; [
+        pip
+        setuptools
+        virtualenv
+      ]))
   ]);
-  runScript = "bash";
+  runScript = "zsh";
 }).env
