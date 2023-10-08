@@ -80,7 +80,7 @@ in
     neovimPQ
     shellcheck
     # - go
-    go_1_19
+    go
     gcc
     # - python
     python-with-packages
