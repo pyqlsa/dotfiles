@@ -25,24 +25,24 @@ in
     # for 32-bit apps
     hardware.opengl.driSupport32Bit = true;
     hardware.opengl.extraPackages = with pkgs; [
-      rocm-opencl-icd
-      rocm-opencl-runtime
+      rocmPackages.clr
+      rocmPackages.clr.icd
       # unsure if necessary
-      #rocm-runtime
+      rocmPackages.rocm-runtime
       # amdvlk in addition to mesa radv videoDrivers
       amdvlk
     ];
     hardware.opengl.extraPackages32 = with pkgs; [
-      #rocm-opencl-icd
-      #rocm-opencl-runtime
+      #rocmPackages.clr
+      #rocmPackages.clr.icd
       # unsure if necessary
-      #rocm-runtime
+      #rocmPackages.rocm-runtime
       # amdvlk in addition to mesa radv videoDrivers
       driversi686Linux.amdvlk
     ];
     #HIP
     systemd.tmpfiles.rules = [
-      "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.hip}"
+      "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
     ];
 
     # amd, pt.2
@@ -54,7 +54,7 @@ in
     };
     sys.software = with pkgs; [
       clinfo
-      rocminfo
+      rocmPackages.rocminfo
       hashcat
       hashcat-utils
     ];

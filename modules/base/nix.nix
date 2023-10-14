@@ -15,7 +15,6 @@ in
   };
 
   config = mkIf (cfg.nix.enable) {
-    nixpkgs.config.allowUnfree = true;
     nix = {
       settings = {
         experimental-features = [

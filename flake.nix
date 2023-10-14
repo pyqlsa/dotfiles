@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs = {
-      #url = "github:nixos/nixpkgs/nixos-22.11";
+      #url = "github:nixos/nixpkgs/nixos-23.05";
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
@@ -16,12 +16,6 @@
     neovim-flake = {
       #url = "git+ssh://git@github.com/pyqlsa/neovim-flake?ref=main";
       url = "github:pyqlsa/neovim-flake";
-      #inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixos-rocm = {
-      url = "github:pyqlsa/nixos-rocm/7000";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
