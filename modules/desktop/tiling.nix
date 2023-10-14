@@ -146,6 +146,15 @@ in
       default = "${pkgs.xorg.xrandr}/bin/xrandr --auto";
       example = "${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --auto --right-of DP-2";
     };
+    displayConfig = mkOption {
+      type = types.str;
+      description = "Display configuration block to insert into configuration";
+      default = "";
+      example = ''
+        output DP-1 position 0 0
+        output DP-2 position 2560 0
+      '';
+    };
     font = {
       title = {
         name = mkOption {

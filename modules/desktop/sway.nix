@@ -115,6 +115,7 @@ with lib; let
 
     # display configuration
     output * background ${cfg.desktop.sway.background} fill
+    ${optionalString (cfg.desktop.tiling.displayConfig != "") cfg.desktop.tiling.displayConfig}
 
     # auto lock the screen
     # need to solve media playing detection before continuing to use

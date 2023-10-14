@@ -23,6 +23,10 @@
       enable = true;
     };
     tiling = {
+      displayConfig = ''
+        output DP-1 position 0 0
+        output DP-2 position 2560 0
+      '';
       bar = {
         disks = [ "/" "/data" ];
       };
