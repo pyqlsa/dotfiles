@@ -1,7 +1,7 @@
-{config, pkgs, ...}:
-{
-  nixpkgs.config.allowUnfree = true;
-
+{ config
+, pkgs
+, ...
+}: {
   nix = {
     settings = {
       experimental-features = [
