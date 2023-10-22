@@ -145,7 +145,7 @@ if [ "${encrypted}" == "true" ]; then
 
   echo "setting up luks on: ${rootPart}"
   #cryptsetup --verify-passphrase -v luksFormat "${rootPart}"
-  echo -n "${firstPass}" | cryptsetup -v luksFormat --type=luks2 --label="${encRootLabel}" "${rootPart}" -d -
+  echo -n "${firstPass}" | cryptsetup -v luksFormat --type=luks2 --pbkdf=argon2id --label="${encRootLabel}" "${rootPart}" -d -
   echo
 
   echo "opening luks volume from: ${rootPart}"
