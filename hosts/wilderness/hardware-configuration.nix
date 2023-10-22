@@ -16,34 +16,39 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.initrd.luks.devices."enc" = {
+    #device = "/dev/disk/by-uuid/cbd330ed-a0fd-4897-833a-bbbf69d8c84d";
+    device = "/dev/disk/by-label/nix-enc-root";
+  };
+
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/df6e0a4a-b617-4542-9787-cda7cc493071";
+    #device = "/dev/disk/by-uuid/df6e0a4a-b617-4542-9787-cda7cc493071";
+    device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
     options = [ "subvol=root" ];
   };
 
-  boot.initrd.luks.devices."enc".device = "/dev/disk/by-uuid/cbd330ed-a0fd-4897-833a-bbbf69d8c84d";
-
   fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/df6e0a4a-b617-4542-9787-cda7cc493071";
+    device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
     options = [ "subvol=home" ];
   };
 
   fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/df6e0a4a-b617-4542-9787-cda7cc493071";
+    device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
     options = [ "subvol=nix" ];
   };
 
   fileSystems."/var/log" = {
-    device = "/dev/disk/by-uuid/df6e0a4a-b617-4542-9787-cda7cc493071";
+    device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
     options = [ "subvol=log" ];
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/2064-F10F";
+    #device = "/dev/disk/by-uuid/2064-F10F";
+    device = "/dev/disk/by-label/boot";
     fsType = "vfat";
   };
 
@@ -58,12 +63,14 @@
 
   swapDevices = [
     {
-      device = "/dev/disk/by-uuid/67c5d97b-cc8c-4e07-8ddb-d3f8e05554d5";
+      #device = "/dev/disk/by-uuid/67c5d97b-cc8c-4e07-8ddb-d3f8e05554d5";
+      device = "/dev/disk/by-label/swap";
       encrypted = {
         enable = true;
         keyFile = "/mnt-root/root/swap.key";
         label = "nix-enc-swap";
-        blkDev = "/dev/disk/by-uuid/61858d3f-fb9d-4580-947e-94f2fbb7aad3";
+        #blkDev = "/dev/disk/by-uuid/61858d3f-fb9d-4580-947e-94f2fbb7aad3";
+        blkDev = "/dev/disk/by-label/nix-enc-swap";
       };
     }
   ];
