@@ -33,7 +33,13 @@ in
 
     users.users.pyqlsa = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "video" "networkmanager" ]; # Enable ‘sudo’ for the user.
+      extraGroups =
+        [ "wheel" "video" "networkmanager" ]
+        ++ (
+          if cfg.virtualisation.virt-manager.enable
+          then [ "libvirtd" ]
+          else [ ]
+        );
       initialHashedPassword = "$6$HOEpMO//XbnyqggK$j7M1ZRhwPsUKW4thZofEpo6aY6gteZ99hNFrRPEmlH6Lh3afQUBckvnQ/N8MtdVdP/jIHRa1KMuq3PCJsZmKe.";
       openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINGrK3R3Yo3uBAORs2QFfERsvQh/D6n3f5Em3cvrnr/N pyqlsa" ];
       shell = pkgs.zsh;

@@ -265,7 +265,7 @@ in
     };
   };
 
-  config = mkIf cfg.desktop.sway.enable {
+  config = mkIf (cfg.desktop.sway.enable) {
     # allow for running gnome things outside of gnome (like for using themes)
     programs.dconf.enable = true;
     environment.pathsToLink = [ "/libexec" ];

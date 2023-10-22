@@ -16,7 +16,7 @@ in
     };
   };
 
-  config = mkIf cfg.desktop.lightdm.enable {
+  config = mkIf (cfg.desktop.lightdm.enable) {
     services = {
       xserver = {
         enable = true;

@@ -1,5 +1,6 @@
 { config
 , lib
+, osConfig
 , pkgs
 , system
 , inputs
@@ -143,6 +144,12 @@ in
       then "prefer-dark"
       else "prefer-light";
     cursor-size = 24;
+  };
+
+  # when virt-manager enabled
+  dconf.settings."org/virt-manager/virt-manager/connections" = lib.mkIf (osConfig.sys.virtualisation.virt-manager.enable) {
+    autoconnect = [ "qemu:///system" ];
+    uris = [ "qemu:///system" ];
   };
 
   programs.git = {

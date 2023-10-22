@@ -33,17 +33,9 @@
         config = { allowUnfree = true; };
         overlays = [
           inputs.neovim-flake.overlays.${system}.default
-          # or create an overlay inline with the default package
+          # (breadcrumbs) or create an overlay inline with the default package
           #(final: prev: {
           #  neovimPQ = inputs.neovim-flake.packages.${system}.default;
-          #})
-          # only pull in select packages from the rocm overlay
-          #(final: prev: {
-          #  rocm-runtime = inputs.nixos-rocm.packages.${system}.rocm-runtime;
-          #  rocm-opencl-runtime = inputs.nixos-rocm.packages.${system}.rocm-opencl-runtime;
-          #  rocm-opencl-icd = inputs.nixos-rocm.packages.${system}.rocm-opencl-icd;
-          #  hip = inputs.nixos-rocm.packages.${system}.hip;
-          #  hashcat-rocm = inputs.nixos-rocm.packages.${system}.hashcat-rocm;
           #})
         ];
       };
@@ -55,9 +47,7 @@
       homeConfigurations = {
         pyqlsa = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
-          modules = [
-            ./home
-          ];
+          modules = [ ./home ];
         };
       };
 
@@ -71,10 +61,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa = import ./home {
-              inherit system lib pkgs inputs;
-              inherit (pkgs) config;
-            };
+            home-manager.users.pyqlsa.imports = [ ./home ];
           }
         ];
       };
@@ -89,10 +76,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa = import ./home {
-              inherit system lib pkgs inputs;
-              inherit (pkgs) config;
-            };
+            home-manager.users.pyqlsa.imports = [ ./home ];
           }
         ];
       };
@@ -107,10 +91,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa = import ./home {
-              inherit system lib pkgs inputs;
-              inherit (pkgs) config;
-            };
+            home-manager.users.pyqlsa.imports = [ ./home ];
           }
         ];
       };

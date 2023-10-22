@@ -162,7 +162,7 @@ in
     };
   };
 
-  config = mkIf cfg.desktop.i3.enable {
+  config = mkIf (cfg.desktop.i3.enable) {
     # allow for running gnome things outside of gnome (like for using themes)
     programs.dconf.enable = true;
     environment.pathsToLink = [ "/libexec" ];

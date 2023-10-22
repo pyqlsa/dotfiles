@@ -16,7 +16,7 @@ in
     };
   };
 
-  config = mkIf cfg.desktop.gdm.enable {
+  config = mkIf (cfg.desktop.gdm.enable) {
     services = {
       xserver = {
         enable = true;

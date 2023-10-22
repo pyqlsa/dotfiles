@@ -49,7 +49,7 @@ in
         __/__/_______/___/__\___\__________________________________________________
       '';
     };
-    networking.firewall.allowedTCPPorts = [ (mkIf cfg.sshd.enable cfg.sshd.port) ];
+    networking.firewall.allowedTCPPorts = [ (mkIf (cfg.sshd.enable) cfg.sshd.port) ];
     networking.firewall.allowPing = false;
   };
 }
