@@ -33,6 +33,8 @@ in
 
     users.users.pyqlsa = {
       isNormalUser = true;
+      createHome = true;
+      home = "/home/pyqlsa";
       extraGroups =
         [ "wheel" "video" "networkmanager" ]
         ++ (

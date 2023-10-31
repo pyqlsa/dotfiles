@@ -51,6 +51,21 @@
         };
       };
 
+      nixosConfigurations.fmwk-7850u = lib.nixosSystem {
+        inherit system pkgs;
+
+        modules = [
+          ./hosts/fmwk-7850u
+          ./modules
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.pyqlsa.imports = [ ./home ];
+          }
+        ];
+      };
+
       nixosConfigurations.wilderness = lib.nixosSystem {
         inherit system pkgs;
 
