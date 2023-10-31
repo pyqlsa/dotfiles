@@ -35,6 +35,16 @@
       displayConfig = ''
         output eDP-1 scale 1.5
       '';
+      inputConfig = ''
+        input 2362:628:PIXA3854:00_093A:0274_Touchpad {
+          left_handed enabled
+          tap enabled
+          natural_scroll disabled
+          dwt enabled
+          accel_profile "flat" # disable mouse acceleration (enabled by default; to set it manually, use "adaptive" instead of "flat")
+          pointer_accel 0.5 # set mouse sensitivity (between -1 and 1)
+        }
+      '';
     };
     gdm = {
       enable = true;

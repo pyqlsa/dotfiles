@@ -215,6 +215,9 @@ with lib; let
     bindsym $mod+Shift+i move container to workspace prev
     bindsym $mod+Shift+o move container to workspace next
 
+    # Input Devices
+    ${optionalString (cfg.desktop.tiling.inputConfig != "") cfg.desktop.tiling.inputConfig}
+
     # Pulse Audio controls
     # run pactl list sinks
     bindsym XF86AudioRaiseVolume exec --no-startup-id ${config.hardware.pulseaudio.package}/bin/pactl set-sink-volume 0 +5% #increase sound volume

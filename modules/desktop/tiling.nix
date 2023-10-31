@@ -155,6 +155,21 @@ in
         output DP-2 position 2560 0
       '';
     };
+    inputConfig = mkOption {
+      type = types.str;
+      description = "Input configuration block to insert into configuration";
+      default = "";
+      example = ''
+        input 2362:628:PIXA3854:00_093A:0274_Touchpad {
+          left_handed enabled
+          tap enabled
+          natural_scroll disabled
+          dwt enabled
+          accel_profile "flat" # disable mouse acceleration (enabled by default; to set it manually, use "adaptive" instead of "flat")
+          pointer_accel 0.5 # set mouse sensitivity (between -1 and 1)
+        }
+      '';
+    };
     font = {
       title = {
         name = mkOption {
