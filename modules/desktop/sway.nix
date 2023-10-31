@@ -225,8 +225,8 @@ with lib; let
     bindsym XF86AudioMute exec --no-startup-id ${config.hardware.pulseaudio.package}/bin/pactl set-sink-mute 0 toggle # mute sound
 
     # Sreen brightness controls
-    bindsym XF86MonBrightnessUp exec ${pkgs.light}/bin/light -A 10 # increase screen brightness
-    bindsym XF86MonBrightnessDown exec ${pkgs.light}/bin/light -U 10 # decrease screen brightness
+    bindsym --locked XF86MonBrightnessDown exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-
+    bindsym --locked XF86MonBrightnessUp exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+
 
     # keybinding to lock screen
     bindsym Control+$mod+l exec fancy-sway-lock
