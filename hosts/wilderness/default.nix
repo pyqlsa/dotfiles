@@ -47,6 +47,11 @@
 
   sys.virtualisation.virt-manager.enable = true;
 
+  sys.software = with pkgs; [
+    hashcat
+    hashcat-utils
+  ];
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

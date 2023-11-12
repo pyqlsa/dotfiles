@@ -51,58 +51,68 @@ in
   home.username = "pyqlsa";
   home.homeDirectory = "/home/pyqlsa";
 
-  fonts.fontconfig.enable = true;
+  home.packages = with pkgs;
+    [
+      # core
+      curl
+      fdupes
+      file
+      htop
+      rsync
+      wget
+      zip
+      unzip
+      # vpn
+      protonvpn-cli
+      # dev
+      git
+      gnumake
+      jq
+      neovimPQ
+      shellcheck
+      # - go
+      go
+      gcc
+      # - python
+      python-with-packages
+      # - rust
+      cargo
+      rustc
+      rustfmt
+    ]
+    ++ (
+      if osConfig.sys.desktop.enable
+      then [
+        # core
+        keychain
+        # vpn
+        protonvpn-gui
+        # graphical
+        firefox
+        chromium
+        # productivity
+        libreoffice-qt
+        hunspell
+        hunspellDicts.en_US-large
+        # media
+        geeqie
+        gimp
+        gpodder
+        inkscape
+        vlc
+        # fonts and themes
+        my-nerdfonts
+        libsForQt5.qt5ct
+        libsForQt5.qtstyleplugins
+        uiTheme.fonts.monospace.package
+      ]
+      else [ ]
+    );
 
-  home.packages = with pkgs; [
-    # core
-    curl
-    fdupes
-    file
-    htop
-    keychain
-    rsync
-    wget
-    zip
-    unzip
-    # vpn
-    protonvpn-gui
-    protonvpn-cli
-    # graphical
-    firefox
-    chromium
-    # productivity
-    libreoffice-qt
-    hunspell
-    hunspellDicts.en_US-large
-    # dev
-    git
-    gnumake
-    jq
-    neovimPQ
-    shellcheck
-    # - go
-    go
-    gcc
-    # - python
-    python-with-packages
-    # - rust
-    cargo
-    rustc
-    rustfmt
-    # media
-    geeqie
-    gimp
-    gpodder
-    inkscape
-    vlc
-    # fonts and themes
-    my-nerdfonts
-    libsForQt5.qt5ct
-    libsForQt5.qtstyleplugins
-    uiTheme.fonts.monospace.package
-  ];
+  # --- end when desktop/graphical
+  fonts.fontconfig.enable = osConfig.sys.desktop.enable;
 
-  gtk = {
+  gtk = lib.mkIf (osConfig.sys.desktop.enable) {
     enable = true;
 
     iconTheme.package = uiTheme.icons.package;
@@ -119,7 +129,7 @@ in
   };
 
   # see sessionvarabiles comment below...
-  qt = {
+  qt = lib.mkIf (osConfig.sys.desktop.enable) {
     enable = true;
     platformTheme = "gtk";
     style = {
@@ -131,13 +141,13 @@ in
   # only gets sourced when home manager is managing the shell;
   # this concept is important not only for this snippet, but also for other
   # theme-related variables
-  home.sessionVariables = {
+  home.sessionVariables = lib.mkIf (osConfig.sys.desktop.enable) {
     GTK_USE_PORTAL = 1;
     EDITOR = "vim";
   };
 
   # libadwaita doesn't respect any precedent
-  dconf.settings."org/gnome/desktop/interface" = {
+  dconf.settings."org/gnome/desktop/interface" = lib.mkIf (osConfig.sys.desktop.enable) {
     monospace-font-name = uiTheme.fonts.monospace.name;
     color-scheme =
       if uiTheme.dark
@@ -146,11 +156,18 @@ in
     cursor-size = 24;
   };
 
-  # when virt-manager enabled
+  programs.alacritty = lib.mkIf (osConfig.sys.desktop.enable) {
+    enable = true;
+    settings = import ./alacritty-settings.nix { inherit font-name; };
+  };
+  # --- end when desktop/graphical
+
+  # --- when virt-manager enabled
   dconf.settings."org/virt-manager/virt-manager/connections" = lib.mkIf (osConfig.sys.virtualisation.virt-manager.enable) {
     autoconnect = [ "qemu:///system" ];
     uris = [ "qemu:///system" ];
   };
+  # --- end virt-manager
 
   programs.git = {
     enable = true;
@@ -220,11 +237,6 @@ in
     '';
     # if it releases a resource acquired at login: .zlogout
     logoutExtra = '''';
-  };
-
-  programs.alacritty = {
-    enable = true;
-    settings = import ./alacritty-settings.nix { inherit font-name; };
   };
 
   home.stateVersion = "22.05";

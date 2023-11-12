@@ -81,6 +81,21 @@
         ];
       };
 
+      nixosConfigurations.tank = lib.nixosSystem {
+        inherit system pkgs;
+
+        modules = [
+          ./hosts/tank
+          ./modules
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.pyqlsa.imports = [ ./home ];
+          }
+        ];
+      };
+
       nixosConfigurations."9500" = lib.nixosSystem {
         inherit system pkgs;
 

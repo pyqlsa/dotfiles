@@ -55,8 +55,6 @@ in
     sys.software = with pkgs; [
       clinfo
       rocmPackages.rocminfo
-      hashcat
-      hashcat-utils
     ];
   };
 }
