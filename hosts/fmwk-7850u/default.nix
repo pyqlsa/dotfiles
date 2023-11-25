@@ -19,6 +19,17 @@
   networking.networkmanager.enable = true;
   networking.useDHCP = lib.mkDefault true;
 
+  # power
+  # https://github.com/AdnanHodzic/auto-cpufreq
+  services.auto-cpufreq.enable = true;
+  # auto-tune on start
+  powerManagement.powertop.enable = true;
+
+  # fingerprint reader; TODO still broken
+  services.fprintd.enable = true;
+  services.fprintd.tod.enable = true;
+  services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
+
   # while framework matures their lvfs support
   services.fwupd.extraRemotes = [ "lvfs-testing" ];
 
