@@ -58,6 +58,7 @@ in
       fdupes
       file
       htop
+      nmap
       rsync
       wget
       zip

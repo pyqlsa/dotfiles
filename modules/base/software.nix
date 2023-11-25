@@ -7,6 +7,7 @@
     file
     lshw
     openssl
+    screen
     squashfsTools
   ];
 }
