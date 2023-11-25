@@ -15,7 +15,7 @@ in
   # todo... still need to figure out appropriate full set of drivers
   config = mkIf (cfg.hardware.amd.enable) {
     # amd, pt.1
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
     #boot.initrd.availableKernelModules = [ "amdgpu" ];
     boot.initrd.kernelModules = [ "amdgpu" ];
     # opencl
