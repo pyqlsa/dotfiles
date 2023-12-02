@@ -60,6 +60,8 @@ in
       htop
       nmap
       rsync
+      s-tui
+      stress
       wget
       zip
       unzip
