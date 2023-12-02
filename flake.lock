@@ -185,16 +185,15 @@
     "indent-blankline": {
       "flake": false,
       "locked": {
-        "lastModified": 1692667843,
-        "narHash": "sha256-1EpjFIJ5GK9NXS6dTMJ71w/AtLtR6Q5HrAXCIRNOBAY=",
+        "lastModified": 1701483513,
+        "narHash": "sha256-RLTqwqfwOyzDGnJLvo138eWkeK3vmNOIjh4nUAtFfbk=",
         "owner": "lukas-reineke",
         "repo": "indent-blankline.nvim",
-        "rev": "9637670896b68805430e2f72cf5d16be5b97a22a",
+        "rev": "dbd90bb689ff10d21fee6792eb8928f0584b5860",
         "type": "github"
       },
       "original": {
         "owner": "lukas-reineke",
-        "ref": "v2.20.8",
         "repo": "indent-blankline.nvim",
         "type": "github"
       }
@@ -291,11 +290,11 @@
         "vscode-nvim": "vscode-nvim"
       },
       "locked": {
-        "lastModified": 1701490910,
-        "narHash": "sha256-mkmOeRYHJGZ4B0WnihxfqC+4ZkT5+9UPWxukCRt2Q4Y=",
+        "lastModified": 1701495442,
+        "narHash": "sha256-8Q2GDz0kcxUsZlpNsg2PiSY225TJ5+XZqmXQAIYQUE0=",
         "owner": "pyqlsa",
         "repo": "neovim-flake",
-        "rev": "c12d6896d60dfb23f62d9d9ac0ce1a0cbbbd1773",
+        "rev": "35cc6b10c8482d035e8cf52a8d402f9f60cdeddc",
         "type": "github"
       },
       "original": {
