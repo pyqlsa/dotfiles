@@ -290,11 +290,11 @@
         "vscode-nvim": "vscode-nvim"
       },
       "locked": {
-        "lastModified": 1701495442,
-        "narHash": "sha256-8Q2GDz0kcxUsZlpNsg2PiSY225TJ5+XZqmXQAIYQUE0=",
+        "lastModified": 1701558792,
+        "narHash": "sha256-/AuKMdJSNhvsGd0ONTpcVI9YMQVcYPopqfOeZdo4n38=",
         "owner": "pyqlsa",
         "repo": "neovim-flake",
-        "rev": "35cc6b10c8482d035e8cf52a8d402f9f60cdeddc",
+        "rev": "96f0fca433b7589dccc3bb5ea1ba9b780f05058f",
         "type": "github"
       },
       "original": {
@@ -395,15 +395,16 @@
     "nvim-autopairs": {
       "flake": false,
       "locked": {
-        "lastModified": 1697886604,
-        "narHash": "sha256-M6s05RH2tiIAfgc8wJVtBhdPyDuy5fX6bhoL0vuKV0w=",
-        "owner": "windwp",
+        "lastModified": 1701558532,
+        "narHash": "sha256-ZyMkYQS8KBL4NuouzjzeTl71YJY+86DYYF5JCxSUGvg=",
+        "owner": "pyqlsa",
         "repo": "nvim-autopairs",
-        "rev": "0f04d78619cce9a5af4f355968040f7d675854a1",
+        "rev": "32d124716c89a0be1791d22c8f1fa2bdb3c311ff",
         "type": "github"
       },
       "original": {
-        "owner": "windwp",
+        "owner": "pyqlsa",
+        "ref": "ts_deprecate_query_get_node_text",
         "repo": "nvim-autopairs",
         "type": "github"
       }
