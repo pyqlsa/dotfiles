@@ -290,11 +290,11 @@
         "vscode-nvim": "vscode-nvim"
       },
       "locked": {
-        "lastModified": 1701558792,
-        "narHash": "sha256-/AuKMdJSNhvsGd0ONTpcVI9YMQVcYPopqfOeZdo4n38=",
+        "lastModified": 1701565320,
+        "narHash": "sha256-41IMfICKdxTbVCQgdINuj49XBWR4Zmtg9n8aMaxILdQ=",
         "owner": "pyqlsa",
         "repo": "neovim-flake",
-        "rev": "96f0fca433b7589dccc3bb5ea1ba9b780f05058f",
+        "rev": "8e5a2f898accd1a5bc276a7853034bca71b0f1dd",
         "type": "github"
       },
       "original": {
@@ -379,15 +379,15 @@
     "null-ls": {
       "flake": false,
       "locked": {
-        "lastModified": 1691810493,
-        "narHash": "sha256-cWA0rzkOp/ekVKaFee7iea1lhnqKtWUIU+fW5M950wI=",
-        "owner": "jose-elias-alvarez",
+        "lastModified": 1701559824,
+        "narHash": "sha256-/8O1mt/TXcsX84bjCUWsp7bINbxf2CEm1fjAcnq+PMk=",
+        "owner": "pyqlsa",
         "repo": "null-ls.nvim",
-        "rev": "0010ea927ab7c09ef0ce9bf28c2b573fc302f5a7",
+        "rev": "07ab9df3f22bd60f4d931342ea390fea85bc5b3d",
         "type": "github"
       },
       "original": {
-        "owner": "jose-elias-alvarez",
+        "owner": "pyqlsa",
         "repo": "null-ls.nvim",
         "type": "github"
       }
@@ -517,15 +517,15 @@
     "nvim-treesitter-context": {
       "flake": false,
       "locked": {
-        "lastModified": 1652175020,
-        "narHash": "sha256-dYw/Y6+Eni7gTSjvCCl7E6ho8xSTxDYAwH3xGEhf54Q=",
-        "owner": "lewis6991",
+        "lastModified": 1700559211,
+        "narHash": "sha256-XvGksamaUKBuBnbWRbpzqkZRceLf8i6XI6OLyLOv9Sg=",
+        "owner": "nvim-treesitter",
         "repo": "nvim-treesitter-context",
-        "rev": "c931a3136a696c1827eda78ac678aea542115bd0",
+        "rev": "bf4d15ee4e96ff5201f16a4ed14443670662eb90",
         "type": "github"
       },
       "original": {
-        "owner": "lewis6991",
+        "owner": "nvim-treesitter",
         "repo": "nvim-treesitter-context",
         "type": "github"
       }
