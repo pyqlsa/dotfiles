@@ -11,9 +11,15 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # zfs
   boot.supportedFilesystems = [ "btrfs" "zfs" ];
   boot.zfs.forceImportRoot = false;
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.zfs.extraPools = [ "datapool" ];
+  services.zfs.autoScrub.enable = true;
+  services.zfs.autoSnapshot.enable = true;
+  services.zfs.autoSnapshot.daily = 2;
+  services.zfs.autoSnapshot.weekly = 4;
 
   networking = {
     hostName = "tank";
