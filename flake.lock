@@ -169,11 +169,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1702423270,
-        "narHash": "sha256-3ZA5E+b2XBP+c9qGhWpRApzPq/PZtIPgkeEDpTBV4g8=",
+        "lastModified": 1703265279,
+        "narHash": "sha256-5jVtOwyMH1FzclxHrsFWzBdB+VyjUUSu1wyZhZlR6WU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d9297efd3a1c3ebb9027dc68f9da0ac002ae94db",
+        "rev": "07c322a7cff03267fd881adae1afe63367c5d608",
         "type": "github"
       },
       "original": {
@@ -290,11 +290,11 @@
         "vscode-nvim": "vscode-nvim"
       },
       "locked": {
-        "lastModified": 1701565320,
-        "narHash": "sha256-41IMfICKdxTbVCQgdINuj49XBWR4Zmtg9n8aMaxILdQ=",
+        "lastModified": 1703054230,
+        "narHash": "sha256-RaNURVoWkBkXwfF0CGw5lqBCuWjqQ5YrWFgy0qwLLMA=",
         "owner": "pyqlsa",
         "repo": "neovim-flake",
-        "rev": "8e5a2f898accd1a5bc276a7853034bca71b0f1dd",
+        "rev": "8eb00d996dbb3a6b8cefb53f970813f0b5d53d68",
         "type": "github"
       },
       "original": {
@@ -362,11 +362,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1702312524,
-        "narHash": "sha256-gkZJRDBUCpTPBvQk25G0B7vfbpEYM5s5OZqghkjZsnE=",
+        "lastModified": 1703013332,
+        "narHash": "sha256-+tFNwMvlXLbJZXiMHqYq77z/RfmpfpiI3yjL6o/Zo9M=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "a9bf124c46ef298113270b1f84a164865987a91c",
+        "rev": "54aac082a4d9bb5bbc5c4e899603abfb76a3f6d6",
         "type": "github"
       },
       "original": {
@@ -395,16 +395,15 @@
     "nvim-autopairs": {
       "flake": false,
       "locked": {
-        "lastModified": 1701558532,
-        "narHash": "sha256-ZyMkYQS8KBL4NuouzjzeTl71YJY+86DYYF5JCxSUGvg=",
-        "owner": "pyqlsa",
+        "lastModified": 1703044435,
+        "narHash": "sha256-H4wCE3snCBQVkiA4+r5VaUrd4bWOhF1lwafngGThm/c=",
+        "owner": "windwp",
         "repo": "nvim-autopairs",
-        "rev": "32d124716c89a0be1791d22c8f1fa2bdb3c311ff",
+        "rev": "9fd41181693dd4106b3e414a822bb6569924de81",
         "type": "github"
       },
       "original": {
-        "owner": "pyqlsa",
-        "ref": "ts_deprecate_query_get_node_text",
+        "owner": "windwp",
         "repo": "nvim-autopairs",
         "type": "github"
       }
