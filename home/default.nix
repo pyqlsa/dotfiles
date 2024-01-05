@@ -82,6 +82,10 @@ in
       cargo
       rustc
       rustfmt
+      # - media
+      exiftool
+      ffmpeg
+      imagemagick
     ]
     ++ (
       if osConfig.sys.desktop.enable
