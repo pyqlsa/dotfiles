@@ -51,5 +51,15 @@
 
   sys.hardware.amd.enable = true;
 
+  sys.software = with pkgs; [
+    jellyfin
+    jellyfin-web
+    jellyfin-ffmpeg
+  ];
+  services.jellyfin = {
+    enable = true;
+    openFirewall = true;
+  };
+
   system.stateVersion = "23.11";
 }
