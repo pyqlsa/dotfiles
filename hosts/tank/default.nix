@@ -23,6 +23,7 @@
 
   networking = {
     hostName = "tank";
+    domain = "nochtlabs.net";
     hostId = "d63e4a0a";
     networkmanager.enable = true;
     useDHCP = false;
@@ -46,6 +47,13 @@
   # networking.interfaces.enp5s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp6s0.useDHCP = lib.mkDefault true;
 
+  sops.defaultSopsFile = ../../secrets/default.yaml;
+  sops.defaultSopsFormat = "yaml";
+  # This will automatically import SSH keys as gpg keys
+  sops.gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_rsa_key" ];
+  # actual secrets
+  sops.secrets."api/dns" = { };
+
   # custom modules
   sys.security.sshd.enable = true;
 
@@ -58,8 +66,35 @@
   ];
   services.jellyfin = {
     enable = true;
-    openFirewall = true;
+    openFirewall = false;
   };
+
+  services.nginx = {
+    enable = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+    virtualHosts."media.tank.nochtlabs.net" = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8096";
+      };
+    };
+  };
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "26353308+pyqlsa@users.noreply.github.com";
+    defaults.group = "nginx";
+    certs."media.tank.nochtlabs.net" = {
+      dnsProvider = "namecheap";
+      environmentFile = config.sops.secrets."api/dns".path;
+      dnsPropagationCheck = true;
+      webroot = null;
+    };
+  };
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   system.stateVersion = "23.11";
 }

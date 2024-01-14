@@ -21,6 +21,8 @@ in
   };
 
   config = {
+    # primarily to aid in remote building and switching
+    security.pam.enableSSHAgentAuth = true;
     # Stops sudo from timing out.
     #security.sudo.extraConfig = "Defaults env_reset,timestamp_timeout=-1";
     security.sudo = {

@@ -52,16 +52,14 @@
     hashcat-utils
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  sops.defaultSopsFile = ../../secrets/default.yaml;
+  sops.defaultSopsFormat = "yaml";
+  # This will automatically import SSH keys as gpg keys
+  sops.gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_rsa_key" ];
+  # actual secrets
+  sops.secrets.example-key = { };
+  sops.secrets."example/nested" = { };
+  sops.secrets."example/another" = { };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

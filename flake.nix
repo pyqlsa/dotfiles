@@ -17,12 +17,18 @@
       #url = "git+ssh://git@github.com/pyqlsa/neovim-flake?ref=main";
       url = "github:pyqlsa/neovim-flake";
     };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     { nixpkgs
     , home-manager
     , neovim-flake
+    , sops-nix
     , ...
     } @ inputs:
     let
@@ -43,14 +49,6 @@
       lib = nixpkgs.lib;
     in
     {
-      # just home manager
-      homeConfigurations = {
-        pyqlsa = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${system};
-          modules = [ ./home ];
-        };
-      };
-
       nixosConfigurations.fmwk-7850u = lib.nixosSystem {
         inherit system pkgs;
 
@@ -63,6 +61,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.pyqlsa.imports = [ ./home ];
           }
+          sops-nix.nixosModules.sops
         ];
       };
 
@@ -78,6 +77,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.pyqlsa.imports = [ ./home ];
           }
+          sops-nix.nixosModules.sops
         ];
       };
 
@@ -93,6 +93,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.pyqlsa.imports = [ ./home ];
           }
+          sops-nix.nixosModules.sops
         ];
       };
 
@@ -108,6 +109,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.pyqlsa.imports = [ ./home ];
           }
+          sops-nix.nixosModules.sops
         ];
       };
 
@@ -123,6 +125,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.pyqlsa.imports = [ ./home ];
           }
+          sops-nix.nixosModules.sops
         ];
       };
 
@@ -133,6 +136,14 @@
           "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
           ./iso
         ];
+      };
+
+      # just home manager
+      homeConfigurations = {
+        pyqlsa = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${system};
+          modules = [ ./home ];
+        };
       };
 
       devShells.${system}.py = import ./shells/pip-shell.nix { inherit pkgs; };
