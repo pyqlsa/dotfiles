@@ -71,15 +71,56 @@
 
   services.nginx = {
     enable = true;
+    # helpers for media serveer
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-    virtualHosts."media.tank.nochtlabs.net" = {
+
+    serverTokens = false;
+    clientMaxBodySize = "20m";
+    sslProtocols = "TLSv1.2 TLSv1.3";
+    appendHttpConfig = ''
+        # TODO: size limits and buffer overflows
+        #client_body_buffer_size 256k;
+        #client_header_buffer_size 32k;
+        #large_client_header_bufers 8 32kk;
+        #client_max_body_size 20m;
+
+        # Security / XSS Mitigation Headers
+        # NOTE: X-Frame-Options may cause issues with the webOS app
+        add_header X-Frame-Options "SAMEORIGIN";
+        add_header X-XSS-Protection "0"; # Do NOT enable. This is obsolete/dangerous
+        add_header X-Content-Type-Options "nosniff";
+
+        # COOP/COEP. Disable if you use external plugins/images/assets
+        add_header Cross-Origin-Opener-Policy "same-origin" always;
+        add_header Cross-Origin-Embedder-Policy "require-corp" always;
+        add_header Cross-Origin-Resource-Policy "same-origin" always;
+
+        # Permissions policy. May cause issues on some clients
+        add_header Permissions-Policy "accelerometer=(), ambient-light-sensor=(), battery=(), bluetooth=(), camera=(), clipboard-read=(), display-capture=(), document-domain=(), encrypted-media=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), idle-detection=(), interest-cohort=(), keyboard-map=(), local-fonts=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), serial=(), sync-xhr=(), usb=(), xr-spatial-tracking=()" always;
+
+        # Tell browsers to use per-origin process isolation
+        add_header Origin-Agent-Cluster "?1" always;
+      #'';
+
+    # media server
+    virtualHosts."tank.nochtlabs.net" = {
       forceSSL = true;
       enableACME = true;
       locations."/" = {
-        proxyPass = "http://127.0.0.1:8096";
+        extraConfig = ''
+          deny all;
+        '';
+      };
+      locations."/media" = {
+        extraConfig = ''
+          return 302 $scheme://$host/media/;
+        '';
+      };
+      locations."/media/" = {
+        proxyPass = "http://127.0.0.1:8096/media/";
       };
     };
   };
@@ -87,7 +128,7 @@
     acceptTerms = true;
     defaults.email = "26353308+pyqlsa@users.noreply.github.com";
     defaults.group = "nginx";
-    certs."media.tank.nochtlabs.net" = {
+    certs."tank.nochtlabs.net" = {
       dnsProvider = "namecheap";
       environmentFile = config.sops.secrets."api/dns".path;
       dnsPropagationCheck = true;
