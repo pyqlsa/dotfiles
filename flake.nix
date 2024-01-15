@@ -7,6 +7,10 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
+    nixpkgs-unstable = {
+      url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    };
+
     home-manager = {
       #url = "github:nix-community/home-manager/release-22.11";
       url = "github:nix-community/home-manager";
@@ -26,6 +30,7 @@
 
   outputs =
     { nixpkgs
+    , nixpkgs-unstable
     , home-manager
     , neovim-flake
     , sops-nix
@@ -38,11 +43,15 @@
         inherit system;
         config = { allowUnfree = true; };
         overlays = [
-          inputs.neovim-flake.overlays.${system}.default
           # (breadcrumbs) or create an overlay inline with the default package
           #(final: prev: {
           #  neovimPQ = inputs.neovim-flake.packages.${system}.default;
           #})
+          inputs.neovim-flake.overlays.${system}.default
+          # until patch for configure options is promoted
+          (final: prev: {
+            ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${system}.ffmpeg_6-full;
+          })
         ];
       };
 

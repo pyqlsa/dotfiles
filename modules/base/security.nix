@@ -21,8 +21,13 @@ in
   };
 
   config = {
-    # primarily to aid in remote building and switching
-    security.pam.enableSSHAgentAuth = true;
+    # primarily to aid in rebuilding and switching a remote machine
+    security.pam.sshAgentAuth = {
+      enable = true;
+      authorizedKeysFiles = [
+        "/etc/ssh/authorized_keys.d/%u"
+      ];
+    };
     # Stops sudo from timing out.
     #security.sudo.extraConfig = "Defaults env_reset,timestamp_timeout=-1";
     security.sudo = {
