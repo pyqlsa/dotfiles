@@ -17,28 +17,28 @@
     #device = "/dev/disk/by-uuid/abcf3330-b028-41e4-8c48-add2877f60fb";
     device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
-    options = [ "subvol=root" ];
+    options = [ "subvol=root" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/home" = {
     #device = "/dev/disk/by-uuid/abcf3330-b028-41e4-8c48-add2877f60fb";
     device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
-    options = [ "subvol=home" ];
+    options = [ "subvol=home" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/nix" = {
     #device = "/dev/disk/by-uuid/abcf3330-b028-41e4-8c48-add2877f60fb";
     device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
-    options = [ "subvol=nix" ];
+    options = [ "subvol=nix" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/var/log" = {
     #device = "/dev/disk/by-uuid/abcf3330-b028-41e4-8c48-add2877f60fb";
     device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
-    options = [ "subvol=log" ];
+    options = [ "subvol=log" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/boot" = {

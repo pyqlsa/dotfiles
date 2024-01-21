@@ -28,7 +28,7 @@
         output DP-2 position 2560 0
       '';
       bar = {
-        disks = [ "/" "/data" ];
+        disks = [ "/" "/data" "/big-data" ];
       };
     };
     gdm = {

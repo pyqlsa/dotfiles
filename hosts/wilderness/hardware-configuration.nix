@@ -25,25 +25,25 @@
     #device = "/dev/disk/by-uuid/df6e0a4a-b617-4542-9787-cda7cc493071";
     device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
-    options = [ "subvol=root" ];
+    options = [ "subvol=root" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
-    options = [ "subvol=home" ];
+    options = [ "subvol=home" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/nix" = {
     device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
-    options = [ "subvol=nix" ];
+    options = [ "subvol=nix" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/var/log" = {
     device = "/dev/disk/by-label/nix-root";
     fsType = "btrfs";
-    options = [ "subvol=log" ];
+    options = [ "subvol=log" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/boot" = {
@@ -59,6 +59,17 @@
   fileSystems."/data" = {
     device = "/dev/disk/by-label/data";
     fsType = "btrfs";
+    options = [ "compress=zstd" "noatime" ];
+  };
+
+  boot.initrd.luks.devices."enc-big-data" = {
+    device = "/dev/disk/by-label/enc-big-data";
+  };
+
+  fileSystems."/big-data" = {
+    device = "/dev/disk/by-label/big-data";
+    fsType = "btrfs";
+    options = [ "compress=zstd" "noatime" ];
   };
 
   swapDevices = [

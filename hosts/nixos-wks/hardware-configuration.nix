@@ -20,25 +20,25 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/46c0c723-791a-4c04-89a2-836c07ddb200";
     fsType = "btrfs";
-    options = [ "subvol=root" ];
+    options = [ "subvol=root" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/46c0c723-791a-4c04-89a2-836c07ddb200";
     fsType = "btrfs";
-    options = [ "subvol=home" ];
+    options = [ "subvol=home" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/nix" = {
     device = "/dev/disk/by-uuid/46c0c723-791a-4c04-89a2-836c07ddb200";
     fsType = "btrfs";
-    options = [ "subvol=nix" ];
+    options = [ "subvol=nix" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/var/log" = {
     device = "/dev/disk/by-uuid/46c0c723-791a-4c04-89a2-836c07ddb200";
     fsType = "btrfs";
-    options = [ "subvol=log" ];
+    options = [ "subvol=log" "compress=zstd" "noatime" ];
   };
 
   fileSystems."/boot" = {
