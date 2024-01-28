@@ -108,7 +108,7 @@
       #'';
 
     # media server
-    virtualHosts."tank.nochtlabs.net" = {
+    virtualHosts."${config.networking.hostName}.${config.networking.domain}" = {
       forceSSL = true;
       enableACME = true;
       locations."/" = {
@@ -130,7 +130,7 @@
     acceptTerms = true;
     defaults.email = "26353308+pyqlsa@users.noreply.github.com";
     defaults.group = "nginx";
-    certs."tank.nochtlabs.net" = {
+    certs."${config.networking.hostName}.${config.networking.domain}" = {
       dnsProvider = "namecheap";
       environmentFile = config.sops.secrets."api/dns".path;
       dnsPropagationCheck = true;
