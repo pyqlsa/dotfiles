@@ -279,7 +279,7 @@ in
           xterm.enable = false;
         };
         displayManager.defaultSession = "sway";
-        layout = "us";
+        xkb.layout = "us";
       };
     };
 

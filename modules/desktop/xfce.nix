@@ -20,7 +20,7 @@ in
           xfce.enable = true;
         };
         displayManager.defaultSession = "xfce";
-        layout = "us";
+        xkb.layout = "us";
       };
     };
   };

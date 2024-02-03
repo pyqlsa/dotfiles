@@ -173,7 +173,7 @@ in
           xterm.enable = false;
         };
         displayManager.defaultSession = "none+i3";
-        layout = "us";
+        xkb.layout = "us";
         windowManager.i3 = {
           enable = true;
           extraPackages = with pkgs; [
