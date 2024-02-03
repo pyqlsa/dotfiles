@@ -59,6 +59,7 @@ in
       file
       htop
       nmap
+      p7zip
       rsync
       s-tui
       stress
