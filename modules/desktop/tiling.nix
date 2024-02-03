@@ -128,7 +128,7 @@ in
     };
     bar = {
       disks = mkOption {
-        type = with types; listOf string;
+        type = with types; listOf str;
         description = "Paths to report disk space in status bar";
         default = [ "/" ];
         example = [ "/" "/data" ];
