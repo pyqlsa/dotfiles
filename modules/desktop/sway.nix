@@ -283,7 +283,7 @@ in
       };
     };
 
-    environment.systemPackages = with pkgs; [
+    sys.software = with pkgs; [
       sway
       dbus-sway-environment
       fancy-sway-lock

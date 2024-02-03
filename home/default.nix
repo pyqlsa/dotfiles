@@ -60,6 +60,7 @@ in
       htop
       nmap
       p7zip
+      ripgrep
       rsync
       s-tui
       stress
