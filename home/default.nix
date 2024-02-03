@@ -247,5 +247,5 @@ in
     logoutExtra = '''';
   };
 
-  home.stateVersion = "22.05";
+  home.stateVersion = "24.05";
 }
