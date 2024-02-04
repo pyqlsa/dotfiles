@@ -43,17 +43,7 @@
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
-        overlays = [
-          # (breadcrumbs) or create an overlay inline with the default package
-          #(final: prev: {
-          #  neovimPQ = inputs.neovim-flake.packages.${system}.default;
-          #})
-          inputs.neovim-flake.overlays.${system}.default
-          # until patch for configure options is promoted
-          (final: prev: {
-            ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${system}.ffmpeg_6-full;
-          })
-        ];
+        overlays = [ self.overlays.default ];
       };
 
       lib = nixpkgs.lib;
@@ -63,6 +53,21 @@
         default = sys;
         sys = import ./modules;
         pyq-home = import ./hm-modules;
+      };
+
+      overlays = rec {
+        default = packages;
+        packages =
+          final: prev: {
+            neovimPQ = inputs.neovim-flake.packages.${system}.default;
+            ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${system}.ffmpeg_6-full;
+            python-basic = pkgs.python311.withPackages (ps:
+              with ps; [
+                pip
+                setuptools
+                virtualenv
+              ]);
+          };
       };
 
       nixosConfigurations.fmwk-7850u = lib.nixosSystem {
@@ -157,11 +162,14 @@
       # just home manager
       homeConfigurations = {
         pyqlsa = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${system};
+          inherit pkgs;
           modules = [ self.nixosModules.pyq-home ];
         };
       };
 
-      devShells.${system}.py = import ./shells/pip-shell.nix { inherit pkgs; };
+      devShells.${system}.py = import ./shells/py-shell.nix {
+        inherit pkgs;
+        inherit (pkgs) python-basic;
+      };
     };
 }

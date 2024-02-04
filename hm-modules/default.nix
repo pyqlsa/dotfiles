@@ -7,12 +7,6 @@
 , ...
 }:
 let
-  python-with-packages = pkgs.python311.withPackages (ps:
-    with ps; [
-      pip
-      setuptools
-      virtualenv
-    ]);
   my-nerdfonts = pkgs.nerdfonts.override { fonts = [ "FiraCode" "FiraMono" ]; };
   font-name = "FiraMono Nerd Font Mono";
 
@@ -79,7 +73,7 @@ in
       go
       gcc
       # - python
-      python-with-packages
+      python-basic
       # - rust
       cargo
       rustc
