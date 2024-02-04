@@ -29,7 +29,8 @@
   };
 
   outputs =
-    { nixpkgs
+    { self
+    , nixpkgs
     , nixpkgs-unstable
     , home-manager
     , neovim-flake
@@ -58,17 +59,23 @@
       lib = nixpkgs.lib;
     in
     {
+      nixosModules = rec {
+        default = sys;
+        sys = import ./modules;
+        pyq-home = import ./hm-modules;
+      };
+
       nixosConfigurations.fmwk-7850u = lib.nixosSystem {
         inherit system pkgs;
 
         modules = [
           ./hosts/fmwk-7850u
-          ./modules
+          self.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
+            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -79,12 +86,12 @@
 
         modules = [
           ./hosts/wilderness
-          ./modules
+          self.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
+            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -95,12 +102,12 @@
 
         modules = [
           ./hosts/tank
-          ./modules
+          self.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
+            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -111,12 +118,12 @@
 
         modules = [
           ./hosts/9500
-          ./modules
+          self.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
+            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -127,12 +134,12 @@
 
         modules = [
           ./hosts/nixos-wks
-          ./modules
+          self.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
+            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -151,7 +158,7 @@
       homeConfigurations = {
         pyqlsa = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
-          modules = [ ./hm-modules ];
+          modules = [ self.nixosModules.pyq-home ];
         };
       };
 
