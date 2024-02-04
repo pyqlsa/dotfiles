@@ -57,107 +57,110 @@
 
       overlays = rec {
         default = packages;
-        packages =
-          final: prev: {
-            neovimPQ = inputs.neovim-flake.packages.${system}.default;
+        packages = lib.composeManyExtensions [
+          inputs.neovim-flake.overlays.${system}.default
+          (final: prev: {
+            #neovimPQ = inputs.neovim-flake.packages.${system}.default;
             ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${system}.ffmpeg_6-full;
-            python-basic = pkgs.python311.withPackages (ps:
-              with ps; [
-                pip
-                setuptools
-                virtualenv
-              ]);
-          };
-      };
-
-      nixosConfigurations.fmwk-7850u = lib.nixosSystem {
-        inherit system pkgs;
-
-        modules = [
-          ./hosts/fmwk-7850u
-          self.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-          }
-          sops-nix.nixosModules.sops
+            python-basic = pkgs.python311.withPackages (ps: with ps; [ pip setuptools virtualenv ]);
+          })
         ];
       };
 
-      nixosConfigurations.wilderness = lib.nixosSystem {
-        inherit system pkgs;
+      nixosConfigurations.fmwk-7850u = lib.nixosSystem
+        {
+          inherit system pkgs;
 
-        modules = [
-          ./hosts/wilderness
-          self.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-          }
-          sops-nix.nixosModules.sops
-        ];
-      };
+          modules = [
+            ./hosts/fmwk-7850u
+            self.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
+            }
+            sops-nix.nixosModules.sops
+          ];
+        };
 
-      nixosConfigurations.tank = lib.nixosSystem {
-        inherit system pkgs;
+      nixosConfigurations.wilderness = lib.nixosSystem
+        {
+          inherit system pkgs;
 
-        modules = [
-          ./hosts/tank
-          self.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-          }
-          sops-nix.nixosModules.sops
-        ];
-      };
+          modules = [
+            ./hosts/wilderness
+            self.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
+            }
+            sops-nix.nixosModules.sops
+          ];
+        };
 
-      nixosConfigurations."9500" = lib.nixosSystem {
-        inherit system pkgs;
+      nixosConfigurations.tank = lib.nixosSystem
+        {
+          inherit system pkgs;
 
-        modules = [
-          ./hosts/9500
-          self.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-          }
-          sops-nix.nixosModules.sops
-        ];
-      };
+          modules = [
+            ./hosts/tank
+            self.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
+            }
+            sops-nix.nixosModules.sops
+          ];
+        };
 
-      nixosConfigurations.nixos-wks = lib.nixosSystem {
-        inherit system pkgs;
+      nixosConfigurations."9500" = lib.nixosSystem
+        {
+          inherit system pkgs;
 
-        modules = [
-          ./hosts/nixos-wks
-          self.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-          }
-          sops-nix.nixosModules.sops
-        ];
-      };
+          modules = [
+            ./hosts/9500
+            self.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
+            }
+            sops-nix.nixosModules.sops
+          ];
+        };
 
-      nixosConfigurations.baseIso = lib.nixosSystem {
-        inherit system pkgs;
+      nixosConfigurations.nixos-wks = lib.nixosSystem
+        {
+          inherit system pkgs;
 
-        modules = [
-          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-          ./iso
-        ];
-      };
+          modules = [
+            ./hosts/nixos-wks
+            self.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
+            }
+            sops-nix.nixosModules.sops
+          ];
+        };
+
+      nixosConfigurations.baseIso = lib.nixosSystem
+        {
+          inherit system pkgs;
+
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+            ./iso
+          ];
+        };
 
       # just home manager
       homeConfigurations = {
@@ -167,9 +170,11 @@
         };
       };
 
-      devShells.${system}.py = import ./shells/py-shell.nix {
-        inherit pkgs;
-        inherit (pkgs) python-basic;
-      };
+      devShells.${system}.py = import
+        ./shells/py-shell.nix
+        {
+          inherit pkgs;
+          inherit (pkgs) python-basic;
+        };
     };
 }
