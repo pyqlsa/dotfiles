@@ -88,6 +88,7 @@ in
       exiftool
       ffmpeg
       imagemagick
+      yt-dlp
     ]
     ++ (
       if osConfig.sys.desktop.enable
