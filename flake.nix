@@ -68,7 +68,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./home ];
+            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -84,7 +84,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./home ];
+            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -100,7 +100,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./home ];
+            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -116,7 +116,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./home ];
+            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -132,7 +132,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pyqlsa.imports = [ ./home ];
+            home-manager.users.pyqlsa.imports = [ ./hm-modules ];
           }
           sops-nix.nixosModules.sops
         ];
@@ -151,7 +151,7 @@
       homeConfigurations = {
         pyqlsa = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
-          modules = [ ./home ];
+          modules = [ ./hm-modules ];
         };
       };
 
