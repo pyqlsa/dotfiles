@@ -27,13 +27,13 @@ in
     sys.software = with pkgs; [
       # referenced by default in most places
       alacritty
-      pinentry
       sops
     ];
 
     programs.gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
+      pinentryPackage = lib.mkForce pkgs.pinentry-qt;
     };
 
     services.pcscd.enable = true;
