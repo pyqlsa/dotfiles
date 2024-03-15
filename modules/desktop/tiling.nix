@@ -13,8 +13,8 @@ with lib; let
         interval = 20
         format = " $icon (${d}) Free $available / $total "
         warning = 80.0
-        alert = 90.0
-        info_type = "used"
+        alert = 20.0
+        info_type = "available"
         alert_unit = "GB"
         [[block.click]]
         button = "right"
