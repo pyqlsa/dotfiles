@@ -6,6 +6,7 @@
   imports = [
     ./nix.nix
     ./ns.nix
+    ./protonvpn.nix
     ./regional.nix
     ./security.nix
     ./software.nix

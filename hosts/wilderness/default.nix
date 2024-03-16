@@ -57,15 +57,23 @@
   # This will automatically import SSH keys as gpg keys
   sops.gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_rsa_key" ];
   # actual secrets
-  sops.secrets.example-key = { };
-  sops.secrets."example/nested" = { };
-  sops.secrets."example/another" = { };
+  sops.secrets."vpn/protonvpn/creds" = { };
+  sops.secrets."vpn/protonvpn/certificate" = { };
+  sops.secrets."vpn/protonvpn/key" = { };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  sys.protonvpn = {
+    enable = true;
+    server = "146.70.174.146";
+    openvpnCreds = config.sops.secrets."vpn/protonvpn/creds".path;
+    openvpnCertificate = config.sops.secrets."vpn/protonvpn/certificate".path;
+    openvpnKey = config.sops.secrets."vpn/protonvpn/key".path;
+  };
 
   system.stateVersion = "22.11";
 }
