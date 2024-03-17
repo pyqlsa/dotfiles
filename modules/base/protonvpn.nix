@@ -5,31 +5,75 @@
 }:
 with lib; let
   cfg = config.sys;
+
+  serverCfg = { config, options, ... }: {
+    options = {
+      address = mkOption {
+        type = types.nonEmptyStr;
+        example = "us-free-01.protonvpn.net";
+        description = "The ProtonVPN server to use. You can choose a server from the lists provided here: `https://account.protonmail.com/u/0/vpn/open-vpn-ike-v2`";
+      };
+      ports = mkOption {
+        type = with types; nonEmptyListOf int;
+        example = [ 51820 5060 80 4569 1194 ];
+        description = "Ports for the vpn server.";
+      };
+    };
+  };
+
+  netCfg = { config, options, ... }: {
+    options = {
+      net = mkOption {
+        example = "10.10.0.0";
+        type = types.nonEmptyStr;
+        description = "network address space for local network";
+      };
+      mask = mkOption {
+        example = "255.255.0.0";
+        type = types.nonEmptyStr;
+        description = "netmask for local network";
+      };
+    };
+  };
 in
 {
   options = {
     sys.protonvpn = {
-      enable = mkEnableOption "Enable ProtonVPN (using Wireguard).";
+      enable = mkEnableOption "Enable ProtonVPN (using OpenVPN).";
 
       autostart = mkOption {
-        default = true;
+        default = false;
         example = "true";
         type = types.bool;
         description = "Automatically set up ProtonVPN when NixOS boots.";
       };
 
       updateResolvConf = mkOption {
-        default = true;
+        default = false;
         example = "true";
         type = types.bool;
         description = "Use update-resolv-conf package to auto-update resolv.conf with DNS information provided by openvpn.";
       };
 
       server = mkOption {
-        type = types.str;
-        default = "us-free-01.protonvpn.com";
-        example = "us-free-01.protonvpn.com";
-        description = "The ProtonVPN server to use. You can choose a server from the lists provided here: `https://account.protonmail.com/u/0/vpn/open-vpn-ike-v2`";
+        type = types.submodule serverCfg;
+        default = { address = "us-free-01.protonvpn.net"; ports = [ 51820 5060 80 4569 1194 ]; };
+        example = { address = "us-free-01.protonvpn.net"; ports = [ 51820 5060 80 4569 1194 ]; };
+        description = "Local networks that opt out of transiting vpn tunnel.";
+      };
+
+      localNets = mkOption {
+        type = with types; listOf (types.submodule netCfg);
+        default = [ ];
+        example = [{ net = "10.10.0.0"; mask = "255.255.0.0"; }];
+        description = "Local networks that opt out of transiting vpn tunnel.";
+      };
+
+      extraDns = mkOption {
+        type = with types; listOf str;
+        default = [ ];
+        example = [ "10.10.1.1" ];
+        description = "Extra DNS servers to include (only effective when `updateResolvConf = true`).";
       };
 
       protocol = mkOption {
@@ -84,11 +128,8 @@ in
         dev tun
         proto ${cfg.protonvpn.protocol}
 
-        remote ${cfg.protonvpn.server} 51820
-        remote ${cfg.protonvpn.server} 5060
-        remote ${cfg.protonvpn.server} 80
-        remote ${cfg.protonvpn.server} 4569
-        remote ${cfg.protonvpn.server} 1194
+        # remote vpn server (and ports)
+        ${strings.concatLines (lists.forEach cfg.protonvpn.server.ports (p: "remote ${cfg.protonvpn.server.address} ${toString p}"))}
 
         remote-random
         resolv-retry infinite
@@ -106,9 +147,15 @@ in
 
         remote-cert-tls server
 
-        auth-user-pass ${cfg.protonvpn.openvpnCreds}
-
         script-security 2
+
+        # nets that shouldn't transit tunnel
+        ${strings.concatLines (lists.forEach cfg.protonvpn.localNets (n: "route ${n.net} ${n.mask} net_gateway"))}
+
+        # additional DNS servers
+        ${strings.concatLines (lists.forEach cfg.protonvpn.extraDns (d: "dhcp-option DNS ${d}"))}
+
+        auth-user-pass ${cfg.protonvpn.openvpnCreds}
 
         ca ${cfg.protonvpn.openvpnCertificate}
 

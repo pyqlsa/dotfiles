@@ -69,10 +69,22 @@
 
   sys.protonvpn = {
     enable = true;
-    server = "146.70.174.146";
+    autostart = true;
+    updateResolvConf = true;
+    server = {
+      address = "146.70.174.146";
+      ports = [ 51820 5060 80 4569 1194 ];
+    };
     openvpnCreds = config.sops.secrets."vpn/protonvpn/creds".path;
     openvpnCertificate = config.sops.secrets."vpn/protonvpn/certificate".path;
     openvpnKey = config.sops.secrets."vpn/protonvpn/key".path;
+    localNets = [
+      { net = "10.10.0.0"; mask = "255.255.0.0"; }
+      { net = "10.5.0.0"; mask = "255.255.0.0"; }
+      { net = "10.200.0.0"; mask = "255.255.0.0"; }
+      { net = "10.0.0.0"; mask = "255.255.0.0"; }
+    ];
+    extraDns = [ "10.10.1.1" ];
   };
 
   system.stateVersion = "22.11";
