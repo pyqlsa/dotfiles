@@ -47,6 +47,7 @@
       };
 
       lib = nixpkgs.lib;
+      overlays = [ self.overlays.default ];
     in
     {
       nixosModules = rec {
@@ -67,90 +68,13 @@
         ];
       };
 
-      nixosConfigurations.fmwk-7850u = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            ./hosts/fmwk-7850u
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
-
-      nixosConfigurations.wilderness = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            ./hosts/wilderness
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
-
-      nixosConfigurations.tank = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            ./hosts/tank
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
-
-      nixosConfigurations."9500" = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            ./hosts/9500
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
-
-      nixosConfigurations.nixos-wks = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            ./hosts/nixos-wks
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
+      nixosConfigurations = {
+        fmwk-7850u = import ./hosts/fmwk-7850u { inherit self inputs overlays; };
+        wilderness = import ./hosts/wilderness { inherit self inputs overlays; };
+        tank = import ./hosts/tank { inherit self inputs overlays; };
+        "9500" = import ./hosts/9500 { inherit self inputs overlays; };
+        nixos-wks = import ./hosts/nixos-wks { inherit self inputs overlays; };
+      };
 
       nixosConfigurations.baseIso = lib.nixosSystem
         {
