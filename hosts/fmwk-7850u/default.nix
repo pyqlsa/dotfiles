@@ -1,17 +1,14 @@
 # fmwk-7850u system configuration
-{ self, inputs, overlays, ... }:
-let
-  system = "x86_64-linux";
-in
+{ self, inputs, overlays, system, ... }:
 with inputs;
-
-nixpkgs.lib.nixosSystem {
-  inherit system;
-
+let
   pkgs = import nixpkgs {
     inherit system overlays;
     config = { allowUnfree = true; };
   };
+in
+nixpkgs.lib.nixosSystem {
+  inherit system pkgs;
 
   modules = [
     ./configuration.nix
