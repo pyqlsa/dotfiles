@@ -11,6 +11,10 @@
       url = "github:nixos/nixpkgs/nixpkgs-unstable";
     };
 
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
+
     home-manager = {
       #url = "github:nix-community/home-manager/release-22.11";
       url = "github:nix-community/home-manager";
@@ -32,21 +36,15 @@
     { self
     , nixpkgs
     , nixpkgs-unstable
+    , flake-utils
     , home-manager
     , neovim-flake
     , sops-nix
     , ...
     } @ inputs:
     let
-      system = "x86_64-linux";
-
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-        overlays = [ self.overlays.default ];
-      };
-
       lib = nixpkgs.lib;
+      overlays = [ self.overlays.default ];
     in
     {
       nixosModules = rec {
@@ -58,123 +56,46 @@
       overlays = rec {
         default = packages;
         packages = lib.composeManyExtensions [
-          inputs.neovim-flake.overlays.${system}.default
+          inputs.neovim-flake.overlays.default
           (final: prev: {
-            #neovimPQ = inputs.neovim-flake.packages.${system}.default;
-            ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${system}.ffmpeg_6-full;
-            python-basic = pkgs.python311.withPackages (ps: with ps; [ pip setuptools virtualenv ]);
+            #neovimPQ = inputs.neovim-flake.packages.${final.system}.default;
+            ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.system}.ffmpeg_6-full;
+            python-basic = prev.python311.withPackages (ps: with ps; [ pip setuptools virtualenv ]);
           })
         ];
       };
 
-      nixosConfigurations.fmwk-7850u = lib.nixosSystem
-        {
-          inherit system pkgs;
+      nixosConfigurations = {
+        fmwk-7850u = import ./hosts/fmwk-7850u { inherit self inputs overlays; system = "x86_64-linux"; };
+        wilderness = import ./hosts/wilderness { inherit self inputs overlays; system = "x86_64-linux"; };
+        tank = import ./hosts/tank { inherit self inputs overlays; system = "x86_64-linux"; };
+        "9500" = import ./hosts/9500 { inherit self inputs overlays; system = "x86_64-linux"; };
+        nixos-wks = import ./hosts/nixos-wks { inherit self inputs overlays; system = "x86_64-linux"; };
 
-          modules = [
-            ./hosts/fmwk-7850u
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
-
-      nixosConfigurations.wilderness = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            ./hosts/wilderness
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
-
-      nixosConfigurations.tank = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            ./hosts/tank
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
-
-      nixosConfigurations."9500" = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            ./hosts/9500
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
-
-      nixosConfigurations.nixos-wks = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            ./hosts/nixos-wks
-            self.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
-
-      nixosConfigurations.baseIso = lib.nixosSystem
-        {
-          inherit system pkgs;
-
-          modules = [
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-            ./iso
-          ];
-        };
-
-      # just home manager
-      homeConfigurations = {
-        pyqlsa = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ self.nixosModules.pyq-home ];
-        };
+        # nix build .#nixosConfigurations.baseIso.config.system.build.isoImage
+        baseIso = import ./iso { inherit inputs overlays; system = "x86_64-linux"; };
       };
 
-      devShells.${system}.py = import
-        ./shells/py-shell.nix
-        {
+      # just home manager
+      #homeConfigurations = {
+      #  pyqlsa = home-manager.lib.homeManagerConfiguration {
+      #    inherit pkgs;
+      #    modules = [ self.nixosModules.pyq-home ];
+      #  };
+      #};
+    } // (flake-utils.lib.eachDefaultSystem (system:
+    let
+      pkgs = import nixpkgs {
+        inherit system overlays;
+        config = { allowUnfree = true; };
+      };
+    in
+    {
+      devShells = {
+        py = import ./shells/py-shell.nix {
           inherit pkgs;
           inherit (pkgs) python-basic;
         };
-    };
+      };
+    }));
 }

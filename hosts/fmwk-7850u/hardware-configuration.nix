@@ -14,7 +14,7 @@
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ zenpower ]; # non-default
 
   boot.initrd.luks.devices."enc" = {
     device = "/dev/disk/by-label/nix-enc-root";

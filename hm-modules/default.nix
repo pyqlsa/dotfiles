@@ -42,8 +42,8 @@ in
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "pyqlsa";
-  home.homeDirectory = "/home/pyqlsa";
+  home.username = osConfig.sys.user.name;
+  home.homeDirectory = "/home/${osConfig.sys.user.name}";
 
   home.packages = with pkgs;
     [
@@ -175,8 +175,8 @@ in
 
   programs.git = {
     enable = true;
-    userName = "pyqlsa";
-    userEmail = "26353308+pyqlsa@users.noreply.github.com";
+    userName = osConfig.sys.user.gitUsername;
+    userEmail = osConfig.sys.user.gitEmail;
     extraConfig = {
       url = {
         "ssh://git@github.com" = {
@@ -186,7 +186,7 @@ in
     };
   };
 
-  programs.zsh = {
+  programs.zsh = lib.mkIf (osConfig.sys.user.zshDefault) {
     enable = true;
     enableAutosuggestions = true;
     enableCompletion = true;

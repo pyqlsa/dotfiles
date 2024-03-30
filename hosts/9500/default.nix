@@ -1,34 +1,25 @@
-{ config
-, lib
-, pkgs
-, ...
-}: {
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
-  networking.hostName = "9500";
-  networking.networkmanager.enable = true;
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
-
-  # custom modules
-  sys.desktop = {
-    enable = true;
-    picom.enable = true;
-    i3 = {
-      enable = true;
-    };
-    gdm = {
-      enable = true;
-    };
+# 9500 system configuration
+{ self, inputs, overlays, system, ... }:
+with inputs;
+let
+  pkgs = import nixpkgs {
+    inherit system overlays;
+    config = { allowUnfree = true; };
   };
+in
+nixpkgs.lib.nixosSystem {
+  inherit system pkgs;
 
-  sys.hardware.audio.server = "pulse";
-
-  system.stateVersion = "22.05";
+  modules = [
+    ./configuration.nix
+    ./hardware-configuration.nix
+    self.nixosModules.default
+    sops-nix.nixosModules.sops
+    home-manager.nixosModules.home-manager
+    {
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+      home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
+    }
+  ];
 }
