@@ -188,7 +188,7 @@ in
 
   programs.zsh = lib.mkIf (osConfig.sys.user.zshDefault) {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting = {
       enable = true;
