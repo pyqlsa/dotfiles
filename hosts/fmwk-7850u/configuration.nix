@@ -76,5 +76,34 @@
 
   sys.virtualisation.virt-manager.enable = true;
 
+  sops.defaultSopsFile = ../../secrets/default.yaml;
+  sops.defaultSopsFormat = "yaml";
+  # This will automatically import SSH keys as gpg keys
+  sops.gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_rsa_key" ];
+  # actual secrets
+  sops.secrets."vpn/protonvpn/creds" = { };
+  sops.secrets."vpn/protonvpn/certificate" = { };
+  sops.secrets."vpn/protonvpn/key" = { };
+
+  sys.protonvpn = {
+    enable = true;
+    autostart = true;
+    updateResolvConf = true;
+    server = {
+      address = "146.70.174.146";
+      ports = [ 51820 5060 80 4569 1194 ];
+    };
+    openvpnCreds = config.sops.secrets."vpn/protonvpn/creds".path;
+    openvpnCertificate = config.sops.secrets."vpn/protonvpn/certificate".path;
+    openvpnKey = config.sops.secrets."vpn/protonvpn/key".path;
+    #localNets = [
+    #  { net = "10.10.0.0"; mask = "255.255.0.0"; }
+    #  { net = "10.5.0.0"; mask = "255.255.0.0"; }
+    #  { net = "10.200.0.0"; mask = "255.255.0.0"; }
+    #  { net = "10.0.0.0"; mask = "255.255.0.0"; }
+    #];
+    #extraDns = [ "10.10.1.1" ];
+  };
+
   system.stateVersion = "23.11";
 }
