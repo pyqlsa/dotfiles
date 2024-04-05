@@ -1,4 +1,7 @@
+# -- new key for host
 # nix shell nixpkgs#ssh-to-pgp --command ssh-to-pgp -i <host_ssh_key> -o <host>.asc
+# -- update secrets after adding host
+# sops updatekeys <secrets-file>
 keys:
     - &user_pyqlsa 0D35DDBD23509B6B7B2BB1F8BF79205BF790E004
     - &host_wilderness eb49cfa9e24ee89d8f29cd1cc79de855e3dc8e64
