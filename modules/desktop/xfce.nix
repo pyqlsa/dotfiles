@@ -14,12 +14,12 @@ in
   config = mkIf (cfg.desktop.xfce.enable) {
     # xfce
     services = {
+      displayManager.defaultSession = "xfce";
       xserver = {
         enable = true;
         desktopManager = {
           xfce.enable = true;
         };
-        displayManager.defaultSession = "xfce";
         xkb.layout = "us";
       };
     };

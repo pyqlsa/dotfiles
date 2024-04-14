@@ -273,12 +273,12 @@ in
     programs.dconf.enable = true;
     environment.pathsToLink = [ "/libexec" ];
     services = {
+      displayManager.defaultSession = "sway";
       xserver = {
         enable = true;
         desktopManager = {
           xterm.enable = false;
         };
-        displayManager.defaultSession = "sway";
         xkb.layout = "us";
       };
     };

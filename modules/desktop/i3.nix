@@ -167,12 +167,12 @@ in
     programs.dconf.enable = true;
     environment.pathsToLink = [ "/libexec" ];
     services = {
+      displayManager.defaultSession = "none+i3";
       xserver = {
         enable = true;
         desktopManager = {
           xterm.enable = false;
         };
-        displayManager.defaultSession = "none+i3";
         xkb.layout = "us";
         windowManager.i3 = {
           enable = true;
