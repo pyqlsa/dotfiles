@@ -91,11 +91,11 @@
         "plugin-vim-vsnip": "plugin-vim-vsnip"
       },
       "locked": {
-        "lastModified": 1712330060,
-        "narHash": "sha256-pUdfLIvSiUNATPtfvRmqcy1VWPnAam5ClQMl/NPebqo=",
+        "lastModified": 1713503378,
+        "narHash": "sha256-Pjf6yhCjsmrWMmQDNXPwlbsEP0KmC8UlRl9HjVhEy0g=",
         "owner": "pyqlsa",
         "repo": "neovim-flake",
-        "rev": "6e27029cafff0bf19bc44b2cd0e0ad2eb5fc3d6e",
+        "rev": "dabcdc8a1860a24e0e6aab975dfa87ac57f1d140",
         "type": "github"
       },
       "original": {
