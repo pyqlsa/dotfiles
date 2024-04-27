@@ -1,10 +1,10 @@
 { pkgs ? import <nixpkgs> { }
-, python-basic ? pkgs.python3
+, python-full ? pkgs.python3Full
 }:
 (pkgs.buildFHSUserEnv {
-  name = "py-shell";
+  name = "py-full";
   targetPkgs = pkgs: (with pkgs; [
-    python-basic
+    python-full
   ]);
   runScript = "zsh";
 }).env

@@ -61,6 +61,7 @@
             #neovimPQ = inputs.neovim-flake.packages.${final.system}.default;
             ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.system}.ffmpeg_6-full;
             python-basic = prev.python311.withPackages (ps: with ps; [ pip setuptools virtualenv ]);
+            python-full = prev.python311Full.withPackages (ps: with ps; [ pip setuptools virtualenv tkinter ]);
           })
         ];
       };
@@ -92,9 +93,13 @@
     in
     {
       devShells = {
-        py = import ./shells/py-shell.nix {
+        py = import ./shells/py.nix {
           inherit pkgs;
           inherit (pkgs) python-basic;
+        };
+        py-full = import ./shells/py-full.nix {
+          inherit pkgs;
+          inherit (pkgs) python-full;
         };
       };
     }));
