@@ -135,7 +135,7 @@ in
   # see sessionvarabiles comment below...
   qt = lib.mkIf (osConfig.sys.desktop.enable) {
     enable = true;
-    platformTheme = "gtk";
+    platformTheme.name = "gtk";
     style = {
       name = uiTheme.qt.name;
       package = uiTheme.qt.package;
