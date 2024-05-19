@@ -7,7 +7,7 @@
 , ...
 }:
 let
-  my-nerdfonts = pkgs.nerdfonts.override { fonts = [ "FiraCode" "FiraMono" ]; };
+  select-nerdfonts = pkgs.nerdfonts.override { fonts = [ "FiraCode" "FiraMono" ]; };
   font-name = "FiraMono Nerd Font Mono";
 
   uiTheme = with pkgs; {
@@ -26,11 +26,11 @@ let
     };
     fonts = {
       default = {
-        package = my-nerdfonts;
+        package = select-nerdfonts;
         name = font-name;
       };
       monospace = {
-        package = my-nerdfonts;
+        package = select-nerdfonts;
         name = font-name;
       };
     };
@@ -61,6 +61,7 @@ in
       wget
       zip
       unzip
+      xxd
       # vpn
       protonvpn-cli
       # dev
@@ -105,7 +106,7 @@ in
         inkscape
         vlc
         # fonts and themes
-        my-nerdfonts
+        select-nerdfonts
         libsForQt5.qt5ct
         libsForQt5.qtstyleplugins
         uiTheme.fonts.monospace.package
