@@ -9,6 +9,7 @@
     lshw
     openssl
     screen
+    tmux
     squashfsTools
   ];
 }

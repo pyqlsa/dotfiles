@@ -3,7 +3,6 @@
 , osConfig
 , pkgs
 , system
-, inputs
 , ...
 }:
 let
@@ -83,6 +82,7 @@ in
       exiftool
       ffmpeg
       imagemagick
+      viu
       yt-dlp
     ]
     ++ (
@@ -201,6 +201,7 @@ in
       ll = "ls -l";
       ls = "ls --color=tty";
       history = "history 1";
+      nnn = "__nnn";
     };
     # --- in order
     # if it is needed by a command run non-interactively: .zshenv
@@ -309,6 +310,16 @@ in
       # Terraform completions
       #[[ -x $(which terraform) ]] && \
       #  complete -C $(which terraform) terraform
+
+      export NNN_TERMINAL=alacritty
+      __nnn ()
+      {
+        if [ -n "$TMUX" ]; then
+          nnn -a $@
+        else
+          tmux -u new-session nnn -a $@
+        fi
+      }
     '';
     # if it is a command to be run when the shell is fully setup: .zlogin
     loginExtra = ''
@@ -316,6 +327,19 @@ in
     '';
     # if it releases a resource acquired at login: .zlogout
     logoutExtra = '''';
+  };
+
+  programs.nnn = {
+    enable = true;
+    package = pkgs.nnn.override { withNerdIcons = true; };
+    extraPackages = with pkgs; [ ffmpegthumbnailer mediainfo mpv viu tree poppler bat glow fzf ];
+    plugins = {
+      src = (pkgs.nnn.src) + "/plugins";
+      mappings = {
+        f = "fzcd";
+        p = "preview-tui";
+      };
+    };
   };
 
   home.stateVersion = "24.05";
