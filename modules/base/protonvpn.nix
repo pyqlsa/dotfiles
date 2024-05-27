@@ -35,12 +35,9 @@ with lib; let
       };
     };
   };
-in
-{
-  options = {
-    sys.protonvpn = {
-      enable = mkEnableOption "Enable ProtonVPN (using OpenVPN).";
 
+  vpnClientCfg = {
+    options = {
       autostart = mkOption {
         default = false;
         example = "true";
@@ -105,62 +102,75 @@ in
       };
     };
   };
-
-  config = mkIf cfg.protonvpn.enable {
-    services.openvpn.servers.proton = {
-      autoStart = cfg.protonvpn.autostart;
-      updateResolvConf = cfg.protonvpn.updateResolvConf;
-      config = ''
-        # The server you are connecting to is using a circuit in order to separate entry IP from exit IP
-        # The same entry IP allows to connect to multiple exit IPs in the same data center.
-
-        # If you want to explicitly select the exit IP corresponding to server <server> you need to
-        # append a special suffix to your OpenVPN username.
-        # Please use "<username>+b:6" in order to enforce exiting through <server>.
-
-        # If you are a paying user you can also enable the ProtonVPN ad blocker (NetShield) or Moderate NAT:
-        # Use: "<username>+b:6+f1" to enable anti-malware filtering
-        # Use: "<username>+b:6+f2" to additionally enable ad-blocking filtering
-        # Use: "<username>+b:6+nr" to enable Moderate NAT
-        # Note that you can combine the "+nr" suffix with other suffixes.
-
-        client
-        dev tun
-        proto ${cfg.protonvpn.protocol}
-
-        # remote vpn server (and ports)
-        ${strings.concatLines (lists.forEach cfg.protonvpn.server.ports (p: "remote ${cfg.protonvpn.server.address} ${toString p}"))}
-
-        remote-random
-        resolv-retry infinite
-        nobind
-
-        cipher AES-256-GCM
-
-        setenv CLIENT_CERT 0
-        tun-mtu 1500
-        mssfix 0
-        persist-key
-        persist-tun
-
-        reneg-sec 0
-
-        remote-cert-tls server
-
-        script-security 2
-
-        # nets that shouldn't transit tunnel
-        ${strings.concatLines (lists.forEach cfg.protonvpn.localNets (n: "route ${n.net} ${n.mask} net_gateway"))}
-
-        # additional DNS servers
-        ${strings.concatLines (lists.forEach cfg.protonvpn.extraDns (d: "dhcp-option DNS ${d}"))}
-
-        auth-user-pass ${cfg.protonvpn.openvpnCreds}
-
-        ca ${cfg.protonvpn.openvpnCertificate}
-
-        tls-crypt ${cfg.protonvpn.openvpnKey}
-      '';
+in
+{
+  options = {
+    sys.protonvpn = mkOption {
+      default = { };
+      description = ''Same behavior as `services.openvpn.servers`.'';
+      type = with types; attrsOf (submodule vpnClientCfg);
     };
   };
+
+  config =
+    let
+      makeVpnJob = clientCfg: name: {
+        autoStart = clientCfg.autostart;
+        updateResolvConf = clientCfg.updateResolvConf;
+        config = ''
+          # The server you are connecting to is using a circuit in order to separate entry IP from exit IP
+          # The same entry IP allows to connect to multiple exit IPs in the same data center.
+
+          # If you want to explicitly select the exit IP corresponding to server <server> you need to
+          # append a special suffix to your OpenVPN username.
+          # Please use "<username>+b:6" in order to enforce exiting through <server>.
+
+          # If you are a paying user you can also enable the ProtonVPN ad blocker (NetShield) or Moderate NAT:
+          # Use: "<username>+b:6+f1" to enable anti-malware filtering
+          # Use: "<username>+b:6+f2" to additionally enable ad-blocking filtering
+          # Use: "<username>+b:6+nr" to enable Moderate NAT
+          # Note that you can combine the "+nr" suffix with other suffixes.
+
+          client
+          dev tun
+          proto ${clientCfg.protocol}
+
+          # remote vpn server (and ports)
+          ${strings.concatLines (lists.forEach clientCfg.server.ports (p: "remote ${clientCfg.server.address} ${toString p}"))}
+
+          remote-random
+          resolv-retry infinite
+          nobind
+
+          cipher AES-256-GCM
+
+          setenv CLIENT_CERT 0
+          tun-mtu 1500
+          mssfix 0
+          persist-key
+          persist-tun
+
+          reneg-sec 0
+
+          remote-cert-tls server
+
+          script-security 2
+
+          # nets that shouldn't transit tunnel
+          ${strings.concatLines (lists.forEach clientCfg.localNets (n: "route ${n.net} ${n.mask} net_gateway"))}
+
+          # additional DNS servers
+          ${strings.concatLines (lists.forEach clientCfg.extraDns (d: "dhcp-option DNS ${d}"))}
+
+          auth-user-pass ${clientCfg.openvpnCreds}
+
+          ca ${clientCfg.openvpnCertificate}
+
+          tls-crypt ${clientCfg.openvpnKey}
+        '';
+      };
+    in
+    mkIf (cfg.protonvpn != { }) {
+      services.openvpn.servers = (lib.attrsets.mapAttrs (name: value: (makeVpnJob value name)) cfg.protonvpn);
+    };
 }

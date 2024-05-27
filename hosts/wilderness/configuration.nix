@@ -67,25 +67,34 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  sys.protonvpn = {
-    enable = true;
-    autostart = true;
-    updateResolvConf = true;
-    server = {
-      address = "146.70.174.146";
-      ports = [ 51820 5060 80 4569 1194 ];
+  sys.protonvpn =
+    let
+      commonOpts = {
+        updateResolvConf = true;
+        server = {
+          address = "146.70.174.146";
+          ports = [ 51820 5060 80 4569 1194 ];
+        };
+        openvpnCreds = config.sops.secrets."vpn/protonvpn/creds".path;
+        openvpnCertificate = config.sops.secrets."vpn/protonvpn/certificate".path;
+        openvpnKey = config.sops.secrets."vpn/protonvpn/key".path;
+      };
+    in
+    {
+      proton-strict = {
+        autostart = false;
+      } // commonOpts;
+      proton-allow-local = {
+        autostart = true;
+        localNets = [
+          { net = "10.10.0.0"; mask = "255.255.0.0"; }
+          { net = "10.5.0.0"; mask = "255.255.0.0"; }
+          { net = "10.200.0.0"; mask = "255.255.0.0"; }
+          { net = "10.0.0.0"; mask = "255.255.0.0"; }
+        ];
+        extraDns = [ "10.10.1.1" ];
+      } // commonOpts;
     };
-    openvpnCreds = config.sops.secrets."vpn/protonvpn/creds".path;
-    openvpnCertificate = config.sops.secrets."vpn/protonvpn/certificate".path;
-    openvpnKey = config.sops.secrets."vpn/protonvpn/key".path;
-    localNets = [
-      { net = "10.10.0.0"; mask = "255.255.0.0"; }
-      { net = "10.5.0.0"; mask = "255.255.0.0"; }
-      { net = "10.200.0.0"; mask = "255.255.0.0"; }
-      { net = "10.0.0.0"; mask = "255.255.0.0"; }
-    ];
-    extraDns = [ "10.10.1.1" ];
-  };
 
   system.stateVersion = "22.11";
 }
