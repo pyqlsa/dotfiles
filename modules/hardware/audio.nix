@@ -19,6 +19,7 @@ in
     sys.software = [
       # Need pulseaudio cli tools for pipewire.
       (mkIf (cfg.hardware.audio.server == "pipewire") pulseaudio)
+      pulsemixer
     ];
 
     sound.enable = cfg.hardware.audio.server == "pulse";
@@ -26,10 +27,12 @@ in
 
     services.pipewire = mkIf (cfg.hardware.audio.server == "pipewire") {
       enable = true;
+      audio.enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
       jack.enable = true;
+      wireplumber.enable = true;
     };
 
     hardware.pulseaudio = mkIf (cfg.hardware.audio.server == "pulse") {
