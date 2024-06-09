@@ -60,8 +60,8 @@
           (final: prev: {
             #neovimPQ = inputs.neovim-flake.packages.${final.system}.default;
             #ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.system}.ffmpeg_6-full;
-            python-basic = prev.python311.withPackages (ps: with ps; [ pip setuptools virtualenv ]);
-            python-full = prev.python311Full.withPackages (ps: with ps; [ pip setuptools virtualenv tkinter ]);
+            python-basic = prev.python311.withPackages (ps: with ps; [ build pip setuptools twine virtualenv ]);
+            python-full = prev.python311Full.withPackages (ps: with ps; [ build pip setuptools virtualenv twine tkinter ]);
             # until PR for v1.5.0 is merged: https://github.com/NixOS/nixpkgs/pull/269170
             viu = prev.callPackage ./pkgs/viu.nix { };
           })
