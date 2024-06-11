@@ -82,7 +82,6 @@ in
       exiftool
       ffmpeg
       imagemagick
-      viu
       yt-dlp
     ]
     ++ (
@@ -104,6 +103,7 @@ in
         gimp
         gpodder
         inkscape
+        viu
         vlc
         # fonts and themes
         select-nerdfonts
@@ -232,7 +232,7 @@ in
     logoutExtra = '''';
   };
 
-  programs.nnn = {
+  programs.nnn = lib.mkIf (osConfig.sys.desktop.enable) {
     enable = true;
     package = pkgs.nnn.override { withNerdIcons = true; };
     extraPackages = with pkgs; [ ffmpegthumbnailer mediainfo mpv viu tree poppler bat glow fzf ];

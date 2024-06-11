@@ -3,10 +3,6 @@
 , pkgs
 , ...
 }: {
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
   networking.hostName = "wilderness";
   networking.networkmanager.enable = true;
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -15,6 +11,10 @@
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp6s0.useDHCP = lib.mkDefault true;
+
+  # allow to build some arm things
+  # `pkgs.crossSystem.system = "aarch64-linux";`?
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # custom modules
   sys.desktop = {

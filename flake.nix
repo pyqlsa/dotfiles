@@ -72,6 +72,7 @@
         fmwk-7850u = import ./hosts/fmwk-7850u { inherit self inputs overlays; system = "x86_64-linux"; };
         wilderness = import ./hosts/wilderness { inherit self inputs overlays; system = "x86_64-linux"; };
         tank = import ./hosts/tank { inherit self inputs overlays; system = "x86_64-linux"; };
+        pinix000 = import ./hosts/pinix000 { inherit self inputs overlays; system = "aarch64-linux"; };
         "9500" = import ./hosts/9500 { inherit self inputs overlays; system = "x86_64-linux"; };
         nixos-wks = import ./hosts/nixos-wks { inherit self inputs overlays; system = "x86_64-linux"; };
 
