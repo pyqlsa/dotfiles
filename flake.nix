@@ -11,6 +11,10 @@
       url = "github:nixos/nixpkgs/nixpkgs-unstable";
     };
 
+    nixpkgs-stable = {
+      url = "github:nixos/nixpkgs/release-24.05";
+    };
+
     flake-utils = {
       url = "github:numtide/flake-utils";
     };
@@ -64,6 +68,8 @@
             python-full = prev.python311Full.withPackages (ps: with ps; [ build pip setuptools virtualenv twine tkinter ]);
             # until PR for v1.5.0 is merged: https://github.com/NixOS/nixpkgs/pull/269170
             viu = prev.callPackage ./pkgs/viu.nix { };
+            # gpodder on unstable doesn't build
+            gpodder = inputs.nixpkgs-stable.legacyPackages.${final.system}.gpodder;
           })
         ];
       };

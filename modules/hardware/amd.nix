@@ -19,12 +19,10 @@ in
     #boot.initrd.availableKernelModules = [ "amdgpu" ];
     boot.initrd.kernelModules = [ "amdgpu" ];
     # opencl
-    hardware.opengl.enable = true;
+    hardware.graphics.enable = true;
     # vulkan
-    hardware.opengl.driSupport = true;
     # for 32-bit apps
-    hardware.opengl.driSupport32Bit = true;
-    hardware.opengl.extraPackages = with pkgs; [
+    hardware.graphics.extraPackages = with pkgs; [
       rocmPackages.clr
       rocmPackages.clr.icd
       # unsure if necessary
@@ -32,7 +30,7 @@ in
       # amdvlk in addition to mesa radv videoDrivers
       amdvlk
     ];
-    hardware.opengl.extraPackages32 = with pkgs; [
+    hardware.graphics.extraPackages32 = with pkgs; [
       #rocmPackages.clr
       #rocmPackages.clr.icd
       # unsure if necessary
