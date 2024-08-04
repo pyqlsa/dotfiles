@@ -10,7 +10,7 @@
     hardware.enableRedistributableFirmware = true;
 
     # Enable firmware update service
-    services.fwupd.enable = true;
+    services.fwupd.enable = lib.mkDefault true;
 
     # from nix hardware configuration, common-pc
     boot.blacklistedKernelModules = lib.optionals (!config.hardware.enableRedistributableFirmware) [
