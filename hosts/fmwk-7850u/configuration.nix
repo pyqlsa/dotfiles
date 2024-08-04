@@ -16,10 +16,11 @@
 
   # --- power
   boot.kernelParams = [ "amd_pstate=active" ];
+  # conflicts with services.power-profiles-daemon
   # https://github.com/AdnanHodzic/auto-cpufreq
-  services.auto-cpufreq.enable = true;
+  #services.auto-cpufreq.enable = true;
   # auto-tune on start
-  powerManagement.powertop.enable = true;
+  #powerManagement.powertop.enable = true;
   #services.thermald.enable = lib.mkDefault true;
 
   # fingerprint reader; TODO still broken

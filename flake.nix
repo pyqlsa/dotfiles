@@ -34,6 +34,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-hardware = {
+      url = "github:nixos/nixos-hardware/master";
+    };
   };
 
   outputs =
@@ -44,6 +48,7 @@
     , home-manager
     , neovim-flake
     , sops-nix
+    , nixos-hardware
     , ...
     } @ inputs:
     let

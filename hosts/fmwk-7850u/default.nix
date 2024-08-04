@@ -15,6 +15,7 @@ nixpkgs.lib.nixosSystem {
     ./hardware-configuration.nix
     self.nixosModules.default
     sops-nix.nixosModules.sops
+    nixos-hardware.nixosModules.framework-13-7040-amd
     home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;
