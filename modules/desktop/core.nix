@@ -38,7 +38,6 @@ in
 
     services.pcscd.enable = true;
 
-
     programs.tmux = {
       enable = true;
       clock24 = true;

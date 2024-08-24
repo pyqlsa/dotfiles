@@ -4,6 +4,7 @@
 , ...
 }: {
   sys.software = with pkgs; [
+    config.boot.kernelPackages.perf
     bind
     file
     lshw
