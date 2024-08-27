@@ -72,9 +72,9 @@
 
   sys.hardware.audio.server = "pipewire";
   # audio stuff
-  boot.extraModprobeConfig = ''
-    options snd-hda-intel index=1,0 model=auto,dell-headset-multi
-  '';
+  #boot.extraModprobeConfig = ''
+  #  options snd-hda-intel index=1,0 model=auto,dell-headset-multi
+  #'';
 
   sys.security.sshd.enable = true;
 
