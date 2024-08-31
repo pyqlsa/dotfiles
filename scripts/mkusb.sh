@@ -50,6 +50,10 @@ while [[ $# -gt 0 ]]; do
       force="true"
       shift 1
       ;;
+    -h | --help)
+      display_help
+      exit 0
+      ;;
     *)
       echo "ERROR: Unknown option: ${1}" >&2
       display_help
@@ -58,9 +62,9 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-[[ ! -e "${file}" ]] && echo "ERROR: I need an iso file!" && display_help && exit 1
-[[ "${disk}" == "" ]] && echo "ERROR: I need a disk!" && display_help && exit 1
-[[ ! -b "${disk}" ]] && echo "ERROR: ${disk} is not a block device!" && display_help && exit 1
+[[ ! -e ${file} ]] && echo "ERROR: I need an iso file!" && display_help && exit 1
+[[ ${disk} == "" ]] && echo "ERROR: I need a disk!" && display_help && exit 1
+[[ ! -b ${disk} ]] && echo "ERROR: ${disk} is not a block device!" && display_help && exit 1
 
 echo "going to write ${file} to ${disk}"
 if [ "${force}" != "true" ]; then
