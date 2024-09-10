@@ -11,6 +11,7 @@
     openssl
     screen
     tmux
+    tree
     squashfsTools
   ];
 }
