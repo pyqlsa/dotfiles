@@ -14,6 +14,7 @@ nixpkgs.lib.nixosSystem {
     ./configuration.nix
     ./hardware-configuration.nix
     self.nixosModules.default
+    inputs.nixified-ai-flake.nixosModules.invokeai-amd
     sops-nix.nixosModules.sops
     nixos-hardware.nixosModules.framework-13-7040-amd
     home-manager.nixosModules.home-manager
