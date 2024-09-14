@@ -15,6 +15,7 @@ nixpkgs.lib.nixosSystem {
     ./hardware-configuration.nix
     self.nixosModules.default
     sops-nix.nixosModules.sops
+    inputs.nixified-ai-flake.nixosModules.invokeai-amd
     home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;

@@ -38,6 +38,10 @@
     nixos-hardware = {
       url = "github:nixos/nixos-hardware/master";
     };
+
+    nixified-ai-flake = {
+      url = "github:nixified-ai/flake?ref=2aeb76f52f72c7a242f20e9bc47cfaa2ed65915d";
+    };
   };
 
   outputs =
@@ -49,6 +53,7 @@
     , neovim-flake
     , sops-nix
     , nixos-hardware
+    , nixified-ai-flake
     , ...
     } @ inputs:
     let
@@ -66,10 +71,15 @@
         default = packages;
         packages = lib.composeManyExtensions [
           inputs.neovim-flake.overlays.default
+          #inputs.nixified-ai-flake.overlays.python-torchRocm
+          (final: prev: {
+            invokeai-amd = nixified-ai-flake.packages.${final.system}.invokeai-amd;
+          })
           (final: prev: {
             #neovimPQ = inputs.neovim-flake.packages.${final.system}.default;
             #ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.system}.ffmpeg_6-full;
-            python-basic = prev.python3.withPackages (ps: with ps; [ build pip setuptools twine virtualenv ]);
+            python-basic = prev.python3.withPackages (ps: with ps;
+              [ build pip setuptools twine virtualenv ]);
             python-full = prev.python3Full.withPackages (ps: with ps; [ build pip setuptools virtualenv twine tkinter ]);
             # until PR for v1.5.0 is merged: https://github.com/NixOS/nixpkgs/pull/269170
             viu = prev.callPackage ./pkgs/viu.nix { };

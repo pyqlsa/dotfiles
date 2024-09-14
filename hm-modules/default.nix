@@ -50,6 +50,7 @@ in
       curl
       fdupes
       file
+      gdb
       htop
       nmap
       p7zip
