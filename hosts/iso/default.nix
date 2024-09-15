@@ -9,7 +9,6 @@ let
     inherit system overlays;
     config = { allowUnfree = true; };
   };
-  lib = pkgs.lib;
   vim-mini = (pkgs.neovim.override {
     vimAlias = true;
     viAlias = true;
@@ -38,28 +37,28 @@ nixpkgs.lib.nixosSystem {
   inherit system pkgs;
   modules = [
     "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-    ({ pkgs, ... }: {
-      nix =
-        {
-          settings = {
-            experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-          };
+    ({ pkgs, config, ... }: {
+      nix = {
+        settings = {
+          experimental-features = [
+            "nix-command"
+            "flakes"
+          ];
         };
+      };
 
-      boot.kernelPackages = pkgs.linuxPackages_latest;
-      boot.supportedFilesystems = lib.mkForce [
-        "btrfs"
-        "cifs"
-        "f2fs"
-        "jfs"
-        "ntfs"
-        "reiserfs"
-        "vfat"
-        "xfs"
-      ];
+      boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+      #boot.kernelPackages = pkgs.linuxPackages_latest;
+      #boot.supportedFilesystems = lib.mkForce [
+      #  "btrfs"
+      #  "cifs"
+      #  "f2fs"
+      #  "jfs"
+      #  "ntfs"
+      #  "reiserfs"
+      #  "vfat"
+      #  "xfs"
+      #];
 
       environment.systemPackages = with pkgs; [
         acpi
