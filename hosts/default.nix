@@ -1,12 +1,16 @@
-{ self, inputs, overlays, modules, ... }:
-with inputs;
+{ self
+, inputs
+, overlays
+, modules
+, ...
+}:
 with builtins;
 let
-  lib = nixpkgs.lib;
+  lib = inputs.nixpkgs.lib;
 
   mkSystem = { hostname, system, modules }: lib.nixosSystem {
     inherit system;
-    pkgs = import nixpkgs {
+    pkgs = import inputs.nixpkgs {
       inherit system overlays;
       config = { allowUnfree = true; };
     };
@@ -16,7 +20,7 @@ let
     ] ++ modules;
   };
 
-  # { hostname = { system; modules; }; }
+  # { hostname = { system = "..."; modules = []; }; }
   mkNixosSystems = kvs:
     (mapAttrs
       (k: v: (mkSystem {
@@ -31,10 +35,11 @@ in
     inherit modules;
     system = "x86_64-linux";
   };
-
   fmwk-7850u = {
     system = "x86_64-linux";
-    modules = [ inputs.nixos-hardware.nixosModules.framework-13-7040-amd ] ++ modules;
+    modules = [
+      inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+    ] ++ modules;
   };
   tank = {
     inherit modules;
@@ -52,9 +57,11 @@ in
     inherit modules;
     system = "x86_64-linux";
   };
-})
-  // {
+}) // {
   # nix build .#nixosConfigurations.baseIso.config.system.build.isoImage
-  baseIso = import ./iso { inherit inputs overlays; system = "x86_64-linux"; };
+  baseIso = import ./iso {
+    inherit inputs overlays;
+    system = "x86_64-linux";
+  };
 }
 

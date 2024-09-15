@@ -124,11 +124,13 @@
       devShells = {
         py = import ./shells/py.nix {
           inherit pkgs;
-          inherit (pkgs) python-basic;
+          python = pkgs.python-basic;
+          name = "py";
         };
-        py-full = import ./shells/py-full.nix {
+        py-full = import ./shells/py.nix {
           inherit pkgs;
-          inherit (pkgs) python-full;
+          python = pkgs.python-full;
+          name = "py-full";
         };
       };
     }));
