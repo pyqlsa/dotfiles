@@ -59,6 +59,17 @@
     let
       lib = nixpkgs.lib;
       overlays = [ self.overlays.default ];
+      globalModules = [
+        self.nixosModules.default
+        inputs.nixified-ai-flake.nixosModules.invokeai-amd
+        sops-nix.nixosModules.sops
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.pyqlsa.imports = [ self.nixosModules.pyq-home ];
+        }
+      ];
     in
     {
       nixosModules = rec {
@@ -80,7 +91,8 @@
             #ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.system}.ffmpeg_6-full;
             python-basic = prev.python3.withPackages (ps: with ps;
               [ build pip setuptools twine virtualenv ]);
-            python-full = prev.python3Full.withPackages (ps: with ps; [ build pip setuptools virtualenv twine tkinter ]);
+            python-full = prev.python3Full.withPackages (ps: with ps;
+              [ build pip setuptools virtualenv twine tkinter ]);
             # until PR for v1.5.0 is merged: https://github.com/NixOS/nixpkgs/pull/269170
             viu = prev.callPackage ./pkgs/viu.nix { };
             # gpodder on unstable doesn't build
@@ -89,16 +101,9 @@
         ];
       };
 
-      nixosConfigurations = {
-        fmwk-7850u = import ./hosts/fmwk-7850u { inherit self inputs overlays; system = "x86_64-linux"; };
-        wilderness = import ./hosts/wilderness { inherit self inputs overlays; system = "x86_64-linux"; };
-        tank = import ./hosts/tank { inherit self inputs overlays; system = "x86_64-linux"; };
-        pinix000 = import ./hosts/pinix000 { inherit self inputs overlays; system = "aarch64-linux"; };
-        "9500" = import ./hosts/9500 { inherit self inputs overlays; system = "x86_64-linux"; };
-        nixos-wks = import ./hosts/nixos-wks { inherit self inputs overlays; system = "x86_64-linux"; };
-
-        # nix build .#nixosConfigurations.baseIso.config.system.build.isoImage
-        baseIso = import ./iso { inherit inputs overlays; system = "x86_64-linux"; };
+      nixosConfigurations = import ./hosts {
+        inherit self inputs overlays;
+        modules = globalModules;
       };
 
       # just home manager
