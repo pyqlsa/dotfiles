@@ -20,7 +20,7 @@ in
     services.libinput.enable = lib.mkDefault true;
     # XXX: for things that want a systray icon
     gtk.iconCache.enable = lib.mkDefault true;
-    services.udev.packages = with pkgs; [ gnome3.gnome-settings-daemon ];
+    services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
     programs.mtr.enable = true;
 
