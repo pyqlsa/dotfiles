@@ -46,8 +46,10 @@ in
     system = "x86_64-linux";
   };
   pinix000 = {
-    inherit modules;
     system = "aarch64-linux";
+    modules = [
+      inputs.nixos-hardware.nixosModules.raspberry-pi-4
+    ] ++ modules;
   };
   "9500" = {
     inherit modules;
@@ -62,6 +64,11 @@ in
   baseIso = import ./iso {
     inherit inputs overlays;
     system = "x86_64-linux";
+  };
+  # nix build .#nixosConfigurations.sd-image-rpi-generic.config.system.build.sdImage
+  sd-image-rpi-generic = import ./image {
+    inherit inputs overlays;
+    system = "aarch64-linux";
   };
 }
 
