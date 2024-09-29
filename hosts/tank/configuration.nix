@@ -10,7 +10,7 @@
   # zfs
   boot.supportedFilesystems = [ "btrfs" "zfs" ];
   boot.zfs.forceImportRoot = false;
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
   boot.zfs.extraPools = [ "datapool" ];
   services.zfs.autoScrub.enable = true;
   services.zfs.autoSnapshot.enable = true;

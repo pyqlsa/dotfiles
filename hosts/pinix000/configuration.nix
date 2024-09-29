@@ -6,7 +6,7 @@
   boot.supportedFilesystems = [ "btrfs" ];
   boot.initrd.supportedFilesystems = [ "btrfs" ];
 
-  boot.kernelPackages = pkgs.linuxPackages_rpi4;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4;
   boot.kernelParams = [
     "8250.nr_uarts=1"
     "console=ttyAMA0,115200"

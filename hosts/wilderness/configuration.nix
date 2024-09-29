@@ -16,6 +16,8 @@
   # `pkgs.crossSystem.system = "aarch64-linux";`?
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+
   # custom modules
   sys.desktop = {
     enable = true;

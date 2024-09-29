@@ -47,8 +47,7 @@ nixpkgs.lib.nixosSystem {
         };
       };
 
-      boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-      #boot.kernelPackages = pkgs.linuxPackages_latest;
+      boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
       #boot.supportedFilesystems = lib.mkForce [ "btrfs" "cifs" "f2fs" "jfs" "ntfs" "reiserfs" "vfat" "xfs" ];
 
       environment.systemPackages = with pkgs; [

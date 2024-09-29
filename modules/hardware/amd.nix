@@ -15,33 +15,46 @@ in
   # todo... still need to figure out appropriate full set of drivers
   config = mkIf (cfg.hardware.amd.enable) {
     # amd, pt.1
-    boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+    #boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
     #boot.initrd.availableKernelModules = [ "amdgpu" ];
     boot.initrd.kernelModules = [ "amdgpu" ];
-    # opencl
-    hardware.graphics.enable = true;
-    # vulkan
-    # for 32-bit apps
-    hardware.graphics.extraPackages = with pkgs; [
-      rocmPackages.clr
-      rocmPackages.clr.icd
-      # unsure if necessary
-      rocmPackages.rocm-runtime
-      # amdvlk in addition to mesa radv videoDrivers
-      amdvlk
-    ];
-    hardware.graphics.extraPackages32 = with pkgs; [
-      #rocmPackages.clr
-      #rocmPackages.clr.icd
-      # unsure if necessary
-      #rocmPackages.rocm-runtime
-      # amdvlk in addition to mesa radv videoDrivers
-      driversi686Linux.amdvlk
-    ];
-    #HIP
-    systemd.tmpfiles.rules = [
-      "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-    ];
+
+    hardware.graphics = {
+      # opencl
+      enable = true;
+      extraPackages = with pkgs; [
+        rocmPackages.clr
+        rocmPackages.clr.icd
+        # unsure if necessary
+        rocmPackages.rocm-runtime
+        # amdvlk in addition to mesa radv videoDrivers
+        amdvlk
+      ];
+      extraPackages32 = with pkgs; [
+        #rocmPackages.clr
+        #rocmPackages.clr.icd
+        # unsure if necessary
+        #rocmPackages.rocm-runtime
+        # amdvlk in addition to mesa radv videoDrivers
+        driversi686Linux.amdvlk
+      ];
+    };
+
+    # rocm/hip
+    systemd.tmpfiles.rules =
+      let
+        rocmEnv = pkgs.symlinkJoin {
+          name = "rocm-combined";
+          paths = with pkgs.rocmPackages; [
+            rocblas
+            hipblas
+            clr
+          ];
+        };
+      in
+      [
+        "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
+      ];
 
     # amd, pt.2
     services = mkIf (cfg.hardware.amd.graphical) {
@@ -50,6 +63,7 @@ in
         #videoDrivers = [ "modesetting" ];
       };
     };
+
     sys.software = with pkgs; [
       clinfo
       rocmPackages.rocminfo
