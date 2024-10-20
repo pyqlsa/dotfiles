@@ -74,10 +74,15 @@ in
       createHome = true;
       home = "/home/${cfg.user.name}";
       extraGroups =
-        [ "wheel" "video" "networkmanager" ]
+        [ "wheel" "video" "networkmanager" "kvm" ]
         ++ (
           if cfg.virtualisation.virt-manager.enable
           then [ "libvirtd" ]
+          else [ ]
+        )
+        ++ (
+          if config.programs.adb.enable == true
+          then [ "adbusers" ]
           else [ ]
         );
       initialHashedPassword = "$6$HOEpMO//XbnyqggK$j7M1ZRhwPsUKW4thZofEpo6aY6gteZ99hNFrRPEmlH6Lh3afQUBckvnQ/N8MtdVdP/jIHRa1KMuq3PCJsZmKe.";

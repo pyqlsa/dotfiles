@@ -80,6 +80,7 @@ in
       rustc
       rustfmt
       # - media
+      bento4
       exiftool
       ffmpeg
       imagemagick

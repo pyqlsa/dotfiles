@@ -38,12 +38,13 @@
     };
   };
 
-  sys.hardware.amd = {
-    enable = true;
-    graphical = true;
+  sys.hardware = {
+    amd = {
+      enable = true;
+      graphical = true;
+    };
+    audio.server = "pipewire";
   };
-
-  sys.hardware.audio.server = "pipewire";
 
   sys.security.sshd.enable = true;
 
@@ -54,6 +55,8 @@
     hashcat-utils
   ];
 
+  sys.android.enable = true;
+
   sops.defaultSopsFile = ../../secrets/default.yaml;
   sops.defaultSopsFormat = "yaml";
   # This will automatically import SSH keys as gpg keys
@@ -62,12 +65,6 @@
   sops.secrets."vpn/protonvpn/creds" = { };
   sops.secrets."vpn/protonvpn/certificate" = { };
   sops.secrets."vpn/protonvpn/key" = { };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   sys.protonvpn =
     let
@@ -97,6 +94,12 @@
         extraDns = [ "10.10.1.1" ];
       } // commonOpts;
     };
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
 
   system.stateVersion = "22.11";
 }
