@@ -238,8 +238,8 @@ with lib; let
     bindsym $mod+Shift+e exec ${pkgs.sway}/bin/swaynag -t warning -m 'Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'
 
     # screenshots
-    bindsym --release $mod+Print exec ${pkgs.grim}/bin/grim - | ${processScreenshot}
-    bindsym --release $mod+Shift+Print exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${processScreenshot}
+    bindsym --release $mod+p exec ${pkgs.grim}/bin/grim - | ${processScreenshot}
+    bindsym --release $mod+Shift+p exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${processScreenshot}
 
     #set $gnome-schema org.gnome.desktop.interface
     #exec_always {
