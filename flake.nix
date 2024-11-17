@@ -42,6 +42,11 @@
     nixified-ai-flake = {
       url = "github:nixified-ai/flake?ref=2aeb76f52f72c7a242f20e9bc47cfaa2ed65915d";
     };
+
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -54,6 +59,7 @@
     , sops-nix
     , nixos-hardware
     , nixified-ai-flake
+    , disko
     , ...
     } @ inputs:
     let
@@ -63,6 +69,7 @@
         self.nixosModules.default
         inputs.nixified-ai-flake.nixosModules.invokeai-amd
         sops-nix.nixosModules.sops
+        disko.nixosModules.disko
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
