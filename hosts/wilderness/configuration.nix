@@ -29,6 +29,15 @@
         output DP-1 position 0 0
         output DP-2 position 2560 0
       '';
+      # swaymsg -t get_inputs
+      inputConfig = ''
+        input 4152:6194:SteelSeries_SteelSeries_Sensei_Ten {
+          natural_scroll disabled
+          accel_profile "flat" # disable mouse acceleration (enabled by default; to set it manually, use "adaptive" instead of "flat")
+          pointer_accel 0.2 # set mouse sensitivity (between -1 and 1)
+          scroll_factor 0.6 # set scroll sensitivity (positive floating point)
+        }
+      '';
       bar = {
         disks = [ "/" "/data" "/big-data" ];
       };
