@@ -26,8 +26,14 @@
     };
     tiling = {
       displayConfig = ''
-        output DP-1 position 0 0
-        output DP-2 position 2560 0
+        set $disp1 "DP-1"
+        set $disp2 "DP-2"
+
+        output $dsip1 position 0 0
+        output $disp2 position 2560 0
+
+        #workspace 1 output $disp1
+        #workspace 2 output $disp2
       '';
       # swaymsg -t get_inputs
       inputConfig = ''
