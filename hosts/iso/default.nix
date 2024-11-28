@@ -69,7 +69,6 @@ nixpkgs.lib.nixosSystem {
         lshw
         openssl
         htop
-        screen
         tmux
         coreutils-full
         squashfsTools

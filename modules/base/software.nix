@@ -9,7 +9,6 @@
     file
     lshw
     openssl
-    screen
     tmux
     tree
     squashfsTools

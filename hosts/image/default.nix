@@ -10,7 +10,7 @@ let
     config = { allowUnfree = true; };
   };
   vim-mini = (pkgs.neovim.override {
-    vimAlias = true;
+    vimAlias = false;
     viAlias = true;
     configure = {
       packages.myplugins = with pkgs.vimPlugins; {
@@ -103,7 +103,6 @@ nixpkgs.lib.nixosSystem {
         lshw
         openssl
         htop
-        screen
         tmux
         coreutils-full
         squashfsTools
