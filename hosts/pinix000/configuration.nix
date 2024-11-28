@@ -3,6 +3,9 @@
 , lib
 , ...
 }: {
+  imports = [
+    ./disko.nix
+  ];
   boot.supportedFilesystems = [ "btrfs" ];
   boot.initrd.supportedFilesystems = [ "btrfs" ];
 
@@ -36,6 +39,6 @@
   # custom modules
   sys.security.sshd.enable = true;
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.11";
 }
 

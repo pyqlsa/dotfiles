@@ -61,23 +61,22 @@ echo
 
 # determine swap size
 memtotalk=$(awk '/^MemTotal:/{print $2}' /proc/meminfo);
-memtotalg=$((${memtotalk} / 1024 / 1024))
+memtotalg=$((${memtotalk} * 1024 / 1000 / 1000 / 1000))
 echo "detected total memory: ${memtotalg}GB (${memtotalk}kB)"
 echo
 
 extramem=4
-finalk=$((${memtotalk} + $((${extramem} * 1024 * 1024))))
-finalg=$((${finalk} / 1024 / 1024))
+swapfinalg=$((${memtotalg} + ${extramem}))
 
-echo "suggested swap size: ${finalg}GB (${finalk}kB)"
+echo "suggested swap size: ${swapfinalg}GB"
 echo "enter desired swap size in GB (or press enter to take the suggested value)"
 read swapSize
 
 if [ "${swapSize}" == "" ]; then
-  swapSize=${finalg}
+  swapSize=${swapfinalg}
 fi
-swapSize="${swapSize}GB"
-echo "going to set swap to: ${swapSize}"
+swapSizeArg="${swapSize}GB"
+echo "going to set swap to: ${swapSizeArg}"
 echo "press any key to contine or Ctrl+c to abort..."
 read
 
@@ -89,8 +88,8 @@ read bootPartSize
 if [ "${bootPartSize}" == "" ]; then
   bootPartSize=${defaultBootSize}
 fi
-bootPartSize="${bootPartSize}MB"
-echo "going to set boot partition size to: ${bootPartSize}"
+bootPartSizeArg="${bootPartSize}MB"
+echo "going to set boot partition size to: ${bootPartSizeArg}"
 echo "press any key to contine or Ctrl+c to abort..."
 read
 
@@ -101,9 +100,9 @@ echo
 
 echo "paritioning: ${disk}"
 parted "${disk}" -- mklabel gpt
-parted "${disk}" -- mkpart primary "${bootPartSize}" "-${swapSize}"
-parted "${disk}" -- mkpart primary linux-swap "-${swapSize}" 100%
-parted "${disk}" -- mkpart ESP fat32 1MB "${bootPartSize}"
+parted "${disk}" -- mkpart primary "${bootPartSizeArg}" "-${swapSizeArg}"
+parted "${disk}" -- mkpart primary linux-swap "-${swapSizeArg}" 100%
+parted "${disk}" -- mkpart ESP fat32 1MB "${bootPartSizeArg}"
 parted "${disk}" -- set 3 esp on
 echo
 
