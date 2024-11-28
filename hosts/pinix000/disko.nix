@@ -10,7 +10,8 @@
             ESP = {
               priority = 1;
               name = "ESP";
-              size = "1024M";
+              start = "1MiB";
+              size = "1024MiB";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -20,7 +21,7 @@
               };
             };
             root = {
-              end = "-8G";
+              end = "-8GiB";
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ]; # Override existing partition
