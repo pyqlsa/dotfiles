@@ -3,6 +3,9 @@
 , pkgs
 , ...
 }: {
+  imports = [
+    ./hardware-configuration.nix
+  ];
   networking.hostName = "wilderness";
   networking.networkmanager.enable = true;
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

@@ -16,7 +16,7 @@ let
     };
     modules = [
       ./${hostname}/configuration.nix
-      ./${hostname}/hardware-configuration.nix
+      #./${hostname}/hardware-configuration.nix
     ] ++ modules;
   };
 
@@ -60,15 +60,29 @@ in
     system = "x86_64-linux";
   };
 }) // {
-  # nix build .#nixosConfigurations.baseIso.config.system.build.isoImage
-  baseIso = import ./iso {
+  # nix build .#nixosConfigurations.x86-iso.config.system.build.isoImage
+  x86-iso = import ./installer {
     inherit inputs overlays;
     system = "x86_64-linux";
+    install-base = "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix";
   };
-  # nix build .#nixosConfigurations.sd-image-rpi-generic.config.system.build.sdImage
-  sd-image-rpi-generic = import ./image {
+  # nix build .#nixosConfigurations.aarch64-iso.config.system.build.isoImage
+  aarch64-iso = import ./installer {
     inherit inputs overlays;
     system = "aarch64-linux";
+    install-base = "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix";
+  };
+  # nix build .#nixosConfigurations.sd-image-rpi-generic.config.system.build.sdImage
+  sd-image-rpi-generic = import ./installer {
+    inherit inputs overlays;
+    system = "aarch64-linux";
+    #install-base = "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix";
+    install-base = "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix";
+    extra-modules = [
+      ({ pkgs, config, ... }: {
+        sdImage.compressImage = false;
+      })
+    ];
   };
 }
 

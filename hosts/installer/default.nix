@@ -1,16 +1,19 @@
 { inputs
 , overlays
 , system
+, install-base
+, extra-modules ? [ ]
 , ...
 }:
 with inputs;
 let
+  lib = nixpkgs.lib;
   pkgs = import nixpkgs {
     inherit system overlays;
     config = { allowUnfree = true; };
   };
   vim-mini = (pkgs.neovim.override {
-    vimAlias = true;
+    vimAlias = false;
     viAlias = true;
     configure = {
       packages.myplugins = with pkgs.vimPlugins; {
@@ -35,8 +38,8 @@ let
 in
 nixpkgs.lib.nixosSystem {
   inherit system pkgs;
-  modules = [
-    "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+  modules = extra-modules ++ [
+    install-base
     ({ pkgs, config, ... }: {
       nix = {
         settings = {
@@ -47,8 +50,40 @@ nixpkgs.lib.nixosSystem {
         };
       };
 
-      boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+      #boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+      #boot.kernelPackages = pkgs.linuxPackages_latest;
+      #boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
       #boot.supportedFilesystems = lib.mkForce [ "btrfs" "cifs" "f2fs" "jfs" "ntfs" "reiserfs" "vfat" "xfs" ];
+
+      users.users.root = {
+        initialHashedPassword = lib.mkForce "!";
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINGrK3R3Yo3uBAORs2QFfERsvQh/D6n3f5Em3cvrnr/N pyqlsa"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJtSB0+FKOQneFprWC/uXbnw2zMAxMrpQ6SsX4w1A7/ pyqlsa"
+        ];
+      };
+
+      services.openssh = {
+        enable = true;
+        ports = [ 22 ];
+        settings = {
+          PermitRootLogin = "yes";
+          PasswordAuthentication = false;
+        };
+        banner = ''
+                    /\
+                   /**\
+                  /****\   /\
+                 /      \ /**\
+                /  /\    /    \        /\    /\  /\      /\            /\/\/\  /\
+               /  /  \  /      \      /  \/\/  \/  \  /\/  \/\  /\  /\/ / /  \/  \
+              /  /    \/ /\     \    /    \ \  /    \/ /   /  \/  \/  \  /    \   \
+             /  /      \/  \/\   \  /      \    /   /    \
+          __/__/_______/___/__\___\__________________________________________________
+        '';
+      };
+      networking.firewall.allowedTCPPorts = [ 22 ];
+      networking.firewall.allowPing = true;
 
       environment.systemPackages = with pkgs; [
         acpi
