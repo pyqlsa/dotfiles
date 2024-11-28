@@ -18,5 +18,5 @@ nix --experimental-features "nix-command flakes" run github:nix-community/disko/
 
 nixos-generate-config --no-filesystems --root /mnt
 
-nixos-install --root /mnt --flake .#default
+nixos-install --root /mnt --flake .#<host>
 ```
