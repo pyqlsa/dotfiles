@@ -7,10 +7,14 @@
     ./disko.nix
     ./hardware-configuration.nix
   ];
-  boot.supportedFilesystems = [ "btrfs" ];
+  boot.supportedFilesystems = {
+    btrfs = true;
+    zfs = lib.mkForce false;
+  };
   boot.initrd.supportedFilesystems = [ "btrfs" ];
 
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4;
+  #boot.kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
   #boot.kernelParams = [
   #  "8250.nr_uarts=1"
   #  "console=ttyAMA0,115200"

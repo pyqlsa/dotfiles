@@ -11,10 +11,11 @@ My nix 'dotfiles', along w/ some extras.
 - https://github.com/wiltaylor/neovim-flake
 
 ## install notes
+
 ### disko
 
 ```bash
-nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko /hosts/<host>/disko.nix
+nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/<host>/disko.nix
 
 nixos-generate-config --no-filesystems --root /mnt
 

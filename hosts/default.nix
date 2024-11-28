@@ -48,7 +48,7 @@ in
   pinix000 = {
     system = "aarch64-linux";
     modules = [
-      inputs.nixos-hardware.nixosModules.raspberry-pi-4
+      #inputs.nixos-hardware.nixosModules.raspberry-pi-4
     ] ++ modules;
   };
   "9500" = {
