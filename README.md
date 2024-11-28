@@ -1,7 +1,7 @@
 # dotfiles
 My nix 'dotfiles', along w/ some extras.
 
-# references
+## references
 - https://chrishayward.xyz/dotfiles/
 - https://gvolpe.com/blog/nix-flakes/
 - https://sr.ht/~misterio/nix-config/
@@ -9,3 +9,14 @@ My nix 'dotfiles', along w/ some extras.
 - https://github.com/jordanisaacs/neovim-flake
 - https://github.com/wiltaylor/dotfiles
 - https://github.com/wiltaylor/neovim-flake
+
+## install notes
+### disko
+
+```bash
+nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko /hosts/<host>/disko.nix
+
+nixos-generate-config --no-filesystems --root /mnt
+
+nixos-install --root /mnt --flake .#default
+```
