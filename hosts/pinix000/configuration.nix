@@ -35,6 +35,12 @@
   hardware.enableAllFirmware = true;
   hardware.enableRedistributableFirmware = true;
 
+  hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+  hardware.deviceTree = {
+    enable = true;
+    filter = "*rpi-4-*.dtb";
+  };
+
   networking = {
     hostName = "pinix000";
     domain = "nochtlabs.net";
@@ -44,6 +50,11 @@
 
   # custom modules
   sys.security.sshd.enable = true;
+
+  sys.software = with pkgs; [
+    libraspberrypi
+    raspberrypi-eeprom
+  ];
 
   system.stateVersion = "25.05";
 }
