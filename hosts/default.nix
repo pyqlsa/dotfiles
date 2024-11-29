@@ -49,6 +49,7 @@ in
     system = "aarch64-linux";
     modules = [
       #inputs.nixos-hardware.nixosModules.raspberry-pi-4
+      "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
     ] ++ modules;
   };
   "9500" = {
