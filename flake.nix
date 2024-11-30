@@ -1,5 +1,5 @@
 {
-  description = "pyqlsa system config";
+  description = "System configs, 'dotfiles', and... stuff";
 
   inputs = {
     nixpkgs = {
