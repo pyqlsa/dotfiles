@@ -60,6 +60,8 @@ in
     system = "x86_64-linux";
   };
 }) // {
+  # generic artifacts (potentially) useful for non-tailored systems
+  #
   # nix build .#nixosConfigurations.x86-iso.config.system.build.isoImage
   x86-iso = import ./installer {
     inherit inputs overlays;
