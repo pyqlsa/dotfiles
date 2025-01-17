@@ -204,6 +204,7 @@ in
       ls = "ls --color=tty";
       history = "history 1";
       nnn = "__nnn"; # from ./shell/nnn.sh
+      "git-add-ignore-whitespace" = "git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
     };
     # --- in order
     # if it is needed by a command run non-interactively: .zshenv
