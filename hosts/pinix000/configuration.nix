@@ -3,28 +3,41 @@
 , lib
 , ...
 }: {
-  boot.supportedFilesystems = [ "btrfs" ];
-  boot.initrd.supportedFilesystems = [ "btrfs" ];
-
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4;
-  boot.kernelParams = [
-    "8250.nr_uarts=1"
-    "console=ttyAMA0,115200"
-    "console=tty1"
-    "cma=128M"
+  imports = [
+    ./hardware-configuration.nix
   ];
-  boot.loader.raspberryPi = {
-    enable = true;
-    version = 4;
+
+  boot.supportedFilesystems = {
+    zfs = lib.mkForce false;
   };
+
+  #boot.kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+  #boot.kernelParams = [
+  #  "8250.nr_uarts=1"
+  #  "console=ttyAMA0,115200"
+  #  "console=tty1"
+  #  "cma=128M"
+  #];
+  #boot.loader.raspberryPi = {
+  #  enable = true;
+  #  version = 4;
+  #};
+
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf;
-  # commenting out in favor of rpi4 configs
-  # boot.loader.generic-extlinux-compatible.enable = true;
+  boot.loader.generic-extlinux-compatible.enable = true;
+
   hardware.firmware = with pkgs; [ firmwareLinuxNonfree ];
   hardware.enableAllFirmware = true;
   hardware.enableRedistributableFirmware = true;
+
+  hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+  hardware.deviceTree = {
+    enable = true;
+    filter = "*rpi-4-*.dtb";
+  };
 
   networking = {
     hostName = "pinix000";
@@ -36,6 +49,11 @@
   # custom modules
   sys.security.sshd.enable = true;
 
-  system.stateVersion = "23.05";
+  sys.software = with pkgs; [
+    libraspberrypi
+    raspberrypi-eeprom
+  ];
+
+  system.stateVersion = "25.05";
 }
 

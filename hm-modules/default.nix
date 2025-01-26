@@ -6,7 +6,6 @@
 , ...
 }:
 let
-  select-nerdfonts = pkgs.nerdfonts.override { fonts = [ "FiraCode" "FiraMono" ]; };
   font-name = "FiraMono Nerd Font Mono";
 
   uiTheme = with pkgs; {
@@ -25,11 +24,11 @@ let
     };
     fonts = {
       default = {
-        package = select-nerdfonts;
+        package = pkgs.nerd-fonts.fira-mono;
         name = font-name;
       };
       monospace = {
-        package = select-nerdfonts;
+        package = pkgs.nerd-fonts.fira-mono;
         name = font-name;
       };
     };
@@ -108,7 +107,8 @@ in
         viu
         vlc
         # fonts and themes
-        select-nerdfonts
+        nerd-fonts.fira-code
+        nerd-fonts.fira-mono
         libsForQt5.qt5ct
         libsForQt5.qtstyleplugins
         uiTheme.fonts.monospace.package

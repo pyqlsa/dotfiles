@@ -1,16 +1,19 @@
 { inputs
 , overlays
 , system
+, install-base
+, extra-modules ? [ ]
 , ...
 }:
 with inputs;
 let
+  lib = nixpkgs.lib;
   pkgs = import nixpkgs {
     inherit system overlays;
     config = { allowUnfree = true; };
   };
   vim-mini = (pkgs.neovim.override {
-    vimAlias = true;
+    vimAlias = false;
     viAlias = true;
     configure = {
       packages.myplugins = with pkgs.vimPlugins; {
@@ -35,9 +38,8 @@ let
 in
 nixpkgs.lib.nixosSystem {
   inherit system pkgs;
-  modules = [
-    #"${nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix"
-    "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
+  modules = extra-modules ++ [
+    install-base
     ({ pkgs, config, ... }: {
       nix = {
         settings = {
@@ -50,12 +52,11 @@ nixpkgs.lib.nixosSystem {
 
       #boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
       #boot.kernelPackages = pkgs.linuxPackages_latest;
+      #boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
       #boot.supportedFilesystems = lib.mkForce [ "btrfs" "cifs" "f2fs" "jfs" "ntfs" "reiserfs" "vfat" "xfs" ];
 
-      sdImage.compressImage = false;
-
       users.users.root = {
-        initialHashedPassword = "!";
+        initialHashedPassword = lib.mkForce "!";
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINGrK3R3Yo3uBAORs2QFfERsvQh/D6n3f5Em3cvrnr/N pyqlsa"
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJtSB0+FKOQneFprWC/uXbnw2zMAxMrpQ6SsX4w1A7/ pyqlsa"
@@ -103,7 +104,6 @@ nixpkgs.lib.nixosSystem {
         lshw
         openssl
         htop
-        screen
         tmux
         coreutils-full
         squashfsTools
@@ -111,6 +111,7 @@ nixpkgs.lib.nixosSystem {
         gh
         vim-mini
         neovimPQ
+        parted
       ];
     })
   ];

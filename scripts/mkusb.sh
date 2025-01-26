@@ -80,3 +80,13 @@ echo
 sudo dd bs=4M if="${file}" of="${disk}" conv=fsync oflag=direct status=progress
 echo
 echo "complete!"
+
+# it may be useful to resize the root partition after flashing an (sd) image
+#
+# sudo parted /dev/<device> <part-number> 100%
+# sudo resize2fs /dev/<device><part-number>
+#
+# e.g...
+#
+# sudo parted /dev/sda resizepart 2 100%
+# sudo resize2fs /dev/sda2

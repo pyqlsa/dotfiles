@@ -1,5 +1,5 @@
 {
-  description = "pyqlsa system config";
+  description = "System configs, 'dotfiles', and... stuff";
 
   inputs = {
     nixpkgs = {
@@ -88,13 +88,13 @@
       overlays = rec {
         default = packages;
         packages = lib.composeManyExtensions [
-          inputs.neovim-flake.overlays.default
+          #inputs.neovim-flake.overlays.default
           #inputs.nixified-ai-flake.overlays.python-torchRocm
           (final: prev: {
             invokeai-amd = nixified-ai-flake.packages.${final.system}.invokeai-amd;
           })
           (final: prev: {
-            #neovimPQ = inputs.neovim-flake.packages.${final.system}.default;
+            neovimPQ = inputs.neovim-flake.packages.${final.system}.default;
             #ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.system}.ffmpeg_6-full;
             python-basic = prev.python3.withPackages (ps: with ps;
               [ build pip setuptools twine virtualenv ]);

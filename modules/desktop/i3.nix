@@ -98,9 +98,9 @@ with lib; let
 
     # Pulse Audio controls
     # run pactl list sinks
-    bindsym XF86AudioRaiseVolume exec --no-startup-id ${config.hardware.pulseaudio.package}/bin/pactl set-sink-volume 0 +5% #increase sound volume
-    bindsym XF86AudioLowerVolume exec --no-startup-id ${config.hardware.pulseaudio.package}/bin/pactl set-sink-volume 0 -5% #decrease sound volume
-    bindsym XF86AudioMute exec --no-startup-id ${config.hardware.pulseaudio.package}/bin/pactl set-sink-mute 0 toggle # mute sound
+    bindsym XF86AudioRaiseVolume exec --no-startup-id ${config.services.pulseaudio.package}/bin/pactl set-sink-volume 0 +5% #increase sound volume
+    bindsym XF86AudioLowerVolume exec --no-startup-id ${config.services.pulseaudio.package}/bin/pactl set-sink-volume 0 -5% #decrease sound volume
+    bindsym XF86AudioMute exec --no-startup-id ${config.services.pulseaudio.package}/bin/pactl set-sink-mute 0 toggle # mute sound
 
     # Sreen brightness controls
     bindsym XF86MonBrightnessUp exec ${pkgs.acpilight}/bin/xbacklight -inc 10 # increase screen brightness

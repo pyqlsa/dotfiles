@@ -34,7 +34,7 @@ in
       wireplumber.enable = true;
     };
 
-    hardware.pulseaudio = mkIf (cfg.hardware.audio.server == "pulse") {
+    services.pulseaudio = mkIf (cfg.hardware.audio.server == "pulse") {
       enable = true;
       support32Bit = true;
       package = pulseaudioFull;
