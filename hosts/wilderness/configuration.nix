@@ -64,6 +64,8 @@
     audio.server = "pipewire";
   };
 
+  sys.steam.enable = true;
+
   sys.security.sshd.enable = true;
 
   sys.virtualisation.virt-manager.enable = true;
