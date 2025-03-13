@@ -91,7 +91,7 @@
       commonOpts = {
         updateResolvConf = true;
         server = {
-          address = "89.45.4.2";
+          address = "149.36.48.129";
           ports = [ 51820 5060 80 4569 1194 ];
         };
         openvpnCreds = config.sops.secrets."vpn/protonvpn/creds".path;

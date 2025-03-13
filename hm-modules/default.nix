@@ -51,7 +51,6 @@ in
       file
       gdb
       htop
-      masscan
       nmap
       p7zip
       ripgrep
