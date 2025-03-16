@@ -100,6 +100,7 @@ in
         hunspell
         hunspellDicts.en_US-large
         # media
+        darktable
         geeqie
         gimp
         gpodder
@@ -109,6 +110,8 @@ in
         # fonts and themes
         nerd-fonts.fira-code
         nerd-fonts.fira-mono
+        helvetica-neue-lt-std
+        liberation_ttf
         libsForQt5.qt5ct
         libsForQt5.qtstyleplugins
         uiTheme.fonts.monospace.package
