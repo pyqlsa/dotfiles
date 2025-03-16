@@ -108,9 +108,10 @@ in
         viu
         vlc
         # fonts and themes
+        google-fonts
+        helvetica-neue-lt-std
         nerd-fonts.fira-code
         nerd-fonts.fira-mono
-        helvetica-neue-lt-std
         liberation_ttf
         libsForQt5.qt5ct
         libsForQt5.qtstyleplugins
