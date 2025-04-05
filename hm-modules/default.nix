@@ -11,11 +11,11 @@ let
   uiTheme = with pkgs; {
     dark = true;
     icons = {
-      package = breeze-icons;
+      package = kdePackages.breeze-icons;
       name = "breeze-dark";
     };
     gtk = {
-      package = breeze-gtk;
+      package = kdePackages.breeze-gtk;
       name = "Breeze-Dark";
     };
     qt = {

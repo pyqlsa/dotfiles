@@ -62,6 +62,7 @@
       graphical = true;
     };
     audio.server = "pipewire";
+    keyboard.enable = true;
   };
 
   sys.steam.enable = true;

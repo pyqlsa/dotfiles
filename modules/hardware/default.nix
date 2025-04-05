@@ -9,6 +9,7 @@
     ./bluetooth.nix
     ./disk.nix
     ./firmware.nix
+    ./keyboard.nix
     ./nvidia.nix
     ./software.nix
   ];
