@@ -2,7 +2,7 @@
 , python ? pkgs.python3
 , name ? "python"
 }:
-(pkgs.buildFHSUserEnv {
+(pkgs.buildFHSEnv {
   name = "python";
   targetPkgs = pkgs: (with pkgs; [
     python
