@@ -91,10 +91,52 @@
     let
       commonOpts = {
         updateResolvConf = true;
-        server = {
-          address = "149.36.48.129";
-          ports = [ 51820 5060 80 4569 1194 ];
-        };
+        servers = [
+          {
+            address = "146.70.174.194";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "146.70.202.66";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "149.102.224.162";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "149.22.94.28";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "149.36.48.141";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "149.40.49.30";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "149.88.18.193";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "185.156.46.33";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "217.138.198.246";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "37.19.200.27";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+          {
+            address = "45.134.140.59";
+            ports = [ 51820 5060 80 4569 1194 ];
+          }
+        ];
         openvpnCreds = config.sops.secrets."vpn/protonvpn/creds".path;
         openvpnCertificate = config.sops.secrets."vpn/protonvpn/certificate".path;
         openvpnKey = config.sops.secrets."vpn/protonvpn/key".path;

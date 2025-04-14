@@ -52,11 +52,11 @@ with lib; let
         description = "Use update-resolv-conf package to auto-update resolv.conf with DNS information provided by openvpn.";
       };
 
-      server = mkOption {
-        type = types.submodule serverCfg;
-        default = { address = "us-free-01.protonvpn.net"; ports = [ 51820 5060 80 4569 1194 ]; };
-        example = { address = "us-free-01.protonvpn.net"; ports = [ 51820 5060 80 4569 1194 ]; };
-        description = "Local networks that opt out of transiting vpn tunnel.";
+      servers = mkOption {
+        type = with types; listOf (types.submodule serverCfg);
+        default = [{ address = "us-free-01.protonvpn.net"; ports = [ 51820 5060 80 4569 1194 ]; }];
+        example = [{ address = "us-free-01.protonvpn.net"; ports = [ 51820 5060 80 4569 1194 ]; }];
+        description = "VPN server block configuration.";
       };
 
       localNets = mkOption {
@@ -136,8 +136,8 @@ in
           proto ${clientCfg.protocol}
 
           # remote vpn server (and ports)
-          ${strings.concatLines (lists.forEach clientCfg.server.ports (p: "remote ${clientCfg.server.address} ${toString p}"))}
-
+          ${strings.concatLines (lists.forEach clientCfg.servers (s: strings.concatLines (lists.forEach s.ports (p: "remote ${s.address} ${toString p}"))))}
+          ${optionalString ((length clientCfg.servers) > 1) "server-poll-timeout 20"}
           remote-random
           resolv-retry infinite
           nobind
