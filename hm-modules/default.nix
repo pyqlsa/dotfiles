@@ -217,7 +217,7 @@ in
     # if it runs a command which may take some time to complete: .zprofile
     profileExtra = '''';
     # if it is related to interactive usage: .zshrc
-    initExtra = ''
+    initContent = lib.mkOrder 1000 ''
       ${builtins.readFile ./shell/prompt-setup.sh}
 
       ${builtins.readFile ./shell/keybindings.sh}

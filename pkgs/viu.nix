@@ -7,7 +7,7 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "viu";
-  version = "1.5.0";
+  version = "1.5.1";
 
   src = fetchFromGitHub {
     owner = "atanunq";
@@ -19,7 +19,7 @@ rustPlatform.buildRustPackage rec {
   # tests need an interactive terminal
   doCheck = false;
 
-  cargoHash = "sha256-284ptMBVF4q57wTiCuTuYUiYMYItKf4Tyf6AtY0fqDk=";
+  cargoHash = "sha256-QTYNRxQC14LBxGm4T1z2ysLcIN/DtfA6V0+QZyiNV7o=";
 
   buildFeatures = lib.optional withSixel "sixel";
   buildInputs = lib.optional withSixel libsixel;
