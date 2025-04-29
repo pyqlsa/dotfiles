@@ -167,6 +167,13 @@ in
     cursor-size = 24;
   };
 
+  home.pointerCursor = lib.mkIf (osConfig.sys.desktop.enable) {
+    name = "phinger-cursors-dark";
+    package = pkgs.phinger-cursors;
+    size = 24;
+    gtk.enable = true;
+  };
+
   programs.alacritty = lib.mkIf (osConfig.sys.desktop.enable) {
     enable = true;
     settings = import ./alacritty-settings.nix { inherit font-name; };
