@@ -16,7 +16,12 @@ let
     inherit system;
     pkgs = import inputs.nixpkgs {
       inherit system overlays;
-      config = { allowUnfree = true; };
+      config = {
+        allowUnfree = true;
+        permittedInsecurePackages = [
+          "libsoup-2.74.3" # XXX
+        ];
+      };
     };
     modules = [
       ./${hostname}/configuration.nix

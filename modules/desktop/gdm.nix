@@ -18,13 +18,13 @@ in
 
   config = mkIf (cfg.desktop.gdm.enable) {
     services = {
+      displayManager.gdm = {
+        enable = true;
+      };
       xserver = {
         enable = true;
         desktopManager = {
           xterm.enable = lib.mkDefault false;
-        };
-        displayManager.gdm = {
-          enable = true;
         };
       };
     };

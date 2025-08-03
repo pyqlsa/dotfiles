@@ -207,7 +207,7 @@ in
     syntaxHighlighting = {
       enable = true;
     };
-    dotDir = ".config/zsh";
+    dotDir = "${config.home.homeDirectory}/.config/zsh";
     shellAliases = {
       l = "ls -alh";
       la = "ls -a";
