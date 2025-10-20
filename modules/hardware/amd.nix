@@ -28,16 +28,12 @@ in
         rocmPackages.clr.icd
         # unsure if necessary
         rocmPackages.rocm-runtime
-        # amdvlk in addition to mesa radv videoDrivers
-        amdvlk
       ];
       extraPackages32 = with pkgs; [
         rocmPackages.clr
         rocmPackages.clr.icd
         # unsure if necessary
         rocmPackages.rocm-runtime
-        # amdvlk in addition to mesa radv videoDrivers
-        driversi686Linux.amdvlk
       ];
     };
 

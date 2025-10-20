@@ -19,7 +19,7 @@ let
       name = "Breeze-Dark";
     };
     qt = {
-      package = libsForQt5.breeze-qt5;
+      package = kdePackages.breeze;
       name = "breeze-dark";
     };
     fonts = {
@@ -189,9 +189,11 @@ in
 
   programs.git = {
     enable = true;
-    userName = osConfig.sys.user.gitUsername;
-    userEmail = osConfig.sys.user.gitEmail;
-    extraConfig = {
+    settings = {
+      user = {
+        name = osConfig.sys.user.gitUsername;
+        email = osConfig.sys.user.gitEmail;
+      };
       url = {
         "ssh://git@github.com" = {
           insteadOf = "https://github.com";
