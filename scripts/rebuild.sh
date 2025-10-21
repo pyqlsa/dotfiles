@@ -61,6 +61,6 @@ pushd "$(dirname "${0}")/.."
 if [ "${host}" == "" ]; then
   sudo nixos-rebuild --flake .# "${action}"
 else
-  nixos-rebuild --flake ".#${host}" --target-host "${host}" --use-remote-sudo "${action}"
+  nixos-rebuild --flake ".#${host}" --target-host "${host}" --sudo "${action}"
 fi
 popd
