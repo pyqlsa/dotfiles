@@ -61,8 +61,6 @@ in
       zip
       unzip
       xxd
-      # vpn
-      protonvpn-cli
       # dev
       git
       gnumake
@@ -91,7 +89,7 @@ in
         # core
         keychain
         # vpn
-        protonvpn-gui
+        #protonvpn-gui # XXX: it broken
         # graphical
         firefox
         chromium

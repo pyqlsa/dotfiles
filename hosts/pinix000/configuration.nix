@@ -29,7 +29,7 @@
   # Enables the generation of /boot/extlinux/extlinux.conf;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-  hardware.firmware = with pkgs; [ firmwareLinuxNonfree ];
+  hardware.firmware = with pkgs; [ linux-firmware ];
   hardware.enableAllFirmware = true;
   hardware.enableRedistributableFirmware = true;
 

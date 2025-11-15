@@ -17,9 +17,13 @@ in
     #programs.gamescopeSession.enable = true;
     #programs.gamemod.enable = true;
 
+    programs.steam.extraCompatPackages = with pkgs; [
+      proton-ge-bin
+    ];
+
     sys.software = with pkgs; [
       mangohud
-      protonup
+      protonup-ng
     ];
 
     # still need to run the `protonup` command
