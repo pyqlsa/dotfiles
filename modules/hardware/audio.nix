@@ -20,6 +20,7 @@ in
       # Need pulseaudio cli tools for pipewire.
       (mkIf (cfg.hardware.audio.server == "pipewire") pulseaudio)
       pulsemixer
+      alsa-utils
     ];
 
     security.rtkit.enable = true;
