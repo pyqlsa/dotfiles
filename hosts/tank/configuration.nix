@@ -122,6 +122,7 @@
       };
       locations."/media/" = {
         proxyPass = "http://127.0.0.1:8096/media/";
+        proxyWebsockets = true;
       };
     };
   };
