@@ -9,10 +9,15 @@ with builtins; let
   cfg = config.sys;
 in
 {
-  options.sys.hardware.audio.server = mkOption {
-    type = types.enum [ "pulse" "pipewire" "none" ];
-    default = "none";
-    description = "Audio server to use";
+  options.sys.hardware = {
+    audio.server = mkOption {
+      type = types.enum [ "pulse" "pipewire" "none" ];
+      default = "none";
+      description = "Audio server to use";
+    };
+    audio.scarlett = {
+      enable = mkEnableOption (lib.mdDoc "Enable focusrite scarlett related features");
+    };
   };
 
   config = mkIf (cfg.hardware.audio.server != "none") {
@@ -21,7 +26,15 @@ in
       (mkIf (cfg.hardware.audio.server == "pipewire") pulseaudio)
       pulsemixer
       alsa-utils
-    ];
+    ]
+    ++ (
+      if cfg.hardware.audio.scarlett.enable
+      then [
+        scarlett2
+        alsa-scarlett-gui
+      ]
+      else [ ]
+    );
 
     security.rtkit.enable = true;
 

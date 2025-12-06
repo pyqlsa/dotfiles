@@ -61,7 +61,10 @@
       enable = true;
       graphical = true;
     };
-    audio.server = "pipewire";
+    audio = {
+      server = "pipewire";
+      scarlett.enable = true;
+    };
     keyboard.enable = true;
   };
 
