@@ -81,6 +81,7 @@ in
       exiftool
       ffmpeg
       imagemagick
+      mediainfo
       yt-dlp
     ]
     ++ (
