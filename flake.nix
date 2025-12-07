@@ -143,6 +143,9 @@
           python = pkgs.python-full;
           name = "py-full";
         };
+        krokiet = import ./shells/krokiet.nix {
+          inherit pkgs;
+        };
       };
     }));
 }

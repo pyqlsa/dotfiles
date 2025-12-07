@@ -99,6 +99,7 @@ in
         hunspell
         hunspellDicts.en_US-large
         # media
+        czkawka-full
         darktable
         geeqie
         gimp

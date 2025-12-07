@@ -13,5 +13,6 @@
     tmux
     tree
     squashfsTools
+    strace
   ];
 }
