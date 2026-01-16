@@ -13,8 +13,8 @@ in
   };
 
   config = lib.mkIf (cfg.enable) {
-    programs.adb.enable = true;
     sys.software = with pkgs; [
+      android-tools
       android-studio
     ];
   };

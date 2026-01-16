@@ -81,7 +81,7 @@ in
           else [ ]
         )
         ++ (
-          if config.programs.adb.enable == true
+          if cfg.android.enable == true
           then [ "adbusers" ]
           else [ ]
         );

@@ -91,11 +91,11 @@
           #inputs.neovim-flake.overlays.default
           #inputs.nixified-ai-flake.overlays.python-torchRocm
           (final: prev: {
-            invokeai-amd = nixified-ai-flake.packages.${final.system}.invokeai-amd;
+            invokeai-amd = nixified-ai-flake.packages.${final.stdenv.hostPlatform.system}.invokeai-amd;
           })
           (final: prev: {
-            neovimPQ = inputs.neovim-flake.packages.${final.system}.default;
-            #ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.system}.ffmpeg_6-full;
+            neovimPQ = inputs.neovim-flake.packages.${final.stdenv.hostPlatform.system}.default;
+            #ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.stdenv.hostPlatform.system}.ffmpeg_6-full;
             python-basic = prev.python3.withPackages (ps: with ps;
               [ build pip setuptools twine virtualenv ]);
             python-full = prev.python3Full.withPackages (ps: with ps;
@@ -103,11 +103,11 @@
             # until PR for v1.5.0 is merged: https://github.com/NixOS/nixpkgs/pull/269170
             viu = prev.callPackage ./pkgs/viu.nix { };
             # gpodder on unstable doesn't build
-            gpodder = inputs.nixpkgs-stable.legacyPackages.${final.system}.gpodder;
+            gpodder = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.gpodder;
             # jellyfin 10.11.x large library loading bugs
-            jellyfin = inputs.nixpkgs-stable.legacyPackages.${final.system}.jellyfin;
-            jellyfin-web = inputs.nixpkgs-stable.legacyPackages.${final.system}.jellyfin-web;
-            jellyfin-ffmpeg = inputs.nixpkgs-stable.legacyPackages.${final.system}.jellyfin-ffmpeg;
+            jellyfin = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.jellyfin;
+            jellyfin-web = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.jellyfin-web;
+            jellyfin-ffmpeg = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.jellyfin-ffmpeg;
           })
         ];
       };

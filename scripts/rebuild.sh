@@ -60,6 +60,7 @@ done
 pushd "$(dirname "${0}")/.."
 if [ "${host}" == "" ]; then
   sudo nixos-rebuild --flake .# "${action}"
+  #sudo nixos-rebuild --option abort-on-warn true --show-trace --flake .# "${action}"
 else
   nixos-rebuild --flake ".#${host}" --target-host "${host}" --sudo "${action}"
 fi

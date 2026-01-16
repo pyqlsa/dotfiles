@@ -72,7 +72,10 @@
 
   sys.security.sshd.enable = true;
 
-  sys.virtualisation.virt-manager.enable = true;
+  sys.virtualisation = {
+    virt-manager.enable = true;
+    podman.enable = true;
+  };
 
   sys.software = with pkgs; [
     hashcat
