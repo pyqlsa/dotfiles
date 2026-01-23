@@ -39,10 +39,6 @@
       url = "github:nixos/nixos-hardware/master";
     };
 
-    nixified-ai-flake = {
-      url = "github:nixified-ai/flake?ref=2aeb76f52f72c7a242f20e9bc47cfaa2ed65915d";
-    };
-
     disko = {
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -58,7 +54,6 @@
     , neovim-flake
     , sops-nix
     , nixos-hardware
-    , nixified-ai-flake
     , disko
     , ...
     } @ inputs:
@@ -67,7 +62,6 @@
       overlays = [ self.overlays.default ];
       globalModules = [
         self.nixosModules.default
-        inputs.nixified-ai-flake.nixosModules.invokeai-amd
         sops-nix.nixosModules.sops
         disko.nixosModules.disko
         home-manager.nixosModules.home-manager
@@ -89,10 +83,6 @@
         default = packages;
         packages = lib.composeManyExtensions [
           #inputs.neovim-flake.overlays.default
-          #inputs.nixified-ai-flake.overlays.python-torchRocm
-          (final: prev: {
-            invokeai-amd = nixified-ai-flake.packages.${final.stdenv.hostPlatform.system}.invokeai-amd;
-          })
           (final: prev: {
             neovimPQ = inputs.neovim-flake.packages.${final.stdenv.hostPlatform.system}.default;
             #ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.stdenv.hostPlatform.system}.ffmpeg_6-full;
@@ -108,6 +98,8 @@
             jellyfin = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.jellyfin;
             jellyfin-web = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.jellyfin-web;
             jellyfin-ffmpeg = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.jellyfin-ffmpeg;
+            dotnetCorePackages.sdk_8_0 = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.dotnetCorePackages.sdk_8_0;
+            dotnetCorePackages.aspnetcore_8_0 = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.dotnetCorePackages.aspnetcore_8_0;
           })
         ];
       };
