@@ -11,10 +11,11 @@ with lib; let
         block = "disk_space"
         path = "${d}"
         interval = 20
-        format = " $icon (${d}) Free $available / $total "
+        format = " $icon [${d}] ($total.eng(w:1)) Free $available.eng(w:1) "
+        format_alt = " $icon (${d}] $total.eng(w:1)) Free $percentage.eng(w:1) "
+        info_type = "available"
         warning = 80.0
         alert = 20.0
-        info_type = "available"
         alert_unit = "GB"
         [[block.click]]
         button = "right"

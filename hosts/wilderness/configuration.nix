@@ -82,6 +82,13 @@
     hashcat-utils
   ];
 
+  sys.llm = {
+    enable = true;
+    web = {
+      enable = true;
+    };
+  };
+
   sys.android.enable = true;
 
   sops.defaultSopsFile = ../../secrets/default.yaml;

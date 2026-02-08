@@ -7,5 +7,6 @@
     ./module-def.nix
     ./android.nix
     ./steam.nix
+    ./llm.nix
   ];
 }

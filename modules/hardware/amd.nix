@@ -64,6 +64,8 @@ in
     sys.software = with pkgs; [
       clinfo
       rocmPackages.rocminfo
+      rocmPackages.amdsmi
+      nvtopPackages.amd
     ];
   };
 }

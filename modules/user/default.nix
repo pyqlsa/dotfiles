@@ -81,6 +81,11 @@ in
           else [ ]
         )
         ++ (
+          if cfg.hardware.amd.enable
+          then [ "render" ]
+          else [ ]
+        )
+        ++ (
           if cfg.android.enable == true
           then [ "adbusers" ]
           else [ ]
