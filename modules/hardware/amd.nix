@@ -10,6 +10,13 @@ in
   options.sys.hardware.amd = {
     enable = mkEnableOption (lib.mdDoc "amd gpu configurations");
     graphical = mkEnableOption (lib.mdDoc "include graphics-related amd gpu configurations");
+    lactSettings = lib.mkOption {
+      default = { };
+      type = lib.types.submodule {
+        freeformType = (pkgs.formats.yaml { }).type;
+      };
+      description = "settings for LACT";
+    };
   };
 
   # todo... still need to figure out appropriate full set of drivers
@@ -18,6 +25,18 @@ in
     #boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
     #boot.initrd.availableKernelModules = [ "amdgpu" ];
     boot.initrd.kernelModules = [ "amdgpu" ];
+
+    hardware.amdgpu = {
+      overdrive = {
+        enable = true;
+        ppfeaturemask = "0xfffd7fff";
+      };
+      #opencl.enable = true; # don't need to set the kernel module directly
+    };
+    services.lact = {
+      enable = true;
+      settings = cfg.hardware.amd.lactSettings;
+    };
 
     hardware.graphics = {
       # opencl
@@ -46,26 +65,30 @@ in
             rocblas
             hipblas
             clr
+            rocm-runtime
+            rocminfo
+            hipify
           ];
         };
       in
       [
         "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
+        #"L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
       ];
 
+
     # amd, pt.2
-    services = mkIf (cfg.hardware.amd.graphical) {
-      xserver = {
-        videoDrivers = [ "amdgpu" ];
-        #videoDrivers = [ "modesetting" ];
-      };
+    services.xserver = mkIf (cfg.hardware.amd.graphical) {
+      videoDrivers = [ "amdgpu" ];
+      #videoDrivers = [ "modesetting" ];
     };
 
     sys.software = with pkgs; [
-      clinfo
+      rocmPackages.clr
       rocmPackages.rocminfo
       rocmPackages.amdsmi
       nvtopPackages.amd
+      clinfo
     ];
   };
 }

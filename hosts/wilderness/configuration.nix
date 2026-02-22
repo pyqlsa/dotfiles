@@ -21,6 +21,16 @@
 
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
 
+  sops.defaultSopsFile = ../../secrets/default.yaml;
+  sops.defaultSopsFormat = "yaml";
+  # This will automatically import SSH keys as gpg keys
+  sops.gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_rsa_key" ];
+  # actual secrets
+  sops.secrets."vpn/protonvpn/creds" = { };
+  sops.secrets."vpn/protonvpn/certificate" = { };
+  sops.secrets."vpn/protonvpn/key" = { };
+  sops.secrets."searxng/secretVals" = { };
+
   # custom modules
   sys.desktop = {
     enable = true;
@@ -60,6 +70,31 @@
     amd = {
       enable = true;
       graphical = true;
+      lactSettings = {
+        version = 5;
+        daemon = {
+          log_level = "info";
+          admin_group = "wheel";
+          disable_clocks_cleanup = false;
+        };
+        apply_settings_timer = 5;
+        gpus = {
+          "1002:744C-1849:5333-0000:03:00.0" = {
+            fan_control_enabled = false;
+            performance_level = "auto";
+            max_core_clock = 2910;
+            voltage_offset = -100;
+          };
+          "1002:744C-1849:5333-0000:07:00.0" = {
+            fan_control_enabled = false;
+            performance_level = "auto";
+            max_core_clock = 2910;
+            voltage_offset = -100;
+          };
+        };
+        current_profile = null;
+        auto_switch_profiles = false;
+      };
     };
     audio = {
       server = "pipewire";
@@ -87,18 +122,25 @@
     web = {
       enable = true;
     };
+    comfy = {
+      enable = true;
+      extraArgs = [
+        "--disable-xformers"
+        "--use-pytorch-cross-attention"
+        "--normalvram"
+        "--reserve-vram"
+        "1"
+        "--cuda-device"
+        "1"
+      ];
+    };
+    searxng = {
+      enable = true;
+      environmentFile = config.sops.secrets."searxng/secretVals".path;
+    };
   };
 
   sys.android.enable = true;
-
-  sops.defaultSopsFile = ../../secrets/default.yaml;
-  sops.defaultSopsFormat = "yaml";
-  # This will automatically import SSH keys as gpg keys
-  sops.gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_rsa_key" ];
-  # actual secrets
-  sops.secrets."vpn/protonvpn/creds" = { };
-  sops.secrets."vpn/protonvpn/certificate" = { };
-  sops.secrets."vpn/protonvpn/key" = { };
 
   sys.protonvpn =
     let

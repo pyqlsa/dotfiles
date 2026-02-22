@@ -39,6 +39,11 @@
       url = "github:nixos/nixos-hardware/master";
     };
 
+    comfyui-nix = {
+      #url = "github:pyqlsa/comfyui-nix/rocm-support";
+      url = "github:pyqlsa/comfyui-nix/main";
+    };
+
     disko = {
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,6 +59,7 @@
     , neovim-flake
     , sops-nix
     , nixos-hardware
+    , comfyui-nix
     , disko
     , ...
     } @ inputs:
@@ -63,6 +69,7 @@
       globalModules = [
         self.nixosModules.default
         sops-nix.nixosModules.sops
+        comfyui-nix.nixosModules.default
         disko.nixosModules.disko
         home-manager.nixosModules.home-manager
         {
@@ -83,6 +90,7 @@
         default = packages;
         packages = lib.composeManyExtensions [
           #inputs.neovim-flake.overlays.default
+          comfyui-nix.overlays.default
           (final: prev: {
             neovimPQ = inputs.neovim-flake.packages.${final.stdenv.hostPlatform.system}.default;
             #ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.stdenv.hostPlatform.system}.ffmpeg_6-full;
