@@ -57,6 +57,8 @@ in
     };
 
     # rocm/hip
+    # only need this for packaged hard-coded to look for /opt/rocm;
+    # HIP_PATH="/opt/rocm"; HIP_PLATFORM="rocm";
     systemd.tmpfiles.rules =
       let
         rocmEnv = pkgs.symlinkJoin {
@@ -73,9 +75,7 @@ in
       in
       [
         "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
-        #"L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
       ];
-
 
     # amd, pt.2
     services.xserver = mkIf (cfg.hardware.amd.graphical) {

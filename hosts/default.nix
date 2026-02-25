@@ -12,11 +12,12 @@ let
     sdImage.compressImage = false;
   });
 
-  mkSystem = { hostname, system, modules }: lib.nixosSystem {
+  mkSystem = { hostname, system, modules, cudaSupport ? false, rocmSupport ? false }: lib.nixosSystem {
     inherit system;
     pkgs = import inputs.nixpkgs {
       inherit system overlays;
       config = {
+        inherit cudaSupport rocmSupport;
         allowUnfree = true;
         permittedInsecurePackages = [
           "libsoup-2.74.3" # XXX
@@ -35,6 +36,8 @@ let
         hostname = k;
         system = v.system;
         modules = v.modules;
+        cudaSupport = if v ? cudaSupport then v.cudaSupport else false;
+        rocmSupport = if v ? rocmSupport then v.rocmSupport else false;
       }))
       kvs);
 in
@@ -42,6 +45,9 @@ in
   wilderness = {
     inherit modules;
     system = "x86_64-linux";
+    # hmmm... strange crashes observed in ollama when using rocm-compiled packages;
+    # hashcat seemed to work nicely, though
+    rocmSupport = false;
   };
   fmwk-7850u = {
     system = "x86_64-linux";
