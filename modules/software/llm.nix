@@ -358,16 +358,43 @@ in
         # (ref): https://docs.searxng.org/admin/settings/settings_engines.html
         # (ref): https://docs.searxng.org/dev/engines/index.html#engine-implementations
         engines = lib.mapAttrsToList (name: value: { inherit name; } // value) {
-          # enabled
-          "duckduckgo".disabled = false;
+          # --- enabled ---
+          "artic".disabled = false;
           "bing".disabled = false;
-          "mwmbl".disabled = false;
-          "mwmbl".weight = 0.4;
-          "crowdview".disabled = false;
-          "crowdview".weight = 0.5;
-          "ddg definitions".disabled = false;
-          "ddg definitions".weight = 2;
+          "bing images".disabled = false;
+          "bing videos".disabled = false;
+          "crowdview" = {
+            disabled = false;
+            weight = 0.5;
+          };
+          "ddg definitions" = {
+            disabled = false;
+            weight = 2;
+          };
+          "deviantart".disabled = false;
+          "duckduckgo".disabled = false;
+          "duckduckgo images".disabled = false;
+          "duckduckgo videos".disabled = false;
+          "google".disabled = false;
+          "google images".disabled = false;
+          "google videos".disabled = false;
+          "google news".disabled = false;
+          "imgur".disabled = false;
+          "library of congress".disabled = false;
+          "mwmbl" = {
+            disabled = false;
+            weight = 0.4;
+          };
+          "openverse".disabled = false;
+          "peertube".disabled = false;
+          "qwant videos".disabled = false;
+          "rumble".disabled = false;
+          "sepiasearch".disabled = false;
+          "svgrepo".disabled = false;
+          "unsplash".disabled = false;
+          "wallhaven".disabled = false;
           "wikibooks".disabled = false;
+          "wikicommons.images".disabled = false;
           "wikidata" = {
             disabled = false;
             engine = "wikidata";
@@ -378,34 +405,25 @@ in
             tests = "*tests_infobox";
             catogories = "[general]";
           };
-          "wikispecies".disabled = false;
-          "wikispecies".weight = 0.5;
-          "wikiversity".disabled = false;
-          "wikiversity".weight = 0.5;
-          "wikivoyage".disabled = false;
-          "wikivoyage".weight = 0.5;
-          "bing images".disabled = false;
-          "google images".disabled = false;
-          "artic".disabled = false;
-          "deviantart".disabled = false;
-          "imgur".disabled = false;
-          "library of congress".disabled = false;
-          "openverse".disabled = false;
-          "svgrepo".disabled = false;
-          "unsplash".disabled = false;
-          "wallhaven".disabled = false;
-          "wikicommons.images".disabled = false;
-          "bing videos".disabled = false;
-          "google videos".disabled = false;
-          "qwant videos".disabled = false;
-          "peertube".disabled = false;
-          "rumble".disabled = false;
-          "sepiasearch".disabled = false;
+          "wikispecies" = {
+            disabled = false;
+            weight = 0.5;
+          };
+          "wikiversity" = {
+            disabled = false;
+            weight = 0.5;
+          };
+          "wikivoyage" = {
+            disabled = false;
+            weight = 0.5;
+          };
           "youtube".disabled = false;
-          # disabled
+          # --- disabled ---
+          "1x".disabled = true;
           "brave".disabled = true;
-          "mojeek".disabled = true;
-          "qwant".disabled = true;
+          "brave.images".disabled = true;
+          "brave.news".disabled = true;
+          "brave.videos".disabled = true;
           "curlie" = {
             engine = "xpath";
             shortcut = "cl";
@@ -427,23 +445,10 @@ in
               results = "HTML";
             };
           };
-          "wikiquote".disabled = true;
-          "wikisource".disabled = true;
           "currency".disabled = true;
-          "dictzone".disabled = true;
-          "lingva".disabled = true;
-          "brave.images".disabled = true;
-          "duckduckgo images".disabled = true;
-          "qwant images".disabled = true;
-          "1x".disabled = true;
-          "flickr".disabled = true;
-          "material icons".disabled = true;
-          "material icons".weight = 0.2;
-          "pinterest".disabled = true;
-          "yacy images".disabled = true;
-          "brave.videos".disabled = true;
-          "duckduckgo videos".disabled = true;
           "dailymotion".disabled = true;
+          "dictzone".disabled = true;
+          "flickr".disabled = true;
           "google play movies".disabled = true;
           "invidious" = {
             engine = "invidious";
@@ -456,11 +461,21 @@ in
             shortcut = "iv";
             timeout = 3.0;
           };
+          "lingva".disabled = true;
+          "material icons" = {
+            disabled = true;
+            weight = 0.2;
+          };
+          "mojeek".disabled = true;
           "odysee".disabled = true;
+          "pinterest".disabled = true;
           "piped".disabled = true;
+          "qwant".disabled = true;
+          "qwant images".disabled = true;
           "vimeo".disabled = true;
-          "brave.news".disabled = true;
-          "google news".disabled = true;
+          "wikiquote".disabled = true;
+          "wikisource".disabled = true;
+          "yacy images".disabled = true;
         };
         outgoing = {
           request_timeout = 5.0;
