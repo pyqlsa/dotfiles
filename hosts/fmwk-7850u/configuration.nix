@@ -91,9 +91,23 @@
   # This will automatically import SSH keys as gpg keys
   sops.gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_rsa_key" ];
   # actual secrets
-  sops.secrets."vpn/protonvpn/creds" = { };
-  sops.secrets."vpn/protonvpn/certificate" = { };
-  sops.secrets."vpn/protonvpn/key" = { };
+  sops.secrets."protonvpn/creds" = {
+    sopsFile = ../../secrets/apps/protonvpn.yaml;
+  };
+  sops.secrets."protonvpn/certificate" = {
+    sopsFile = ../../secrets/apps/protonvpn.yaml;
+  };
+  sops.secrets."protonvpn/key" = {
+    sopsFile = ../../secrets/apps/protonvpn.yaml;
+  };
+  sops.secrets."tailscale/authKey" = {
+    sopsFile = ../../secrets/hosts/fmwk-7850u.yaml;
+  };
+
+  sys.tailscale = {
+    enable = true;
+    authKeyFile = config.sops.secrets."tailscale/authKey".path;
+  };
 
   sys.protonvpn =
     let
@@ -145,14 +159,14 @@
             ports = [ 51820 5060 80 4569 1194 ];
           }
         ];
-        openvpnCreds = config.sops.secrets."vpn/protonvpn/creds".path;
-        openvpnCertificate = config.sops.secrets."vpn/protonvpn/certificate".path;
-        openvpnKey = config.sops.secrets."vpn/protonvpn/key".path;
+        openvpnCreds = config.sops.secrets."protonvpn/creds".path;
+        openvpnCertificate = config.sops.secrets."protonvpn/certificate".path;
+        openvpnKey = config.sops.secrets."protonvpn/key".path;
       };
     in
     {
       proton-strict = {
-        autostart = true;
+        autostart = false;
       } // commonOpts;
       proton-allow-local = {
         autostart = false;

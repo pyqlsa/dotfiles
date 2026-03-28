@@ -82,21 +82,21 @@ with lib; let
 
       openvpnCreds = mkOption {
         default = "";
-        example = ''`config.sops.secrets."vpn/protonvpn/creds".path`'';
+        example = ''`config.sops.secrets."protonvpn/creds".path`'';
         type = types.path;
         description = "Path to openvpn credential file.";
       };
 
       openvpnCertificate = mkOption {
         default = "";
-        example = ''`config.sops.secrets."vpn/protonvpn/certificate".path`'';
+        example = ''`config.sops.secrets."protonvpn/certificate".path`'';
         type = types.path;
         description = "Path to openvpn CA certificate file.";
       };
 
       openvpnKey = mkOption {
         default = "";
-        example = ''`config.sops.secrets."vpn/protonvpn/key".path`'';
+        example = ''`config.sops.secrets."protonvpn/key".path`'';
         type = types.path;
         description = "Path to openvpn tls-crypt key file.";
       };

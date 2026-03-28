@@ -26,10 +26,25 @@
   # This will automatically import SSH keys as gpg keys
   sops.gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_rsa_key" ];
   # actual secrets
-  sops.secrets."vpn/protonvpn/creds" = { };
-  sops.secrets."vpn/protonvpn/certificate" = { };
-  sops.secrets."vpn/protonvpn/key" = { };
-  sops.secrets."searxng/secretVals" = { };
+  sops.secrets."protonvpn/creds" = {
+    sopsFile = ../../secrets/apps/protonvpn.yaml;
+  };
+  sops.secrets."protonvpn/certificate" = {
+    sopsFile = ../../secrets/apps/protonvpn.yaml;
+  };
+  sops.secrets."protonvpn/key" = {
+    sopsFile = ../../secrets/apps/protonvpn.yaml;
+  };
+  sops.secrets."searxng/secretVals" = {
+    sopsFile = ../../secrets/apps/searxng.yaml;
+  };
+  sops.secrets."tailscale/authKey" = {
+    sopsFile = ../../secrets/hosts/wilderness.yaml;
+  };
+  sops.secrets."tailscale/authEnv" = {
+    sopsFile = ../../secrets/hosts/wilderness.yaml;
+    owner = config.sys.tailscale.caddy.user;
+  };
 
   # custom modules
   sys.desktop = {
@@ -119,6 +134,9 @@
 
   sys.llm = {
     enable = true;
+    #allowedOrigins = "https://llm.bleak-shaula.ts.net";
+    #allowedOrigins = "http://llm.bleak-shaula.ts.net,http://llm.bleak-shaula.ts.net:*,https://llm.bleak-shaula.ts.net,https://llm.bleak-shaula.ts.net:*";
+    allowedOrigins = "*";
     web = {
       enable = true;
     };
@@ -141,6 +159,78 @@
   };
 
   sys.android.enable = true;
+
+  sys.tailscale = {
+    enable = true;
+    authKeyFile = config.sops.secrets."tailscale/authKey".path;
+    caddy = {
+      enable = true;
+      envFiles = [ config.sops.secrets."tailscale/authEnv".path ];
+      globalConfig = ''
+        servers {
+          timeouts {
+            read_body 300s
+            read_header 300s
+            write 300s
+            idle 300s
+          }
+        }
+      '';
+      virtualHosts = {
+        "wilderness.bleak-shaula.ts.net" = {
+          extraConfig = ''
+            respond "hello from tailnet; your ip is {client_ip}"
+          '';
+        };
+        "https://llm.bleak-shaula.ts.net" = {
+          extraConfig = ''
+            bind tailscale/llm
+            reverse_proxy ${config.sys.llm.host}:${builtins.toString config.sys.llm.port} {
+              header_up Host {upstream_hostport}
+              header_up Origin {upstream_hostport}
+              header_up X-Real-IP {http.request.remote}
+              header_up Upgrade {http.request.header.Upgrade}
+              header_up Connection {http.request.header.Connection}
+
+              flush_interval -1
+            }
+          '';
+        };
+        "https://owui.bleak-shaula.ts.net" = {
+          extraConfig = ''
+            bind tailscale/owui
+            reverse_proxy ${config.sys.llm.web.host}:${builtins.toString config.sys.llm.web.port} {
+              header_down X-Real-IP {http.request.remote}
+              header_down X-Forwarded-For {http.request.remote}
+            }
+          '';
+        };
+        "https://cui.bleak-shaula.ts.net" = {
+          extraConfig = ''
+            bind tailscale/cui
+            reverse_proxy ${config.sys.llm.comfy.host}:${builtins.toString config.sys.llm.comfy.port} {
+              header_down X-Real-IP {http.request.remote}
+              header_down X-Forwarded-For {http.request.remote}
+            }
+          '';
+        };
+        "https://srx.bleak-shaula.ts.net" = {
+          extraConfig = ''
+            bind tailscale/srx
+            reverse_proxy ${config.sys.llm.searxng.host}:${builtins.toString config.sys.llm.searxng.port} {
+              header_down X-Real-IP {http.request.remote}
+              header_down X-Forwarded-For {http.request.remote}
+            }
+          '';
+        };
+        "localhost" = {
+          extraConfig = ''
+            respond "hello from local; your ip is {client_ip}"
+          '';
+        };
+      };
+    };
+  };
 
   sys.protonvpn =
     let
@@ -192,9 +282,9 @@
             ports = [ 51820 5060 80 4569 1194 ];
           }
         ];
-        openvpnCreds = config.sops.secrets."vpn/protonvpn/creds".path;
-        openvpnCertificate = config.sops.secrets."vpn/protonvpn/certificate".path;
-        openvpnKey = config.sops.secrets."vpn/protonvpn/key".path;
+        openvpnCreds = config.sops.secrets."protonvpn/creds".path;
+        openvpnCertificate = config.sops.secrets."protonvpn/certificate".path;
+        openvpnKey = config.sops.secrets."protonvpn/key".path;
       };
     in
     {
@@ -202,7 +292,7 @@
         autostart = false;
       } // commonOpts;
       proton-allow-local = {
-        autostart = true;
+        autostart = false;
         localNets = [
           { net = "10.10.0.0"; mask = "255.255.0.0"; }
           { net = "10.5.0.0"; mask = "255.255.0.0"; }

@@ -1,17 +1,70 @@
-# -- new key for host
+# --- new gpg key for host, generated from the hosts ssh public key
 # nix shell nixpkgs#ssh-to-pgp --command ssh-to-pgp -i <host_ssh_key> -o <host>.asc
-# -- update secrets after adding host
+#
+# --- update each secret file after making updates to this config
 # sops updatekeys <secrets-file>
+#
+# --- or...
+# find secrets/ -type f -name '*.yaml' -exec sops updatekeys {} \;
+#
+# --- keys is a list of <yaml anchor> <gpg fingerprint> ---
 keys:
-    - &user_pyqlsa 0D35DDBD23509B6B7B2BB1F8BF79205BF790E004
-    - &host_wilderness eb49cfa9e24ee89d8f29cd1cc79de855e3dc8e64
-    - &host_tank 7e35b297ca18216c136c282cf792d8e8b9b0a050
-    - &host_fmwk b75be913583f322dda6a07100fa9ba915fce3968
+  - &user_pyqlsa 0D35DDBD23509B6B7B2BB1F8BF79205BF790E004
+  - &host_wilderness eb49cfa9e24ee89d8f29cd1cc79de855e3dc8e64
+  - &host_tank 7e35b297ca18216c136c282cf792d8e8b9b0a050
+  - &host_fmwk_7850u b75be913583f322dda6a07100fa9ba915fce3968
+# --- authorization to secret files ---
+# first path_regex match for a file wins!
+#
+# --- for all secret files immediately in secrets folder:
+# path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+#
+# --- for all secret files recursively, starting in secrets folder:
+# path_regex: secrets/.+\.(yaml|json|env|ini)$
 creation_rules:
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/default\.(yaml|json|env|ini)$
     key_groups:
     - pgp:
       - *user_pyqlsa
       - *host_wilderness
       - *host_tank
-      - *host_fmwk
+      - *host_fmwk_7850u
+  - path_regex: secrets/hosts/wilderness\.(yaml|json|env|ini)$
+    key_groups:
+    - pgp:
+      - *user_pyqlsa
+      - *host_wilderness
+  - path_regex: secrets/hosts/tank\.(yaml|json|env|ini)$
+    key_groups:
+    - pgp:
+      - *user_pyqlsa
+      - *host_tank
+  - path_regex: secrets/hosts/fmwk-7850u\.(yaml|json|env|ini)$
+    key_groups:
+    - pgp:
+      - *user_pyqlsa
+      - *host_fmwk_7850u
+  #- path_regex: secrets/hosts/pinix000\.(yaml|json|env|ini)$
+  #  key_groups:
+  #  - pgp:
+  #    - *host_pinix000
+  - path_regex: secrets/apps/protonvpn\.(yaml|json|env|ini)$
+    key_groups:
+    - pgp:
+      - *user_pyqlsa
+      - *host_wilderness
+      - *host_fmwk_7850u
+  - path_regex: secrets/apps/searxng\.(yaml|json|env|ini)$
+    key_groups:
+    - pgp:
+      - *user_pyqlsa
+      - *host_wilderness
+  - path_regex: secrets/apps/namecheap\.(yaml|json|env|ini)$
+    key_groups:
+    - pgp:
+      - *user_pyqlsa
+      - *host_tank
+  - path_regex: secrets/.+\.(yaml|json|env|ini)$ # default
+    key_groups:
+    - pgp:
+      - *user_pyqlsa

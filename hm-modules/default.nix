@@ -62,10 +62,12 @@ in
       unzip
       xxd
       # dev
+      bitwarden-cli
       git
       gnumake
       jq
       neovimPQ
+      opencode
       shellcheck
       # - go
       go
@@ -76,6 +78,8 @@ in
       cargo
       rustc
       rustfmt
+      # js
+      nodejs
       # - media
       bento4
       exiftool
@@ -200,6 +204,10 @@ in
         };
       };
     };
+  };
+
+  home.file.".config/opencode/opencode.jsonc" = {
+    source = ./config/opencode.jsonc;
   };
 
   programs.zsh = lib.mkIf (osConfig.sys.user.zshDefault) {

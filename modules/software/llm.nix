@@ -150,6 +150,12 @@ in
       example = 11111;
     };
     openFirewall = mkEnableOption (lib.mdDoc "open the firewall for the llm service");
+    allowedOrigins = mkOption {
+      type = with types; nullOr str;
+      description = "origin string to allow";
+      default = null;
+      example = "0.0.0.0";
+    };
     web = mkOption {
       type = types.submodule webCfg;
       default = { enable = false; host = "127.0.0.1"; port = 8080; openFirewall = false; };
@@ -188,7 +194,9 @@ in
       models = "${config.services.ollama.home}/models";
       loadModels = [ ];
       syncModels = false;
-      environmentVariables = { };
+      environmentVariables = {
+        OLLAMA_ORIGINS = lib.mkIf (cfg.llm.allowedOrigins != null) cfg.llm.allowedOrigins;
+      };
     };
 
     sys.software = with pkgs; [

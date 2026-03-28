@@ -8,5 +8,6 @@
     ./android.nix
     ./steam.nix
     ./llm.nix
+    ./tailscale.nix
   ];
 }

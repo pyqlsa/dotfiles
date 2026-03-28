@@ -102,12 +102,6 @@
             viu = prev.callPackage ./pkgs/viu.nix { };
             # gpodder on unstable doesn't build
             gpodder = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.gpodder;
-            # jellyfin 10.11.x large library loading bugs
-            jellyfin = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.jellyfin;
-            jellyfin-web = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.jellyfin-web;
-            jellyfin-ffmpeg = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.jellyfin-ffmpeg;
-            dotnetCorePackages.sdk_8_0 = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.dotnetCorePackages.sdk_8_0;
-            dotnetCorePackages.aspnetcore_8_0 = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.dotnetCorePackages.aspnetcore_8_0;
           })
         ];
       };

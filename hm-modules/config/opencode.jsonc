@@ -1,0 +1,71 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "ollama/gpt-oss:20b",
+  "small_model": "ollama/deepcoder:1.5b",
+  "autoupdate": false,
+  "default_agent": "plan",
+  "share": "disabled",
+  "permission": {
+    "bash": "ask",
+    "write": "ask",
+    "edit": "ask"
+  },
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 10000
+  },
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+  },
+  "mcp": {},
+  "disabled_providers": ["anthropic", "openai", "gemini"],
+  "enabled_providers": ["ollama"],
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "https://llm.bleak-shaula.ts.net/v1"
+      },
+      "models": {
+        "gpt-oss:20b": {
+          "name": "gpt-oss:20b",
+          "tools": true
+        },
+        "qwen3.5:9b": {
+          "name": "qwen3.5:9b",
+          "tools": true
+        },
+        "deepcoder:14b": {
+          "name": "deepcoder:14b",
+          "tools": true
+        },
+        "deepcoder:1.5b": {
+          "name": "deepcoder:1.5b",
+          "tools": true
+        },
+        "nemotron-3-nano:4b": {
+          "name": "nemotron-3-nano:4b",
+          "tools": true
+        },
+        "granite4:3b": {
+          "name": "granite4:3b",
+          "tools": true
+        },
+        "glm-4.7-flash:q4_K_M": {
+          "name": "glm-4.7-flash:q4_K_M",
+          "tools": true
+        },
+        /*
+        "qwen3-coder:30b": {
+          "name": "qwen3-coder:30b",
+        },
+        "devstral-small-2:24b": {
+          "name": "devstral-small-2:24b",
+        },
+        */
+      }
+    }
+  }
+}

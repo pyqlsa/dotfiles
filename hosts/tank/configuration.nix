@@ -53,90 +53,82 @@
   # This will automatically import SSH keys as gpg keys
   sops.gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_rsa_key" ];
   # actual secrets
-  sops.secrets."api/dns" = { };
+  sops.secrets."namecheap/secretVals" = {
+    sopsFile = ../../secrets/apps/namecheap.yaml;
+  };
+  sops.secrets."tailscale/authKey" = {
+    sopsFile = ../../secrets/hosts/tank.yaml;
+  };
+  sops.secrets."tailscale/authEnv" = {
+    sopsFile = ../../secrets/hosts/tank.yaml;
+    owner = config.sys.tailscale.caddy.user;
+  };
 
   # custom modules
   sys.security.sshd.enable = true;
 
   sys.hardware.amd.enable = true;
 
+  sys.tailscale = {
+    enable = true;
+    authKeyFile = config.sops.secrets."tailscale/authKey".path;
+    caddy = {
+      enable = true;
+      envFiles = [ config.sops.secrets."tailscale/authEnv".path ];
+      globalConfig = ''
+        servers {
+          timeouts {
+            read_body 300s
+            read_header 300s
+            write 300s
+            idle 300s
+          }
+        }
+      '';
+      virtualHosts = {
+        "tank.bleak-shaula.ts.net" = {
+          extraConfig = ''
+            redir /media /media/
+
+            handle / {
+              respond "hello from tailnet; your ip is {client_ip}" 200
+            }
+
+            handle /media/* {
+              reverse_proxy /media/* http://127.0.0.1:8096
+            }
+
+            handle {
+              respond "404 Not Found" 404
+            }
+          '';
+        };
+        "localhost" = {
+          extraConfig = ''
+            handle / {
+              respond "hello from local; your ip is {client_ip}" 200
+            }
+
+            handle {
+              respond "404 Not Found" 404
+            }
+          '';
+        };
+      };
+    };
+  };
+
   sys.software = with pkgs; [
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
   ];
+
   services.jellyfin = {
     enable = true;
     openFirewall = false;
   };
 
-  services.nginx = {
-    enable = true;
-    # helpers for media serveer
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-
-    serverTokens = false;
-    clientMaxBodySize = "20m";
-    sslProtocols = "TLSv1.2 TLSv1.3";
-    appendHttpConfig = ''
-        # TODO: size limits and buffer overflows
-        #client_body_buffer_size 256k;
-        #client_header_buffer_size 32k;
-        #large_client_header_bufers 8 32kk;
-        #client_max_body_size 20m;
-
-        # Security / XSS Mitigation Headers
-        # NOTE: X-Frame-Options may cause issues with the webOS app
-        add_header X-Frame-Options "SAMEORIGIN";
-        add_header X-XSS-Protection "0"; # Do NOT enable. This is obsolete/dangerous
-        add_header X-Content-Type-Options "nosniff";
-
-        # COOP/COEP. Disable if you use external plugins/images/assets
-        add_header Cross-Origin-Opener-Policy "same-origin" always;
-        add_header Cross-Origin-Embedder-Policy "require-corp" always;
-        add_header Cross-Origin-Resource-Policy "same-origin" always;
-
-        # Permissions policy. May cause issues on some clients
-        add_header Permissions-Policy "accelerometer=(), ambient-light-sensor=(), battery=(), bluetooth=(), camera=(), clipboard-read=(), display-capture=(), document-domain=(), encrypted-media=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), idle-detection=(), interest-cohort=(), keyboard-map=(), local-fonts=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), serial=(), sync-xhr=(), usb=(), xr-spatial-tracking=()" always;
-
-        # Tell browsers to use per-origin process isolation
-        add_header Origin-Agent-Cluster "?1" always;
-      #'';
-
-    # media server
-    virtualHosts."${config.networking.hostName}.${config.networking.domain}" = {
-      forceSSL = true;
-      enableACME = true;
-      locations."/" = {
-        extraConfig = ''
-          deny all;
-        '';
-      };
-      locations."/media" = {
-        extraConfig = ''
-          return 302 $scheme://$host/media/;
-        '';
-      };
-      locations."/media/" = {
-        proxyPass = "http://127.0.0.1:8096/media/";
-        proxyWebsockets = true;
-      };
-    };
-  };
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "26353308+pyqlsa@users.noreply.github.com";
-    defaults.group = "nginx";
-    certs."${config.networking.hostName}.${config.networking.domain}" = {
-      dnsProvider = "namecheap";
-      environmentFile = config.sops.secrets."api/dns".path;
-      dnsPropagationCheck = true;
-      webroot = null;
-    };
-  };
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   system.stateVersion = "23.11";
