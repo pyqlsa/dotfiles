@@ -207,7 +207,10 @@ in
   };
 
   home.file.".config/opencode/opencode.jsonc" = {
-    source = ./config/opencode.jsonc;
+    source = ./config/opencode/opencode.jsonc;
+  };
+  home.file.".config/opencode/tui.jsonc" = {
+    source = ./config/opencode/tui.jsonc;
   };
 
   programs.zsh = lib.mkIf (osConfig.sys.user.zshDefault) {
