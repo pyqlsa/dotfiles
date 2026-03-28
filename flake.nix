@@ -12,7 +12,7 @@
     };
 
     nixpkgs-stable = {
-      url = "github:nixos/nixpkgs/release-25.05";
+      url = "github:nixos/nixpkgs/release-25.11";
     };
 
     flake-utils = {
@@ -98,10 +98,17 @@
               [ build pip setuptools twine virtualenv ]);
             python-full = prev.python3Full.withPackages (ps: with ps;
               [ build pip setuptools virtualenv twine tkinter ]);
-            # until PR for v1.5.0 is merged: https://github.com/NixOS/nixpkgs/pull/269170
-            viu = prev.callPackage ./pkgs/viu.nix { };
+            #viu = prev.callPackage ./pkgs/viu.nix { };
+            #viu = (prev.viu.override { withSixel = true; }).overrideAttrs (oldAttrs: {
+            #  nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [
+            #    final.autoconf
+            #    final.automake
+            #    final.libtool
+            #    final.pkg-config
+            #  ];
+            #});
             # gpodder on unstable doesn't build
-            gpodder = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.gpodder;
+            #gpodder = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.gpodder;
           })
         ];
       };
@@ -143,3 +150,4 @@
       };
     }));
 }
+

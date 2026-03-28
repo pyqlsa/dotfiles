@@ -3,31 +3,36 @@
 , fetchFromGitHub
 , libsixel
 , withSixel ? true
+,
 }:
 
-rustPlatform.buildRustPackage rec {
+rustPlatform.buildRustPackage (finalAttrs: {
   pname = "viu";
-  version = "1.5.1";
+  version = "1.6.1";
 
   src = fetchFromGitHub {
     owner = "atanunq";
     repo = "viu";
-    rev = "v${version}";
-    hash = "sha256-GJBJNtcCDO777NdxLBVj5Uc4PSJq3CE785eGKCPWt0I=";
+    tag = "v${finalAttrs.version}";
+    hash = "sha256-+6oo6cJ0L3XuMWZL/8DEKMk6PI7D5IcfoemqIQiOJto=";
   };
 
   # tests need an interactive terminal
   doCheck = false;
 
-  cargoHash = "sha256-QTYNRxQC14LBxGm4T1z2ysLcIN/DtfA6V0+QZyiNV7o=";
+  cargoHash = "sha256-gqMG3ATyGTx54Q43Hquc8A/H8fhdgVP1JLh5FGtWTTU=";
 
   buildFeatures = lib.optional withSixel "sixel";
   buildInputs = lib.optional withSixel libsixel;
 
-  meta = with lib; {
-    description = "A command-line application to view images from the terminal written in Rust";
+  meta = {
+    description = "Command-line application to view images from the terminal written in Rust";
     homepage = "https://github.com/atanunq/viu";
-    license = licenses.mit;
-    maintainers = with maintainers; [ chuangzhu ];
+    license = lib.licenses.mit;
+    maintainers = with lib.maintainers; [
+      chuangzhu
+      sigmanificient
+    ];
+    mainProgram = "viu";
   };
-}
+})
