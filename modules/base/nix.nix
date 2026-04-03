@@ -22,7 +22,7 @@ in
           "flakes"
         ];
         trusted-users = [ "root" "@wheel" ];
-        download-buffer-size = 524288000; # 500 MiB
+        download-buffer-size = 1048576000; # 1000 MiB
       };
       gc = {
         automatic = true;
