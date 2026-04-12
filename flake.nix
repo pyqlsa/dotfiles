@@ -11,10 +11,6 @@
       url = "github:nixos/nixpkgs/nixpkgs-unstable";
     };
 
-    nixpkgs-stable = {
-      url = "github:nixos/nixpkgs/release-25.11";
-    };
-
     flake-utils = {
       url = "github:numtide/flake-utils";
     };
@@ -40,8 +36,12 @@
     };
 
     comfyui-nix = {
-      #url = "github:pyqlsa/comfyui-nix/rocm-support";
       url = "github:pyqlsa/comfyui-nix/main";
+    };
+
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     disko = {
@@ -60,6 +60,7 @@
     , sops-nix
     , nixos-hardware
     , comfyui-nix
+    , llm-agents
     , disko
     , ...
     } @ inputs:
@@ -91,8 +92,11 @@
         packages = lib.composeManyExtensions [
           #inputs.neovim-flake.overlays.default
           comfyui-nix.overlays.default
+          llm-agents.overlays.default
           (final: prev: {
             neovimPQ = inputs.neovim-flake.packages.${final.stdenv.hostPlatform.system}.default;
+            llama-cpp = inputs.nixpkgs-unstable.legacyPackages.${final.stdenv.hostPlatform.system}.llama-cpp;
+            llama-swap = inputs.nixpkgs-unstable.legacyPackages.${final.stdenv.hostPlatform.system}.llama-swap;
             #ffmpeg_6-full = inputs.nixpkgs-unstable.legacyPackages.${final.stdenv.hostPlatform.system}.ffmpeg_6-full;
             python-basic = prev.python3.withPackages (ps: with ps;
               [ build pip setuptools twine virtualenv ]);
@@ -107,8 +111,6 @@
             #    final.pkg-config
             #  ];
             #});
-            # gpodder on unstable doesn't build
-            #gpodder = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.gpodder;
           })
         ];
       };

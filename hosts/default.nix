@@ -45,7 +45,7 @@ in
   wilderness = {
     inherit modules;
     system = "x86_64-linux";
-    # hmmm... strange crashes observed in ollama when using rocm-compiled packages;
+    # hmmm... some crashes when using rocm-compiled packages;
     # hashcat seemed to work nicely, though
     rocmSupport = false;
   };

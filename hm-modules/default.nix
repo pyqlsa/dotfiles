@@ -67,7 +67,7 @@ in
       gnumake
       jq
       neovimPQ
-      opencode
+      llm-agents.pi
       shellcheck
       # - go
       go
@@ -206,11 +206,18 @@ in
     };
   };
 
-  home.file.".config/opencode/opencode.jsonc" = {
-    source = ./config/opencode/opencode.jsonc;
+  home.file.".pi/agent/models.json" = {
+    source = ./config/pi/agent/models.json;
   };
-  home.file.".config/opencode/tui.jsonc" = {
-    source = ./config/opencode/tui.jsonc;
+  home.file.".pi/agent/settings.json" = {
+    source = ./config/pi/agent/settings.json;
+  };
+  home.file.".pi/agent/package-settings.json" = {
+    source = ./config/pi/agent/package-settings.json;
+  };
+  home.file.".pi/agent/packages" = {
+    source = ./config/pi/agent/packages;
+    recursive = true;
   };
 
   programs.zsh = lib.mkIf (osConfig.sys.user.zshDefault) {

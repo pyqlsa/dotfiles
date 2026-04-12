@@ -1,0 +1,7 @@
+{
+  "tools": {
+    "local:searxng:searxng_search": {
+       "baseUrl": "https://srx.bleak-shaula.ts.net/search"
+     }
+  }
+}

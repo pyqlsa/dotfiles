@@ -1,0 +1,97 @@
+{
+  "providers": {
+    "local": {
+      "baseUrl": "https://llm.bleak-shaula.ts.net/v1",
+      "api": "openai-completions",
+      "apiKey": "dummy",
+      "compat": {
+        "supportsUsageInStreaming": true,
+        "maxTokensField": "max_tokens",
+        "supportsDeveloperRole": true,
+        "supportsReasoningEffort": true
+      },
+      "models": [
+        {
+          "id": "unsloth--gemma-4-26B-A4B-it",
+          "name": "unsloth--gemma-4-26B-A4B-it",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "unsloth--gemma-4-31B-it",
+          "name": "unsloth--gemma-4-31B-it",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "unsloth--gemma-4-E4B",
+          "name": "unsloth--gemma-4-E4B",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 131072,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "unsloth--Qwen3.5-27B",
+          "name": "unsloth--Qwen3.5-27B",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "unsloth--Qwen3.5-35B-A3B",
+          "name": "unsloth--Qwen3.5-35B-A3B",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "unsloth--Qwen3.5-9B",
+          "name": "unsloth--Qwen3.5-9B",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "ggml-org--gpt-oss-20b",
+          "name": "ggml-org--gpt-oss-20b",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 131072,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "unsloth--GLM-4.7-Flash-REAP-23B-A3B",
+          "name": "unsloth--GLM-4.7-Flash-REAP-23B-A3B",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 202752,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "unsloth--granite-4.0-h-micro",
+          "name": "unsloth--granite-4.0-h-micro",
+          "reasoning": false,
+          "input": ["text"],
+          "contextWindow": 1048576,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "unsloth--granite-4.0-h-small",
+          "name": "unsloth--granite-4.0-h-small",
+          "reasoning": false,
+          "input": ["text"],
+          "contextWindow": 1048576,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        }
+      ]
+    }
+  }
+}

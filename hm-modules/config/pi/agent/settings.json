@@ -1,0 +1,44 @@
+{
+  "defaultProvider": "local",
+  "defaultModel": "unsloth--gemma-4-26B-A4B-it",
+  "defaultThinkingLevel": "medium",
+  "thinkingBudgets": {
+    "minimal": 1024,
+    "low": 4096,
+    "medium": 10240,
+    "high": 32768
+  },
+  "theme": "dark",
+  "editorPaddingX": 0,
+  "autocompleteMaxVisible": 5,
+  "showHardwareCursor": false,
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 16384,
+    "keepRecentTokens": 20000
+  },
+  "retry": {
+    "enabled": true,
+    "maxRetries": 3,
+    "baseDelayMs": 2000,
+    "maxDelayMs": 60000
+  },
+  "steeringMode": "one-at-a-time",
+  "followUpMode": "one-at-a-time",
+  "transport": "sse",
+  "terminal": {
+    "showImages": true,
+    "clearOnShrink": false
+  },
+  "images": {
+    "autoResize": true,
+    "blockImages": false
+  },
+  "enabledModels": ["unsloth--*", "ggml-org--*"],
+  "packages": ["./packages/searxng/"],
+  "extensions": [],
+  "skills": [],
+  "prompts": [],
+  "themes": [],
+  "packageSettings": "./package-settings.json"
+}
