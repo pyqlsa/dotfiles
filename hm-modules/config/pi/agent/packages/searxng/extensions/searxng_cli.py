@@ -18,7 +18,13 @@ def perform_search(query, output_format, base_url, num_results=10):
     url = f"{base_url}?{urllib.parse.urlencode(params)}"
 
     try:
-        req = urllib.request.Request(url)
+        req = urllib.request.Request(
+            url,
+            headers={
+                "User-Agent": "python-searxng-extension/1.0",
+                "Accept": "application/json",
+            }
+        )
         with urllib.request.urlopen(req) as response:
             if response.status == 200:
                 data = json.loads(response.read().decode('utf-8'))

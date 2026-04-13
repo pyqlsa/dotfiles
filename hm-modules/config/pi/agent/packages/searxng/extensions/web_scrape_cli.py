@@ -17,6 +17,7 @@ import argparse
 import time
 import re
 import gzip
+import zlib
 import io
 
 
@@ -39,10 +40,10 @@ def fetch_page_content(url: str, max_retries: int = 3) -> dict:
             req = urllib.request.Request(
                 url,
                 headers={
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                    "User-Agent": "python-web-scrape-extension/1.0",
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                     "Accept-Language": "en-US,en;q=0.9",
-                    "Accept-Encoding": "identity",  # Don't request compression
+                    "Accept-Encoding": "gzip;q=1.0, deflate;q=0.8, identity;q=0.5",  # Explicit priority, forbids br, zstd, etc.
                     "Connection": "keep-alive",
                 }
             )
@@ -64,13 +65,28 @@ def fetch_page_content(url: str, max_retries: int = 3) -> dict:
                 raw_data = response.read()
                 content_encoding = response.headers.get("content-encoding", "")
                 
-                # Try to detect and decompress gzip
+                # Try to detect and decompress based on format
                 try:
                     # Check if it looks like gzip data (magic number: 1f 8b)
+                    # This handles servers that send gzip without setting content-encoding header
                     if raw_data[:2] == b'\x1f\x8b':
                         html = gzip.decompress(raw_data).decode('utf-8', errors='ignore')
-                    elif content_encoding in ("gzip", "deflate", "x-gzip"):
+                    # Handle properly-labeled gzip responses
+                    elif content_encoding in ("gzip", "x-gzip"):
                         html = gzip.decompress(raw_data).decode('utf-8', errors='ignore')
+                    # Handle deflate/zlib responses (raw deflate stream)
+                    elif content_encoding in ("deflate", "zlib"):
+                        try:
+                            # Try raw deflate first
+                            html = zlib.decompress(raw_data).decode('utf-8', errors='ignore')
+                        except zlib.error:
+                            # Try with zlib headers (some servers send zlib-wrapped data)
+                            try:
+                                html = zlib.decompress(raw_data, -zlib.MAX_WBITS).decode('utf-8', errors='ignore')
+                            except zlib.error:
+                                # Try with full zlib headers
+                                html = zlib.decompress(raw_data, zlib.MAX_WBITS).decode('utf-8', errors='ignore')
+                    # Uncompressed response
                     else:
                         html = raw_data.decode('utf-8', errors='ignore')
                 except Exception:
