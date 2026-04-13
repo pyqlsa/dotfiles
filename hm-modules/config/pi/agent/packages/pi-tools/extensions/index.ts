@@ -1,6 +1,6 @@
 /**
  * SearXNG Extension Package
- * 
+ *
  * Provides web search and web scraping tools for pi.
  * - searxng_search: Search the web using SearXNG
  * - web_scrape: Scrape content from URLs with retry logic
@@ -20,7 +20,12 @@ const SEARXNG_CLI_PATH = path.resolve(extensionDir, "searxng_cli.py");
 const WEB_SCRAPER_CLI_PATH = path.resolve(extensionDir, "web_scrape_cli.py");
 
 // Configuration key for searxng
-const QUALIFIED_TOOL_NAME = "local:searxng:searxng_search";
+const SEARXNG_QUALIFIED_TOOL_NAME = "local:@pyqkgs/pi-tools:searxng_search";
+const WEB_SCRAPE_QUALIFIED_TOOL_NAME = "local:@pyqkgs/pi-tools:web_scrape";
+
+// Default User-Agents
+const DEFAULT_SEARXNG_UA = "python-searxng-extension/1.0";
+const DEFAULT_WEB_SCRAPE_UA = "python-web-scrape-extension/1.0";
 
 export default function(pi: ExtensionAPI) {
   /**
@@ -52,17 +57,26 @@ export default function(pi: ExtensionAPI) {
           default: 10,
         }),
       ),
+      userAgent: Type.Optional(
+        Type.String({
+          description: `User-Agent header to use (default: ${DEFAULT_SEARXNG_UA}). Some sites behave differently when using a browser-like (or more creative) User-Agent.`,
+          examples: [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            DEFAULT_SEARXNG_UA,
+          ],
+        }),
+      ),
     }),
     async execute(toolCallId, params, signal, onUpdate, ctx) {
-      const { query, condense = true, numResults = 10 } = params;
+      const { query, condense = true, numResults = 10, userAgent } = params;
 
       // Get configuration
       const pluginConfig = await getPluginConfig(
         ctx,
         "tools",
-        QUALIFIED_TOOL_NAME,
+        SEARXNG_QUALIFIED_TOOL_NAME,
       );
-      const base_url = pluginConfig?.baseUrl || process.env.SEARXNG_BASE_URL;
+      const base_url = pluginConfig?.baseUrl;
 
       if (!base_url) {
         return {
@@ -71,8 +85,7 @@ export default function(pi: ExtensionAPI) {
               type: "text",
               text:
                 `Error: SearXNG base_url is not configured.\n` +
-                `Please set it in your package-settings.json (under 'tools.${QUALIFIED_TOOL_NAME}.baseUrl') ` +
-                `or via the SEARXNG_BASE_URL environment variable.`,
+                `Please set it in your package-settings.json (under 'tools.${SEARXNG_QUALIFIED_TOOL_NAME}.baseUrl').`,
             },
           ],
           details: { error: "MISSING_CONFIG" },
@@ -94,6 +107,11 @@ export default function(pi: ExtensionAPI) {
         "--num-results",
         String(numResults),
       ];
+
+      // Add user-agent if specified
+      if (userAgent) {
+        args.push("--user-agent", userAgent);
+      }
 
       try {
         const result = await pi.exec("python3", args, { signal });
@@ -135,7 +153,8 @@ export default function(pi: ExtensionAPI) {
   pi.registerTool({
     name: "web_scrape",
     label: "Web Scrape",
-    description: "Scrape content from a list of URLs. Fetches and extracts text content from web pages with retry logic for reliability.",
+    description:
+      "Scrape content from a list of URLs. Fetches and extracts text content from web pages with retry logic for reliability.",
     promptSnippet: "Scrape content from specific URLs",
     promptGuidelines: [
       "Use this tool to extract actual content from web pages.",
@@ -157,15 +176,25 @@ export default function(pi: ExtensionAPI) {
       ),
       numRetries: Type.Optional(
         Type.Integer({
-          description: "Maximum number of retry attempts per URL on failure (default: 3)",
+          description:
+            "Maximum number of retry attempts per URL on failure (default: 3)",
           minimum: 0,
           maximum: 10,
           default: 3,
         }),
       ),
+      userAgent: Type.Optional(
+        Type.String({
+          description: `User-Agent header to use (default: ${DEFAULT_WEB_SCRAPE_UA}). Some sites behave differently when using a browser-like (or more creative) User-Agent.`,
+          examples: [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            DEFAULT_WEB_SCRAPE_UA,
+          ],
+        }),
+      ),
     }),
     async execute(toolCallId, params, signal, onUpdate, ctx) {
-      const { urls, numRetries = 3 } = params;
+      const { urls, numRetries = 3, userAgent } = params;
 
       if (urls.length === 0) {
         return {
@@ -181,8 +210,8 @@ export default function(pi: ExtensionAPI) {
 
       onUpdate?.({
         content: [
-          { 
-            type: "text", 
+          {
+            type: "text",
             text: `Scraping ${urls.length} URL(s) with up to ${numRetries} retries each...`,
           },
         ],
@@ -192,12 +221,17 @@ export default function(pi: ExtensionAPI) {
       // Pass URLs as positional arguments
       const args = [
         WEB_SCRAPER_CLI_PATH,
-        ...urls.map(u => u.trim()),
+        ...urls.map((u) => u.trim()),
         "--retries",
         String(numRetries),
         "--output",
         "json",
       ];
+
+      // Add user-agent if specified
+      if (userAgent) {
+        args.push("--user-agent", userAgent);
+      }
 
       try {
         const result = await pi.exec("python3", args, { signal });
@@ -238,9 +272,12 @@ export default function(pi: ExtensionAPI) {
         }
 
         // Calculate statistics
-        const successCount = scrapedResults.filter(r => r.text).length;
-        const failedCount = scrapedResults.filter(r => r.error).length;
-        const totalRetries = scrapedResults.reduce((sum, r) => sum + (r.retry_count || 0), 0);
+        const successCount = scrapedResults.filter((r) => r.text).length;
+        const failedCount = scrapedResults.filter((r) => r.error).length;
+        const totalRetries = scrapedResults.reduce(
+          (sum, r) => sum + (r.retry_count || 0),
+          0,
+        );
 
         // Format output
         const outputLines: string[] = [
@@ -255,7 +292,7 @@ export default function(pi: ExtensionAPI) {
         for (const [i, result] of scrapedResults.entries()) {
           outputLines.push(`--- Result ${i + 1} ---`);
           outputLines.push(`URL: ${result.url}`);
-          
+
           if (result.title) {
             outputLines.push(`Title: ${result.title}`);
           }
@@ -271,7 +308,7 @@ export default function(pi: ExtensionAPI) {
             outputLines.push("Content:");
             outputLines.push(result.text);
           }
-          
+
           outputLines.push("");
           outputLines.push("-".repeat(50));
           outputLines.push("");

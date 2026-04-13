@@ -35,7 +35,7 @@
     "blockImages": false
   },
   "enabledModels": ["unsloth--*", "ggml-org--*"],
-  "packages": ["./packages/searxng/", "./packages/pi-config-utils/"],
+  "packages": ["./packages/pi-tools/", "./packages/pi-config-utils/"],
   "extensions": [],
   "skills": [],
   "prompts": [],

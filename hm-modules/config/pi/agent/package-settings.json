@@ -1,6 +1,6 @@
 {
   "tools": {
-    "local:searxng:searxng_search": {
+    "local:@pyqkgs/pi-tools:searxng_search": {
        "baseUrl": "https://srx.bleak-shaula.ts.net/search"
      }
   }

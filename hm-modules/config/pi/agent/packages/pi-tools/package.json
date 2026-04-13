@@ -1,9 +1,9 @@
 {
-  "description": "SearXNG web search tool for pi",
+  "description": "Several simple tools for pi-agent",
   "keywords": [
     "pi-package"
   ],
-  "name": "@pyqkgs/searxng-extension",
+  "name": "@pyqkgs/pi-tools",
   "dependencies": {
     "@pyqkgs/pi-config-utils": "1.0.0"
   },
