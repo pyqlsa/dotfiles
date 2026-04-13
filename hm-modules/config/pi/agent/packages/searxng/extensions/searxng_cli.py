@@ -5,12 +5,16 @@ import urllib.parse
 import argparse
 import os
 
-def perform_search(query, output_format, base_url):
+def perform_search(query, output_format, base_url, num_results=10):
     """Performs a search using the SearXNG instance."""
     params = {
         "q": query,
-        "format": "json"
+        "format": "json",
+        "pageno": 1,
     }
+    # SearXNG uses 'count' parameter to limit results
+    if num_results > 0:
+        params["count"] = num_results
     url = f"{base_url}?{urllib.parse.urlencode(params)}"
 
     try:
@@ -21,6 +25,9 @@ def perform_search(query, output_format, base_url):
                 
                 if output_format == "condensed":
                     results = data.get("results", [])
+                    # Limit to num_results if specified
+                    if num_results > 0:
+                        results = results[:num_results]
                     if not results:
                         return "No results found."
                     
@@ -51,13 +58,19 @@ def main():
         "--base-url",
         help="The SearXNG base URL (e.g., https://srx.example.com/search)"
     )
+    parser.add_argument(
+        "--num-results",
+        type=int,
+        default=10,
+        help="Number of results to return (default: 10)"
+    )
     
     args = parser.parse_args()
     
     # Use provided base-url or fallback to a default
     base_url = args.base_url or "https://srx.bleak-shaula.ts.net/search"
     
-    print(perform_search(args.query, args.format, base_url))
+    print(perform_search(args.query, args.format, base_url, args.num_results))
 
 if __name__ == "__main__":
     main()
