@@ -1,15 +1,22 @@
 {
-  "name": "searxng-extension",
-  "version": "1.0.0",
   "description": "SearXNG web search tool for pi",
-  "keywords": ["pi-package"],
-  "pi": {
-    "extensions": ["./extensions"]
+  "keywords": [
+    "pi-package"
+  ],
+  "name": "@pyqkgs/searxng-extension",
+  "dependencies": {
+    "@pyqkgs/pi-config-utils": "1.0.0"
   },
   "peerDependencies": {
-    "@mariozechner/pi-coding-agent": "*",
-    "@sinclair/typebox": "*",
     "@mariozechner/pi-ai": "*",
-    "@mariozechner/pi-tui": "*"
-  }
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-tui": "*",
+    "@sinclair/typebox": "*"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ]
+  },
+  "version": "1.0.0"
 }

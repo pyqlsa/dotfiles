@@ -1,6 +1,6 @@
 {
   "defaultProvider": "local",
-  "defaultModel": "unsloth--gemma-4-26B-A4B-it",
+  "defaultModel": "unsloth--Qwen3.5-27B",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
@@ -35,7 +35,7 @@
     "blockImages": false
   },
   "enabledModels": ["unsloth--*", "ggml-org--*"],
-  "packages": ["./packages/searxng/"],
+  "packages": ["./packages/searxng/", "./packages/pi-config-utils/"],
   "extensions": [],
   "skills": [],
   "prompts": [],
