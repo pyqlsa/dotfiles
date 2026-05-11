@@ -53,20 +53,20 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-[[ "${disk}" == "" ]] && echo "ERROR: I need a disk!" && display_help && exit 1
-[[ ! -b "${disk}" ]] && echo "ERROR: ${disk} is not a block device!" && display_help && exit 1
+[[ ${disk} == "" ]] && echo "ERROR: I need a disk!" && display_help && exit 1
+[[ ! -b ${disk} ]] && echo "ERROR: ${disk} is not a block device!" && display_help && exit 1
 
 echo "using disk: ${disk}"
 echo
 
 # determine swap size
-memtotalk=$(awk '/^MemTotal:/{print $2}' /proc/meminfo);
-memtotalg=$((${memtotalk} * 1024 / 1000 / 1000 / 1000))
+memtotalk=$(awk '/^MemTotal:/{print $2}' /proc/meminfo)
+memtotalg=$((memtotalk * 1024 / 1000 / 1000 / 1000))
 echo "detected total memory: ${memtotalg}GB (${memtotalk}kB)"
 echo
 
 extramem=4
-swapfinalg=$((${memtotalg} + ${extramem}))
+swapfinalg=$((memtotalg + extramem))
 
 echo "suggested swap size: ${swapfinalg}GB"
 echo "enter desired swap size in GB (or press enter to take the suggested value)"
@@ -156,7 +156,6 @@ if [ "${encrypted}" == "true" ]; then
   swapVol="${luksSwap}"
 fi
 
-
 mkfs.vfat -n "${bootLabel}" "${bootPart}"
 mkfs.btrfs -L "${rootLabel}" "${rootVol}"
 mount -t btrfs "${rootVol}" /mnt
@@ -177,7 +176,6 @@ mount -o subvol=log,compress=zstd,noatime "${rootVol}" /mnt/var/log
 
 mkdir /mnt/boot
 mount "${bootPart}" /mnt/boot
-
 
 if [ "${encrypted}" == "true" ]; then
   echo "generating luks swap key"
@@ -218,7 +216,7 @@ echo "tidying of swap devices in /mnt/etc/nixos/hardware-configuration.nix may b
 #    device = "/dev/disk/by-uuid/..."; #This is already done for you. Leave as-is.
 #    encrypted = {
 #      enable = true;
-#      keyFile = "/mnt-root/root/swap.key"; #Yes, /mnt-root is correct.
+#      keyFile = "/sysroot/root/swap.key"; #Yes, /sysroot is correct.
 #      label = "..."; The name used with `cryptsetup` when unlocking the LUKS container. It can be whatever you want, ex "luksswap".
 #      blkDev = "/dev/disk/by-uuid/[UUID of the LUKS partition]";
 #    };

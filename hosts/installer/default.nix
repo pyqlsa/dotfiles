@@ -63,14 +63,9 @@ nixpkgs.lib.nixosSystem {
         ];
       };
 
-      services.openssh = {
-        enable = true;
-        ports = [ 22 ];
-        settings = {
-          PermitRootLogin = "yes";
-          PasswordAuthentication = false;
-        };
-        banner = ''
+      environment.etc."ssh_banner" = {
+        mode = "0444";
+        text = ''
                     /\
                    /**\
                   /****\   /\
@@ -81,6 +76,16 @@ nixpkgs.lib.nixosSystem {
              /  /      \/  \/\   \  /      \    /   /    \
           __/__/_______/___/__\___\__________________________________________________
         '';
+      };
+
+      services.openssh = {
+        enable = true;
+        ports = [ 22 ];
+        settings = {
+          PermitRootLogin = "yes";
+          PasswordAuthentication = false;
+          Banner = "/etc/ssh_banner";
+        };
       };
       networking.firewall.allowedTCPPorts = [ 22 ];
       networking.firewall.allowPing = true;
