@@ -56,7 +56,7 @@ in
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;
-        Banner = "/etc/ssh_banner";
+        Banner = "${config.environment.etc."ssh_banner".source}";
       };
       # this or configure firewall directly?
       #openFirewall = cfg.sshd.enable;

@@ -84,7 +84,7 @@ nixpkgs.lib.nixosSystem {
         settings = {
           PermitRootLogin = "yes";
           PasswordAuthentication = false;
-          Banner = "/etc/ssh_banner";
+          Banner = "${config.environment.etc."ssh_banner".source}";
         };
       };
       networking.firewall.allowedTCPPorts = [ 22 ];
