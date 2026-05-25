@@ -35,16 +35,9 @@ in
       execWheelOnly = true;
     };
 
-    services.openssh = {
-      enable = cfg.sshd.enable;
-      ports = [ cfg.sshd.port ];
-      settings = {
-        PermitRootLogin = "no";
-        PasswordAuthentication = false;
-      };
-      # this or configure firewall directly?
-      #openFirewall = cfg.sshd.enable;
-      banner = ''
+    environment.etc."ssh_banner" = {
+      mode = "0444";
+      text = ''
                   /\
                  /**\
                 /****\   /\
@@ -55,6 +48,18 @@ in
            /  /      \/  \/\   \  /      \    /   /    \
         __/__/_______/___/__\___\__________________________________________________
       '';
+    };
+
+    services.openssh = {
+      enable = cfg.sshd.enable;
+      ports = [ cfg.sshd.port ];
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+        Banner = "${config.environment.etc."ssh_banner".source}";
+      };
+      # this or configure firewall directly?
+      #openFirewall = cfg.sshd.enable;
     };
     networking.firewall.allowedTCPPorts = [ (mkIf (cfg.sshd.enable) cfg.sshd.port) ];
     networking.firewall.allowPing = false;

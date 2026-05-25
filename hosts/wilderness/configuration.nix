@@ -134,11 +134,13 @@
 
   sys.llm = {
     enable = true;
-    #allowedOrigins = "https://llm.bleak-shaula.ts.net";
-    #allowedOrigins = "http://llm.bleak-shaula.ts.net,http://llm.bleak-shaula.ts.net:*,https://llm.bleak-shaula.ts.net,https://llm.bleak-shaula.ts.net:*";
-    allowedOrigins = "*";
+    allowAllOrigins = true;
+    modelService = {
+      enable = true;
+    };
     web = {
       enable = true;
+      modelServiceUrl = "http://${config.sys.llm.modelService.host}:${lib.toString config.sys.llm.modelService.port}";
     };
     comfy = {
       enable = true;
@@ -167,6 +169,7 @@
       enable = true;
       envFiles = [ config.sops.secrets."tailscale/authEnv".path ];
       globalConfig = ''
+        debug
         servers {
           timeouts {
             read_body 300s
@@ -185,10 +188,13 @@
         "https://llm.bleak-shaula.ts.net" = {
           extraConfig = ''
             bind tailscale/llm
-            reverse_proxy ${config.sys.llm.host}:${builtins.toString config.sys.llm.port} {
+            reverse_proxy ${config.sys.llm.modelService.host}:${builtins.toString config.sys.llm.modelService.port} {
               header_up Host {upstream_hostport}
               header_up Origin {upstream_hostport}
-              header_up X-Real-IP {http.request.remote}
+              header_up X-Real-IP {remote_host}
+              header_up X-Forwarded-For {http.request.host}
+              header_up X-Forwarded-Proto {http.request.scheme}
+              header_up X-Forwarded-Port {http.request.port}
               header_up Upgrade {http.request.header.Upgrade}
               header_up Connection {http.request.header.Connection}
 
@@ -198,10 +204,28 @@
         };
         "https://owui.bleak-shaula.ts.net" = {
           extraConfig = ''
+            @cors_preflight method OPTIONS
+            handle @cors_preflight {
+              header Access-Control-Allow-Origin "*"
+              header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+              header Access-Control-Allow-Headers "*"
+              header Access-Control-Max-Age "3600"
+              respond "" 204
+            }
             bind tailscale/owui
             reverse_proxy ${config.sys.llm.web.host}:${builtins.toString config.sys.llm.web.port} {
-              header_down X-Real-IP {http.request.remote}
-              header_down X-Forwarded-For {http.request.remote}
+              header_down Access-Control-Allow-Origin "*"
+              header_up Host {upstream_hostport}
+              header_up Origin {upstream_hostport}
+              header_up X-Real-IP {remote_host}
+              header_up X-Forwarded-For {http.request.host}
+              header_up X-Forwarded-Proto {http.request.scheme}
+              header_up X-Forwarded-Port {http.request.port}
+              header_up Upgrade {http.request.header.Upgrade}
+              header_up Connection {http.request.header.Connection}
+              #header_up Sec-WebSocket-Extensions {http.request.header.Sec-WebSocket-Extensions}
+
+              flush_interval -1
             }
           '';
         };

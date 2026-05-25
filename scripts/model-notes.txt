@@ -1,0 +1,67 @@
+--- hf local model management ---
+hf cache list --revisions
+hf cache prune
+
+--- hf download ---
+--- ggml-org ---
+# 20b
+hf download ggml-org/gpt-oss-20b-GGUF README.md gpt-oss-20b-mxfp4.gguf
+
+# 4b
+hf download ggml-org/gemma-4-E4B-it-GGUF README.md gemma-4-e4b-it-Q4_K_M.gguf
+# 26b
+hf download ggml-org/gemma-4-26B-A4B-it-GGUF README.md gemma-4-26B-A4B-it-Q4_K_M.gguf
+# 31b
+hf download ggml-org/gemma-4-31B-it-GGUF README.md gemma-4-31B-it-Q4_K_M.gguf
+
+--- unsloth ---
+# 30b
+hf download unsloth/GLM-4.7-Flash-GGUF README.md GLM-4.7-Flash-MXFP4_MOE.gguf
+# 23b
+hf download unsloth/GLM-4.7-Flash-REAP-23B-A3B-GGUF README.md GLM-4.7-Flash-REAP-23B-A3B-UD-Q4_K_XL.gguf
+
+# 4b
+hf download unsloth/gemma-4-E4B-it-GGUF README.md gemma-4-E4B-it-UD-Q4_K_XL.gguf
+# 26b
+hf download unsloth/gemma-4-26B-A4B-it-GGUF README.md gemma-4-26B-A4B-it-MXFP4_MOE.gguf
+# 31b
+hf download unsloth/gemma-4-31B-it-GGUF README.md gemma-4-31B-it-UD-Q4_K_XL.gguf
+
+# 9b
+hf download unsloth/Qwen3.5-9B-GGUF README.md Qwen3.5-9B-UD-Q4_K_XL.gguf
+# 35b
+hf download unsloth/Qwen3.5-35B-A3B-GGUF README.md Qwen3.5-35B-A3B-MXFP4_MOE.gguf
+# 27b
+hf download unsloth/Qwen3.5-27B-GGUF README.md Qwen3.5-27B-UD-Q4_K_XL.gguf
+
+# 3b
+hf download unsloth/granite-4.0-h-micro-GGUF README.md granite-4.0-h-micro-UD-Q4_K_XL.gguf
+# 7b
+hf download unsloth/granite-4.0-h-tiny-GGUF README.md granite-4.0-h-tiny-UD-Q4_K_XL.gguf
+# 32b
+hf download unsloth/granite-4.0-h-small-GGUF README.md granite-4.0-h-small-UD-Q4_K_XL.gguf
+
+# 14b - instruct
+hf download unsloth/Ministral-3-14B-Instruct-2512-GGUF README.md Ministral-3-14B-Instruct-2512-UD-Q4_K_XL.gguf
+# 14b - reasoning
+hf download unsloth/Ministral-3-14B-Reasoning-2512-GGUF README.md Ministral-3-14B-Reasoning-2512-UD-Q4_K_XL.gguf
+# 8b - instruct
+hf download unsloth/Ministral-3-8B-Instruct-2512-GGUF README.md Ministral-3-8B-Instruct-2512-UD-Q4_K_XL.gguf
+# 8b - reasoning
+hf download unsloth/Ministral-3-8B-Reasoning-2512-GGUF README.md Ministral-3-8B-Reasoning-2512-UD-Q4_K_XL.gguf
+
+# 4b
+hf download unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF README.md NVIDIA-Nemotron-3-Nano-4B-UD-Q4_K_XL.gguf
+# 30b
+hf download unsloth/Nemotron-3-Nano-30B-A3B-GGUF README.md Nemotron-3-Nano-30B-A3B-UD-Q4_K_XL.gguf
+
+--- bartowski ---
+# 30b
+hf download bartowski/nvidia_Nemotron-Cascade-2-30B-A3B-GGUF README.md nvidia_Nemotron-Cascade-2-30B-A3B-Q4_K_M.gguf
+
+--- nvidia ---
+# 4b
+hf download nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF README.md NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf
+
+--- pi-agent ---
+https://mcpmarket.com/tools/skills/pi-nix-syntax-bridge

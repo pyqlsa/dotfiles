@@ -7,22 +7,64 @@ with pkgs;
 with lib; let
   cfg = config.sys;
 
+  modelServiceCfg = { config, options, ... }: {
+    options = {
+      enable = mkEnableOption (lib.mdDoc "enable the model service");
+      host = mkOption {
+        type = with types; str;
+        description = "host for the model service";
+        default = "127.0.0.1";
+        example = "0.0.0.0";
+      };
+      port = mkOption {
+        type = with types; port;
+        description = "port number for the model service";
+        default = 8080;
+        example = 11343;
+      };
+      openFirewall = mkEnableOption (lib.mdDoc "open the firewall for the model service");
+      modelsDir = mkOption {
+        type = with types; str;
+        description = "directory for model files";
+        default = "/var/lib/llama/models";
+        example = "/var/lib/llama/models/cache";
+      };
+      modelsUser = mkOption {
+        type = with types; str;
+        description = "user to own models dir";
+        example = "root";
+      };
+      modelsGroup = mkOption {
+        type = with types; str;
+        description = "group to own models dir";
+        default = "users";
+        example = "root";
+      };
+    };
+  };
+
   webCfg = { config, options, ... }: {
     options = {
       enable = mkEnableOption (lib.mdDoc "enable the web interface");
       host = mkOption {
-        type = types.str;
+        type = with types; str;
         description = "host for the web service";
         default = "127.0.0.1";
         example = "0.0.0.0";
       };
       port = mkOption {
-        type = types.number;
+        type = with types; port;
         description = "port number for the web service";
-        default = 8080;
+        default = 8088;
         example = 11111;
       };
       openFirewall = mkEnableOption (lib.mdDoc "open the firewall for the web interface");
+      modelServiceUrl = mkOption {
+        type = with types; str;
+        description = "url for the language model service to use";
+        default = "http://${cfg.llm.modelService.host}:${toString cfg.llm.modelService.host}";
+        example = "https://example.com";
+      };
     };
   };
 
@@ -30,13 +72,13 @@ with lib; let
     options = {
       enable = mkEnableOption (lib.mdDoc "enable comfy-ui");
       host = mkOption {
-        type = types.str;
+        type = with types; str;
         description = "host for the comfy-ui service";
         default = "127.0.0.1";
         example = "0.0.0.0";
       };
       port = mkOption {
-        type = types.number;
+        type = with types; port;
         description = "port number for the comfy-ui service";
         default = 8188;
         example = 11111;
@@ -64,13 +106,13 @@ with lib; let
     options = {
       enable = mkEnableOption (lib.mdDoc "enable searxng");
       host = mkOption {
-        type = types.str;
+        type = with types; str;
         description = "host for the searxng service";
         default = "127.0.0.1";
         example = "0.0.0.0";
       };
       port = mkOption {
-        type = types.number;
+        type = with types; port;
         description = "port number for the searxng service";
         default = 8888;
         example = 11111;
@@ -84,29 +126,29 @@ with lib; let
     };
   };
 
-  ollamaPkg =
+  llamaPkg =
     if cfg.llm.gpu-type == "auto" then
       if cfg.hardware.amd.enable then
-        pkgs.ollama-rocm
+        pkgs.llama-cpp.override { rocmSupport = true; }
       else
         if cfg.hardware.nvidia.enable then
-          pkgs.ollama-cuda
+          pkgs.llama-cpp.override { cudaSupport = true; }
         else
-          pkgs.ollama-cpu
+          pkgs.llama-cpp
     else
       if cfg.llm.gpu-type == "amd" then
-        pkgs.ollama-rocm
+        pkgs.llama-cpp.override { rocmSupport = true; }
       else
         if cfg.llm.gpu-type == "nvidia" then
-          pkgs.ollama-cuda
+          pkgs.llama-cpp.override { cudaSupport = true; }
         else
           if cfg.llm.gpu-type == "vulkan" then
-            pkgs.ollama-vulkan
+            pkgs.llama-cpp.override { vulkanSupport = true; }
           else
             if cfg.llm.gpu-type == "none" then
-              pkgs.ollama-cpu
+              pkgs.llama-cpp
             else
-              pkgs.ollama
+              pkgs.llama-cpp
   ;
 
   comfyGpu =
@@ -136,30 +178,17 @@ with lib; let
 in
 {
   options.sys.llm = {
-    enable = mkEnableOption (lib.mdDoc "enable an opinionated local llm install and configuration");
-    host = mkOption {
-      type = types.str;
-      description = "host for the llm service";
-      default = "127.0.0.1";
-      example = "0.0.0.0";
-    };
-    port = mkOption {
-      type = types.number;
-      description = "port number for the llm service";
-      default = 11434;
-      example = 11111;
-    };
-    openFirewall = mkEnableOption (lib.mdDoc "open the firewall for the llm service");
-    allowedOrigins = mkOption {
-      type = with types; nullOr str;
-      description = "origin string to allow";
-      default = null;
-      example = "0.0.0.0";
+    enable = mkEnableOption (lib.mdDoc "enable an opinionated local llm related configuration");
+    modelService = mkOption {
+      type = types.submodule modelServiceCfg;
+      default = { enable = false; host = "127.0.0.1"; port = 8080; openFirewall = false; };
+      example = { enable = true; host = "127.0.0.1"; port = 8080; openFirewall = false; };
+      description = "web configuration block.";
     };
     web = mkOption {
       type = types.submodule webCfg;
-      default = { enable = false; host = "127.0.0.1"; port = 8080; openFirewall = false; };
-      example = { enable = true; host = "127.0.0.1"; port = 8080; openFirewall = false; };
+      default = { enable = false; host = "127.0.0.1"; port = 8088; openFirewall = false; };
+      example = { enable = true; host = "127.0.0.1"; port = 8088; openFirewall = false; };
       description = "web configuration block.";
     };
     comfy = mkOption {
@@ -174,6 +203,16 @@ in
       example = { enable = true; host = "127.0.0.1"; port = 8888; openFirewall = false; };
       description = "searxng configuration block.";
     };
+    extraAllowedOrigins = mkOption {
+      type = with types; listOf str;
+      description = "extra allowed origins for CORS";
+      default = [ ];
+    };
+    allowAllOrigins = mkOption {
+      type = with types; bool;
+      description = "configure CORS allowed orgins as '*'";
+      default = false;
+    };
     gpu-type = mkOption {
       type = types.enum [ "amd" "nvidia" "vulkan" "none" "auto" ];
       default = "auto";
@@ -182,25 +221,336 @@ in
   };
 
   config = lib.mkIf (cfg.llm.enable) {
-    services.ollama = {
-      enable = true;
-      package = ollamaPkg;
-      host = cfg.llm.host;
-      port = cfg.llm.port;
-      openFirewall = cfg.llm.openFirewall;
-      user = "ollama";
-      group = "ollama";
-      home = "/var/lib/ollama";
-      models = "${config.services.ollama.home}/models";
-      loadModels = [ ];
-      syncModels = false;
-      environmentVariables = {
-        OLLAMA_ORIGINS = lib.mkIf (cfg.llm.allowedOrigins != null) cfg.llm.allowedOrigins;
-      };
-    };
+    sys.llm.modelService.modelsUser = lib.mkDefault "${config.sys.user.name}";
 
-    sys.software = with pkgs; [
-      oterm
+    services.llama-swap =
+      let
+        llama-server = "${llamaPkg}/bin/llama-server";
+      in
+      lib.mkIf (cfg.llm.modelService.enable) {
+        enable = true;
+        listenAddress = cfg.llm.modelService.host;
+        port = cfg.llm.modelService.port;
+        openFirewall = cfg.llm.modelService.openFirewall;
+        tls.enable = false;
+        settings = {
+          logLevel = "info";
+          macros = {
+            "models_dir" = cfg.llm.modelService.modelsDir;
+            "default_ctx" = 16384;
+            "threads" = 12;
+            "ctx_checkpoints" = 32;
+            "checkpoint_every_n_tokens" = 8192;
+          };
+          models = {
+            "ggml-org--gpt-oss-20b" = {
+              name = "ggml-org--gpt-oss-20b";
+              description = "A thinking model from OpenAI";
+              macros = {
+                "model_file" = "ggml-org--gpt-oss-20b-mxfp4.gguf";
+                "default_ctx" = 0;
+                "temp" = 0.7;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --jinja
+                '';
+            };
+            "unsloth--GLM-4.7-Flash-REAP-23B-A3B" = {
+              name = "unsloth--GLM-4.7-Flash-REAP-23B-A3B";
+              description = "unsloth quantization of GL-4.7-Flash, REAP'd";
+              macros = {
+                "model_file" = "unsloth--GLM-4.7-Flash-REAP-23B-A3B-UD-Q4_K_XL.gguf";
+                "default_ctx" = 0;
+                "temp" = 0.7;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+                "repetition_penalty" = 1.0;
+                "top_p" = 1.0;
+                "min_p" = 0.1;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --repeat-penalty ''${repetition_penalty} \
+                --top-p ''${top_p} \
+                --min-p ''${min_p} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --jinja
+              '';
+            };
+            "unsloth--gemma-4-26B-A4B-it" = {
+              name = "unsloth--gemma-4-26B-A4B-it";
+              description = "unsloth quantization of gemma4";
+              macros = {
+                "model_file" = "unsloth--gemma-4-26B-A4B-it-MXFP4_MOE.gguf";
+                "default_ctx" = 0;
+                "temp" = 1.0;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+                "top_p" = 0.95;
+                "top_k" = 64;
+                "ctx_checkpoints" = 4;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --top-p ''${top_p} \
+                --top-k ''${top_k} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --no-mmap \
+                --jinja
+              '';
+            };
+            "unsloth--gemma-4-31B-it" = {
+              name = "unsloth--gemma-4-31B-it";
+              description = "unsloth quantization of gemma4";
+              macros = {
+                "model_file" = "unsloth--gemma-4-31B-it-UD-Q4_K_XL.gguf";
+                "default_ctx" = 0;
+                "temp" = 1.0;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+                "top_p" = 0.95;
+                "top_k" = 64;
+                "ctx_checkpoints" = 4;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --top-p ''${top_p} \
+                --top-k ''${top_k} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --no-mmap \
+                --jinja
+              '';
+            };
+            "unsloth--gemma-4-E4B-it" = {
+              name = "unsloth--gemma-4-E4B-it";
+              description = "unsloth quantization of gemma4";
+              macros = {
+                "model_file" = "unsloth--gemma-4-E4B-it-UD-Q4_K_XL.gguf";
+                "default_ctx" = 0;
+                "temp" = 1.0;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+                "top_p" = 0.95;
+                "top_k" = 64;
+                "ctx_checkpoints" = 4;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --top-p ''${top_p} \
+                --top-k ''${top_k} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --jinja
+              '';
+            };
+            "unsloth--granite-4.0-h-micro" = {
+              name = "unsloth--granite-4.0-h-micro";
+              description = "unsloth quantization of granite 4.0 micro";
+              macros = {
+                "model_file" = "unsloth--granite-4.0-h-micro-UD-Q4_K_XL.gguf";
+                "default_ctx" = 0;
+                "temp" = 0.7;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --jinja
+              '';
+            };
+            "unsloth--granite-4.0-h-small" = {
+              name = "unsloth--granite-4.0-h-small";
+              description = "unsloth quantization of granite 4.0 small";
+              macros = {
+                "model_file" = "unsloth--granite-4.0-h-small-UD-Q4_K_XL.gguf";
+                "default_ctx" = 0;
+                "temp" = 0.7;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --jinja
+              '';
+            };
+            "unsloth--Qwen3.5-9B" = {
+              name = "unsloth--Qwen3.5-9B";
+              description = "unsloth quantization of qwen 3.5";
+              macros = {
+                "model_file" = "unsloth--Qwen3.5-9B-UD-Q4_K_XL.gguf";
+                "default_ctx" = 0;
+                "temp" = 0.6;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+                "top_p" = 0.95;
+                "top_k" = 20;
+                "min_p" = 0.0;
+                "presence_penalty" = 0.0;
+                "repetition_penalty" = 1.0;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --top-p ''${top_p} \
+                --top-k ''${top_k} \
+                --min-p ''${min_p} \
+                --repeat-penalty ''${repetition_penalty} \
+                --presence-penalty ''${presence_penalty} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --jinja
+              '';
+            };
+            "unsloth--Qwen3.5-27B" = {
+              name = "unsloth--Qwen3.5-27B";
+              description = "unsloth quantization of qwen 3.5";
+              macros = {
+                "model_file" = "unsloth--Qwen3.5-27B-UD-Q4_K_XL.gguf";
+                "default_ctx" = 0;
+                "temp" = 0.6;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+                "top_p" = 0.95;
+                "top_k" = 20;
+                "min_p" = 0.0;
+                "presence_penalty" = 0.0;
+                "repetition_penalty" = 1.0;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --top-p ''${top_p} \
+                --top-k ''${top_k} \
+                --min-p ''${min_p} \
+                --repeat-penalty ''${repetition_penalty} \
+                --presence-penalty ''${presence_penalty} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --jinja
+              '';
+            };
+            "unsloth--Qwen3.5-35B-A3B" = {
+              name = "unsloth--Qwen3.5-35B-A3B";
+              description = "unsloth quantization of qwen 3.5";
+              macros = {
+                "model_file" = "unsloth--Qwen3.5-35B-A3B-MXFP4_MOE.gguf";
+                "default_ctx" = 0;
+                "temp" = 0.6;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+                "top_p" = 0.95;
+                "top_k" = 20;
+                "min_p" = 0.0;
+                "presence_penalty" = 0.0;
+                "repetition_penalty" = 1.0;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --top-p ''${top_p} \
+                --top-k ''${top_k} \
+                --min-p ''${min_p} \
+                --repeat-penalty ''${repetition_penalty} \
+                --presence-penalty ''${presence_penalty} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --jinja
+              '';
+            };
+          };
+        };
+      };
+
+    # TODO: would apply to the local llm service, possibly comfy
+    systemd.tmpfiles.rules = lib.mkIf (cfg.llm.modelService.enable) [
+      "d ${cfg.llm.modelService.modelsDir} 0755 ${cfg.llm.modelService.modelsUser} ${toString cfg.llm.modelService.modelsGroup} -"
+    ];
+
+    # TODO: would apply to the local llm service, possibly comfy
+    sys.software = with pkgs; lib.mkIf (cfg.llm.modelService.enable) [
+      python3Packages.huggingface-hub
+      llamaPkg # useful to run llama-server directly for debugging purposes
     ];
 
     services.open-webui = lib.mkIf (cfg.llm.web.enable) {
@@ -229,24 +579,27 @@ in
         WEBUI_SESSION_COOKIE_SECURE = "True";
         WEBUI_AUTH_COOKIE_SAME_SITE = "strict";
         WEBUI_AUTH_COOKIE_SECURE = "True";
+        #CORS_ALLOW_ORIGIN = "*";
         CORS_ALLOW_ORIGIN =
           let
             allowedOrigins = [
+              "http://${cfg.llm.web.host}"
               "http://${cfg.llm.web.host}:${toString cfg.llm.web.port}"
               "http://localhost:${toString cfg.llm.web.port}"
               "http://127.0.0.1:${toString cfg.llm.web.port}"
+              "https://${cfg.llm.web.host}"
               "https://${cfg.llm.web.host}:${toString cfg.llm.web.port}"
               "https://localhost:${toString cfg.llm.web.port}"
               "https://127.0.0.1:${toString cfg.llm.web.port}"
-            ];
+            ] ++ cfg.llm.extraAllowedOrigins;
             constructCorsString = origins: lib.concatStringsSep ";" origins;
             corsValue = constructCorsString allowedOrigins;
           in
-          corsValue;
+          if cfg.llm.allowAllOrigins then "*" else corsValue;
         # ...
-        GLOBAL_LOG_LEVEL = "INFO";
+        GLOBAL_LOG_LEVEL = "DEBUG";
         # ...
-        OLLAMA_BASE_URL = "http://${cfg.llm.host}:${toString cfg.llm.port}";
+        ENABLE_OLLAMA_API = "False";
         # ...
         DEFAULT_LOCALE = "en";
         DEFAULT_MODELS = "";
@@ -261,7 +614,8 @@ in
         ENV = "prod";
         ENABLE_REALTIME_CHAT_SAVE = "False";
         # ...
-        ENABLE_OPENAI_API = "False";
+        ENABLE_OPENAI_API = "True";
+        OPENAI_API_BASE_URL = "${cfg.llm.web.modelServiceUrl}/v1";
       } // (lib.optionalAttrs cfg.llm.searxng.enable {
         # ...
         ENABLE_WEB_SEARCH = "True";
@@ -293,7 +647,7 @@ in
     # from comfyui-nix flake
     services.comfyui = lib.mkIf (cfg.llm.comfy.enable) {
       enable = true;
-      gpuSupport = if cfg.llm.comfy.gpuSupport == null then comfyGpu else cfg.llmconfy.forceGpuSupport;
+      gpuSupport = if cfg.llm.comfy.gpuSupport == null then comfyGpu else cfg.llm.comfy.gpuSupport;
       enableManager = false;
       listenAddress = cfg.llm.comfy.host;
       port = cfg.llm.comfy.port;
@@ -302,20 +656,27 @@ in
       environment = cfg.llm.comfy.environment;
     };
 
-    # because we're using the comfyui-nix flake
-    nix.settings = lib.mkIf (cfg.llm.comfy.enable) {
-      trusted-substituters = [
-        #"https://cache.nixos.org"
+    nix.settings = {
+      trusted-substituters = [ ] ++ (if (cfg.llm.comfy.enable) then [
+        # for comfyui-nix
         "https://comfyui.cachix.org"
         "https://nix-community.cachix.org"
         "https://cuda-maintainers.cachix.org"
-      ];
-      trusted-public-keys = [
-        #"cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      ] else [ ])
+        ++ (if (cfg.llm.enable) then [
+        # for llm-agents.nix
+        "https://cache.numtide.com"
+      ] else [ ]);
+      trusted-public-keys = [ ] ++ (if (cfg.llm.comfy.enable) then [
+        # for comfyui-nix
         "comfyui.cachix.org-1:33mf9VzoIjzVbp0zwj+fT51HG0y31ZTK3nzYZAX0rec="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
-      ];
+      ] else [ ])
+        ++ (if (cfg.llm.enable) then [
+        # for llm-agents.nix
+        "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      ] else [ ]);
     };
 
     services.searx = lib.mkIf (cfg.llm.searxng.enable) {
@@ -504,8 +865,6 @@ in
         #];
       };
     };
-
-
   };
 }
 

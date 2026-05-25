@@ -1,0 +1,22 @@
+{
+  "description": "Several simple tools for pi-agent",
+  "keywords": [
+    "pi-package"
+  ],
+  "name": "pi-tools",
+  "dependencies": {
+    "pi-config-utils": "1.0.0"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-ai": "*",
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-tui": "*",
+    "@sinclair/typebox": "*"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions/index.ts"
+    ]
+  },
+  "version": "1.0.0"
+}

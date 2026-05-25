@@ -67,7 +67,6 @@ in
       gnumake
       jq
       neovimPQ
-      opencode
       shellcheck
       # - go
       go
@@ -95,6 +94,24 @@ in
         keychain
         # vpn
         #protonvpn-gui # XXX: it broken
+        # dev
+        (jailed.makeJailedPi
+          {
+            # don't completely remove, just comment out snippets if necessary (we're testing)
+            extraReadonlyDirs = [
+              "/nix/store"
+            ];
+            extraLinkedPaths = [
+              #"~/.pi/agent/settings.json"
+              #"~/.pi/agent/models.json"
+              #"${config.home.file.".pi/agent/settings.json".source}"
+              #"${config.home.file.".pi/agent/models.json".source}"
+            ];
+            extraPkgs = [
+              python-basic
+              bun
+            ];
+          })
         # graphical
         firefox
         chromium
@@ -206,11 +223,15 @@ in
     };
   };
 
-  home.file.".config/opencode/opencode.jsonc" = {
-    source = ./config/opencode/opencode.jsonc;
+  home.file.".pi/agent/models.json" = {
+    source = ./config/pi/agent/models.json;
   };
-  home.file.".config/opencode/tui.jsonc" = {
-    source = ./config/opencode/tui.jsonc;
+  home.file.".pi/agent/settings.json" = {
+    source = ./config/pi/agent/settings.json;
+  };
+  home.file.".pi/agent/packages" = {
+    source = ./config/pi/agent/packages;
+    recursive = true;
   };
 
   programs.zsh = lib.mkIf (osConfig.sys.user.zshDefault) {

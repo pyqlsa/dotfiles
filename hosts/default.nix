@@ -12,6 +12,7 @@ let
     sdImage.compressImage = false;
   });
 
+  # TODO: massage and move to lib?
   mkSystem = { hostname, system, modules, cudaSupport ? false, rocmSupport ? false }: lib.nixosSystem {
     inherit system;
     pkgs = import inputs.nixpkgs {
@@ -29,6 +30,7 @@ let
     ] ++ modules;
   };
 
+  # TODO: massage and move to lib?
   # { hostname = { system = "..."; modules = []; }; }
   mkNixosSystems = kvs:
     (mapAttrs
@@ -45,7 +47,7 @@ in
   wilderness = {
     inherit modules;
     system = "x86_64-linux";
-    # hmmm... strange crashes observed in ollama when using rocm-compiled packages;
+    # hmmm... some crashes when using rocm-compiled packages;
     # hashcat seemed to work nicely, though
     rocmSupport = false;
   };

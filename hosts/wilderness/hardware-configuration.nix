@@ -78,7 +78,7 @@
       device = "/dev/disk/by-label/swap";
       encrypted = {
         enable = true;
-        keyFile = "/mnt-root/root/swap.key";
+        keyFile = "/sysroot/root/swap.key";
         label = "nix-enc-swap";
         #blkDev = "/dev/disk/by-uuid/61858d3f-fb9d-4580-947e-94f2fbb7aad3";
         blkDev = "/dev/disk/by-label/nix-enc-swap";

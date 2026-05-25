@@ -50,3 +50,7 @@ When initially building this out, some of the below were helpful and inspiring a
 
 ### raspberry pi
 - https://nix.dev/tutorials/nixos/installing-nixos-on-a-raspberry-pi.html
+
+### agents
+- https://www.nijho.lt/post/llama-nixos/
+- https://github.com/andersonjoseph/jailed-agents

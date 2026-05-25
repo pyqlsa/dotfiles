@@ -83,6 +83,8 @@
             write 300s
             idle 300s
           }
+          keepalive_idle 300s
+          keepalive_interval 300s
         }
       '';
       virtualHosts = {
@@ -95,7 +97,26 @@
             }
 
             handle /media/* {
-              reverse_proxy /media/* http://127.0.0.1:8096
+              reverse_proxy /media/* http://127.0.0.1:8096 {
+                transport http {
+                  keepalive 300s
+                  keepalive_interval 200s
+                  dial_timeout 120s
+                  response_header_timeout 120s
+                  read_timeout 120s
+                }
+                header_down Access-Control-Allow-Origin "*"
+                header_up Host {upstream_hostport}
+                header_up Origin {upstream_hostport}
+                header_up X-Real-IP {remote_host}
+                header_up X-Forwarded-For {http.request.host}
+                header_up X-Forwarded-Proto {http.request.scheme}
+                header_up X-Forwarded-Port {http.request.port}
+                header_up Upgrade {http.request.header.Upgrade}
+                header_up Connection {http.request.header.Connection}
+
+                flush_interval -1
+              }
             }
 
             handle {
@@ -128,6 +149,12 @@
     enable = true;
     openFirewall = false;
   };
+
+  users.users."${config.services.jellyfin.user}" = {
+    extraGroups =
+      [ "wheel" "video" "render" "networkmanager" "kvm" ];
+  };
+
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 

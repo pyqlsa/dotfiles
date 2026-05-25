@@ -14,5 +14,6 @@
     tree
     squashfsTools
     strace
+    bubblewrap
   ];
 }
