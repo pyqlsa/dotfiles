@@ -36,16 +36,24 @@
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         },
         {
-          "id": "unsloth--Qwen3.5-27B",
-          "name": "unsloth--Qwen3.5-27B",
+          "id": "unsloth--Qwen3.6-27B",
+          "name": "unsloth--Qwen3.6-27B",
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         },
         {
-          "id": "unsloth--Qwen3.5-35B-A3B",
-          "name": "unsloth--Qwen3.5-35B-A3B",
+          "id": "unsloth--Qwen3.6-35B-A3B",
+          "name": "unsloth--Qwen3.6-35B-A3B",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
+          "id": "unsloth--Qwen3.6-35B-A3B-MTP",
+          "name": "unsloth--Qwen3.6-35B-A3B-MTP",
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
@@ -57,14 +65,6 @@
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
-        },
-        {
-          "id": "ggml-org--gpt-oss-20b",
-          "name": "ggml-org--gpt-oss-20b",
-          "reasoning": true,
-          "input": ["text"],
-          "contextWindow": 131072,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         },
         {

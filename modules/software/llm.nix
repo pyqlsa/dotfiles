@@ -243,31 +243,6 @@ in
             "checkpoint_every_n_tokens" = 8192;
           };
           models = {
-            "ggml-org--gpt-oss-20b" = {
-              name = "ggml-org--gpt-oss-20b";
-              description = "A thinking model from OpenAI";
-              macros = {
-                "model_file" = "ggml-org--gpt-oss-20b-mxfp4.gguf";
-                "default_ctx" = 0;
-                "temp" = 0.7;
-                "ubatch_size" = 2048;
-                "batch_size" = 2048;
-              };
-              env = [
-                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
-              ];
-              cmd = ''${llama-server} --port ''${PORT} --no-webui \
-                --model ''${models_dir}/''${model_file} \
-                --ctx-size ''${default_ctx} \
-                --temperature ''${temp} \
-                --ubatch-size ''${ubatch_size} \
-                --batch-size ''${batch_size} \
-                --threads ''${threads} \
-                --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
-                --jinja
-                '';
-            };
             "unsloth--GLM-4.7-Flash-REAP-23B-A3B" = {
               name = "unsloth--GLM-4.7-Flash-REAP-23B-A3B";
               description = "unsloth quantization of GL-4.7-Flash, REAP'd";
@@ -468,11 +443,11 @@ in
                 --jinja
               '';
             };
-            "unsloth--Qwen3.5-27B" = {
-              name = "unsloth--Qwen3.5-27B";
-              description = "unsloth quantization of qwen 3.5";
+            "unsloth--Qwen3.6-27B" = {
+              name = "unsloth--Qwen3.6-27B";
+              description = "unsloth quantization of qwen 3.6";
               macros = {
-                "model_file" = "unsloth--Qwen3.5-27B-UD-Q4_K_XL.gguf";
+                "model_file" = "unsloth--Qwen3.6-27B-UD-Q4_K_XL.gguf";
                 "default_ctx" = 0;
                 "temp" = 0.6;
                 "ubatch_size" = 2048;
@@ -503,11 +478,46 @@ in
                 --jinja
               '';
             };
-            "unsloth--Qwen3.5-35B-A3B" = {
-              name = "unsloth--Qwen3.5-35B-A3B";
-              description = "unsloth quantization of qwen 3.5";
+            "unsloth--Qwen3.6-35B-A3B" = {
+              name = "unsloth--Qwen3.6-35B-A3B";
+              description = "unsloth quantization of qwen 3.6";
               macros = {
-                "model_file" = "unsloth--Qwen3.5-35B-A3B-MXFP4_MOE.gguf";
+                "model_file" = "unsloth--Qwen3.6-35B-A3B-MXFP4_MOE.gguf";
+                "default_ctx" = 0;
+                "temp" = 0.6;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+                "top_p" = 0.95;
+                "top_k" = 20;
+                "min_p" = 0.0;
+                "presence_penalty" = 0.0;
+                "repetition_penalty" = 1.0;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --top-p ''${top_p} \
+                --top-k ''${top_k} \
+                --min-p ''${min_p} \
+                --repeat-penalty ''${repetition_penalty} \
+                --presence-penalty ''${presence_penalty} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
+                --jinja
+              '';
+            };
+            "unsloth--Qwen3.6-35B-A3B-MTP" = {
+              name = "unsloth--Qwen3.6-35B-A3B-MTP";
+              description = "unsloth quantization of qwen 3.6";
+              macros = {
+                "model_file" = "unsloth--Qwen3.6-35B-A3B-MTP-MXFP4_MOE.gguf";
                 "default_ctx" = 0;
                 "temp" = 0.6;
                 "ubatch_size" = 2048;

@@ -1,6 +1,6 @@
 {
   "defaultProvider": "local",
-  "defaultModel": "unsloth--GLM-4.7-Flash-REAP-23B-A3B",
+  "defaultModel": "unsloth--Qwen3.6-35B-A3B-MTP",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
