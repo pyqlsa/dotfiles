@@ -97,11 +97,16 @@ in
         # dev
         (jailed.makeJailedPi
           {
-            # don't completely remove, just comment out snippets if necessary (we're testing)
             extraReadonlyDirs = [
+              # only until we can figure out how to better bind only select
+              # store paths into the runtime closure effectively;
+              # predominant gap is figuring how to navigate hm symlinks
+              # and how they are resolved in the jail;
               "/nix/store"
             ];
             extraLinkedPaths = [
+              # more ideally something like this, but links not resolving
+              # as expected;
               #"~/.pi/agent/settings.json"
               #"~/.pi/agent/models.json"
               #"${config.home.file.".pi/agent/settings.json".source}"
