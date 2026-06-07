@@ -316,7 +316,7 @@
         autostart = false;
       } // commonOpts;
       proton-allow-local = {
-        autostart = false;
+        autostart = true;
         localNets = [
           { net = "10.10.0.0"; mask = "255.255.0.0"; }
           { net = "10.5.0.0"; mask = "255.255.0.0"; }

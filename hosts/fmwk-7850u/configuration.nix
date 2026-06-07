@@ -166,7 +166,7 @@
     in
     {
       proton-strict = {
-        autostart = false;
+        autostart = true;
       } // commonOpts;
       proton-allow-local = {
         autostart = false;
