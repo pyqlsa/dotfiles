@@ -109,8 +109,8 @@ in
               # as expected;
               #"~/.pi/agent/settings.json"
               #"~/.pi/agent/models.json"
-              #"${config.home.file.".pi/agent/settings.json".source}"
-              #"${config.home.file.".pi/agent/models.json".source}"
+              #"${config.home.file.".pi/agent/settings.json".target}"
+              #"${config.home.file.".pi/agent/models.json".target}"
             ];
             extraPkgs = [
               python-basic
