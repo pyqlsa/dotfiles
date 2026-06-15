@@ -297,7 +297,7 @@ in
       wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
       wofi
       wofi-wrapped
-      libsForQt5.qt5.qtwayland # unsure if explicitly necessary
+      qt5.qtwayland # unsure if explicitly necessary
       mako # notification system developed by swaywm maintainer
       libnotify
       i3status-rust
