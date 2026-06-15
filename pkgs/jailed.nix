@@ -35,14 +35,14 @@ let
   makeJailedAgent =
     { name
     , pkg
-    , configPaths
     , extraPkgs ? [ ]
     , extraReadwriteDirs ? [ ]
     , extraReadonlyDirs ? [ ]
     , extraLinkedPaths ? [ ]
-    , env ? { }
     , baseJailOptions ? commonJailOptions
     , basePackages ? commonPkgs
+    , configPaths
+    , env ? { }
     ,
     }:
     jail name pkg (
@@ -70,9 +70,10 @@ in
     , extraReadwriteDirs ? [ ]
     , extraReadonlyDirs ? [ ]
     , extraLinkedPaths ? [ ]
-    , env ? { }
     , baseJailOptions ? commonJailOptions
     , basePackages ? commonPkgs
+    , configPaths ? [ "~/.pi" ]
+    , env ? { }
     ,
     }:
     makeJailedAgent {
@@ -85,10 +86,8 @@ in
         extraLinkedPaths
         baseJailOptions
         basePackages
+        configPaths
         env
         ;
-      configPaths = [
-        "~/.pi"
-      ];
     };
 }

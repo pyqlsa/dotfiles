@@ -107,8 +107,9 @@ in
             extraLinkedPaths = [
               # more ideally something like this, but links not resolving
               # as expected;
-              #"~/.pi/agent/settings.json"
-              #"~/.pi/agent/models.json"
+              #"~/.pi/agent/config/settings.json"
+              #"~/.pi/agent/config/models.json"
+              #"~/.pi/agent/packages"
               #"${config.home.file.".pi/agent/settings.json".target}"
               #"${config.home.file.".pi/agent/models.json".target}"
             ];
@@ -116,6 +117,14 @@ in
               python-basic
               bun
             ];
+            configPaths = [
+              "~/.pi"
+            ];
+            #env = {
+            #  PI_CODING_AGENT_DIR = "${config.home.homeDirectory}/.pi/agent/config";
+            #  PI_CODING_AGENT_SESSION_DIR = "${config.home.homeDirectory}/.pi/agent/sessions";
+            #  PI_PACKAGE_DIR = "${config.home.homeDirectory}/.pi/agent/packages";
+            #};
           })
         # graphical
         firefox
