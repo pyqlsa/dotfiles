@@ -414,7 +414,7 @@ in
                 "top_k" = 20;
                 "min_p" = 0.0;
                 "presence_penalty" = 0.0;
-                "repetition_penalty" = 1.0;
+                "repetition_penalty" = 1.1;
               };
               env = [
                 "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
@@ -448,7 +448,7 @@ in
                 "top_k" = 20;
                 "min_p" = 0.0;
                 "presence_penalty" = 0.0;
-                "repetition_penalty" = 1.0;
+                "repetition_penalty" = 1.1;
               };
               env = [
                 "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
@@ -482,7 +482,7 @@ in
                 "top_k" = 20;
                 "min_p" = 0.0;
                 "presence_penalty" = 0.0;
-                "repetition_penalty" = 1.0;
+                "repetition_penalty" = 1.1;
               };
               env = [
                 "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
@@ -516,7 +516,7 @@ in
                 "top_k" = 20;
                 "min_p" = 0.0;
                 "presence_penalty" = 0.0;
-                "repetition_penalty" = 1.0;
+                "repetition_penalty" = 1.1;
               };
               env = [
                 "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
