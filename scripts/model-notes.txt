@@ -34,6 +34,9 @@ hf download unsloth/Qwen3.6-35B-A3B-GGUF README.md Qwen3.6-35B-A3B-MXFP4_MOE.ggu
 # 35b
 hf download unsloth/Qwen3.6-35B-A3B-MTP-GGUF README.md Qwen3.6-35B-A3B-MXFP4_MOE.gguf
 
+# 30b
+hf download unsloth/North-Mini-Code-1.0-GGUF README.md North-Mini-Code-1.0-MXFP4_MOE.gguf
+
 # 3b
 hf download unsloth/granite-4.0-h-micro-GGUF README.md granite-4.0-h-micro-UD-Q4_K_XL.gguf
 # 7b
