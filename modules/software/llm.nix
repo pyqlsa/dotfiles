@@ -240,7 +240,6 @@ in
             "default_ctx" = 16384;
             "threads" = 12;
             "ctx_checkpoints" = 32;
-            "checkpoint_every_n_tokens" = 8192;
           };
           models = {
             "unsloth--GLM-4.7-Flash-REAP-23B-A3B" = {
@@ -270,7 +269,6 @@ in
                 --min-p ''${min_p} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --jinja
               '';
             };
@@ -300,7 +298,6 @@ in
                 --top-k ''${top_k} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --no-mmap \
                 --jinja
               '';
@@ -331,7 +328,6 @@ in
                 --top-k ''${top_k} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --no-mmap \
                 --jinja
               '';
@@ -362,7 +358,6 @@ in
                 --top-k ''${top_k} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --jinja
               '';
             };
@@ -383,7 +378,6 @@ in
                 --temperature ''${temp} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --jinja
               '';
             };
@@ -404,7 +398,6 @@ in
                 --temperature ''${temp} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --jinja
               '';
             };
@@ -439,7 +432,6 @@ in
                 --presence-penalty ''${presence_penalty} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --jinja
               '';
             };
@@ -474,7 +466,6 @@ in
                 --presence-penalty ''${presence_penalty} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --jinja
               '';
             };
@@ -509,7 +500,6 @@ in
                 --presence-penalty ''${presence_penalty} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --jinja
               '';
             };
@@ -544,7 +534,6 @@ in
                 --presence-penalty ''${presence_penalty} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --checkpoint-every-n-tokens ''${checkpoint_every_n_tokens} \
                 --jinja
               '';
             };
