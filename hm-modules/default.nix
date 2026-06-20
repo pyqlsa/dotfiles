@@ -33,6 +33,13 @@ let
       };
     };
   };
+
+  jailed-pi = (pkgs.jailed.makeJailedPi {
+    extraPkgs = with pkgs;[
+      python-basic
+      bun
+    ];
+  });
 in
 {
   # Let Home Manager install and manage itself.
@@ -95,37 +102,7 @@ in
         # vpn
         #protonvpn-gui # XXX: it broken
         # dev
-        (jailed.makeJailedPi
-          {
-            extraReadonlyDirs = [
-              # only until we can figure out how to better bind only select
-              # store paths into the runtime closure effectively;
-              # predominant gap is figuring how to navigate hm symlinks
-              # and how they are resolved in the jail;
-              "/nix/store"
-            ];
-            extraLinkedPaths = [
-              # more ideally something like this, but links not resolving
-              # as expected;
-              #"~/.pi/agent/config/settings.json"
-              #"~/.pi/agent/config/models.json"
-              #"~/.pi/agent/packages"
-              #"${config.home.file.".pi/agent/settings.json".target}"
-              #"${config.home.file.".pi/agent/models.json".target}"
-            ];
-            extraPkgs = [
-              python-basic
-              bun
-            ];
-            configPaths = [
-              "~/.pi"
-            ];
-            #env = {
-            #  PI_CODING_AGENT_DIR = "${config.home.homeDirectory}/.pi/agent/config";
-            #  PI_CODING_AGENT_SESSION_DIR = "${config.home.homeDirectory}/.pi/agent/sessions";
-            #  PI_PACKAGE_DIR = "${config.home.homeDirectory}/.pi/agent/packages";
-            #};
-          })
+        jailed-pi
         # graphical
         firefox
         chromium
@@ -235,17 +212,6 @@ in
         };
       };
     };
-  };
-
-  home.file.".pi/agent/models.json" = {
-    source = ./config/pi/agent/models.json;
-  };
-  home.file.".pi/agent/settings.json" = {
-    source = ./config/pi/agent/settings.json;
-  };
-  home.file.".pi/agent/packages" = {
-    source = ./config/pi/agent/packages;
-    recursive = true;
   };
 
   programs.zsh = lib.mkIf (osConfig.sys.user.zshDefault) {
