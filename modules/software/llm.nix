@@ -717,6 +717,7 @@ in
         };
         search = {
           safe_search = 0;
+          default_lang = "en";
           autocomplete = "duckduckgo";
           #autocomplete_min = 2;
           ban_time_on_fail = 5;
