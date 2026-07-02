@@ -78,6 +78,13 @@ let
           ''))
         ]
         # Start adding back r/w dirs, as normal.
+        ++ (map
+          (p: add-runtime ''
+            if [ ! -d ${p} ]; then
+              mkdir -p ${p}
+            fi
+          '')
+          (extraReadwriteDirs))
         ++ (map (p: readwrite (noescape p)) (extraReadwriteDirs))
         ++ (map (p: readonly (noescape p)) extraReadonlyDirs)
         ++ [ (add-pkg-deps basePackages) ]
