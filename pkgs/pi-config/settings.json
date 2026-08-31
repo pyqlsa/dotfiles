@@ -1,7 +1,7 @@
 {
   "defaultProvider": "local",
   "defaultModel": "unsloth--Qwen3.6-35B-A3B-MTP",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "thinkingBudgets": {
     "minimal": 1024,
     "low": 4096,

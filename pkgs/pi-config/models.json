@@ -7,8 +7,7 @@
       "compat": {
         "supportsUsageInStreaming": true,
         "maxTokensField": "max_tokens",
-        "supportsDeveloperRole": true,
-        "supportsReasoningEffort": true
+        "supportsDeveloperRole": true
       },
       "models": [
         {
@@ -17,7 +16,10 @@
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          }
         },
         {
           "id": "unsloth--gemma-4-31B-it",
@@ -25,7 +27,10 @@
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          }
         },
         {
           "id": "unsloth--gemma-4-E4B-it",
@@ -33,7 +38,10 @@
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 131072,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          }
         },
         {
           "id": "unsloth--Qwen3.6-27B",
@@ -41,7 +49,10 @@
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          }
         },
         {
           "id": "unsloth--Qwen3.6-35B-A3B",
@@ -49,7 +60,10 @@
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          }
         },
         {
           "id": "unsloth--Qwen3.6-35B-A3B-MTP",
@@ -57,7 +71,10 @@
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          }
         },
         {
           "id": "unsloth--Qwen3.5-9B",
@@ -65,7 +82,10 @@
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          }
         },
         {
           "id": "unsloth--GLM-4.7-Flash-REAP-23B-A3B",
@@ -73,23 +93,10 @@
           "reasoning": true,
           "input": ["text"],
           "contextWindow": 202752,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
-        },
-        {
-          "id": "unsloth--granite-4.0-h-micro",
-          "name": "unsloth--granite-4.0-h-micro",
-          "reasoning": false,
-          "input": ["text"],
-          "contextWindow": 1048576,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
-        },
-        {
-          "id": "unsloth--granite-4.0-h-small",
-          "name": "unsloth--granite-4.0-h-small",
-          "reasoning": false,
-          "input": ["text"],
-          "contextWindow": 1048576,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen-chat-template"
+          }
         }
       ]
     }

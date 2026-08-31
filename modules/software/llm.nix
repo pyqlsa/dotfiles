@@ -361,46 +361,6 @@ in
                 --jinja
               '';
             };
-            "unsloth--granite-4.0-h-micro" = {
-              name = "unsloth--granite-4.0-h-micro";
-              description = "unsloth quantization of granite 4.0 micro";
-              macros = {
-                "model_file" = "unsloth--granite-4.0-h-micro-UD-Q4_K_XL.gguf";
-                "default_ctx" = 0;
-                "temp" = 0.7;
-              };
-              env = [
-                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
-              ];
-              cmd = ''${llama-server} --port ''${PORT} --no-webui \
-                --model ''${models_dir}/''${model_file} \
-                --ctx-size ''${default_ctx} \
-                --temperature ''${temp} \
-                --threads ''${threads} \
-                --ctx-checkpoints ''${ctx_checkpoints} \
-                --jinja
-              '';
-            };
-            "unsloth--granite-4.0-h-small" = {
-              name = "unsloth--granite-4.0-h-small";
-              description = "unsloth quantization of granite 4.0 small";
-              macros = {
-                "model_file" = "unsloth--granite-4.0-h-small-UD-Q4_K_XL.gguf";
-                "default_ctx" = 0;
-                "temp" = 0.7;
-              };
-              env = [
-                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
-              ];
-              cmd = ''${llama-server} --port ''${PORT} --no-webui \
-                --model ''${models_dir}/''${model_file} \
-                --ctx-size ''${default_ctx} \
-                --temperature ''${temp} \
-                --threads ''${threads} \
-                --ctx-checkpoints ''${ctx_checkpoints} \
-                --jinja
-              '';
-            };
             "unsloth--Qwen3.5-9B" = {
               name = "unsloth--Qwen3.5-9B";
               description = "unsloth quantization of qwen 3.5";
