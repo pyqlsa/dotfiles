@@ -97,7 +97,7 @@ with lib; let
   # otherwise lauched qt apps don't pick up theme
   wofi-wrapped = pkgs.writeShellScriptBin "wofi-wrapped" ''
     export _JAVA_AWT_WM_NONREPARENTING=1
-    export QT_QPA_PLATFORMTHEME=gtk2
+    export QT_QPA_PLATFORMTHEME=gtk3
     export QT_QPA_PLATFORM=wayland
     ${pkgs.wofi}/bin/wofi --show run --insensitive --height 200
   '';
@@ -339,7 +339,7 @@ in
     # probably need to find a better way of setting these
     environment.sessionVariables = {
       "_JAVA_AWT_WM_NONREPARENTING" = "1";
-      "QT_QPA_PLATFORMTHEME" = "gtk2";
+      "QT_QPA_PLATFORMTHEME" = "gtk3";
       "QT_QPA_PLATFORM" = "wayland";
     };
   };

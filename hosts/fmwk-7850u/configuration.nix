@@ -6,6 +6,10 @@
   imports = [
     ./hardware-configuration.nix
   ];
+
+  # XXX
+  disabledModules = [ "services/misc/comfyui.nix" ]; # XXX
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

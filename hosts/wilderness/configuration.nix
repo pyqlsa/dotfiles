@@ -6,6 +6,10 @@
   imports = [
     ./hardware-configuration.nix
   ];
+
+  # XXX
+  disabledModules = [ "services/misc/comfyui.nix" ]; # XXX
+
   networking.hostName = "wilderness";
   networking.networkmanager.enable = true;
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -143,7 +147,7 @@
       modelServiceUrl = "http://${config.sys.llm.modelService.host}:${lib.toString config.sys.llm.modelService.port}";
     };
     comfy = {
-      enable = true;
+      enable = false;
       extraArgs = [
         "--disable-xformers"
         "--use-pytorch-cross-attention"

@@ -154,7 +154,7 @@ in
   # see sessionvarabiles comment below...
   qt = lib.mkIf (osConfig.sys.desktop.enable) {
     enable = true;
-    platformTheme.name = "gtk";
+    platformTheme.name = "gtk3";
     style = {
       name = uiTheme.qt.name;
       package = uiTheme.qt.package;
@@ -180,6 +180,7 @@ in
   };
 
   home.pointerCursor = lib.mkIf (osConfig.sys.desktop.enable) {
+    enable = true;
     name = "phinger-cursors-dark";
     package = pkgs.phinger-cursors;
     size = 24;

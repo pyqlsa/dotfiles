@@ -98,7 +98,7 @@
         packages = lib.composeManyExtensions [
           #inputs.neovim-flake.overlays.default
           comfyui-nix.overlays.default
-          llm-agents.overlays.default
+          llm-agents.overlays.shared-nixpkgs
           (import ./pkgs { inherit lib; })
           (final: prev: {
             neovimPQ = inputs.neovim-flake.packages.${final.stdenv.hostPlatform.system}.default;
