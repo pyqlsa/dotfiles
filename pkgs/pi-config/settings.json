@@ -1,6 +1,6 @@
 {
   "defaultProvider": "local",
-  "defaultModel": "unsloth--Qwen3.6-27B",
+  "defaultModel": "unsloth--Qwen3.8-27B",
   "defaultThinkingLevel": "high",
   "thinkingBudgets": {
     "minimal": 1024,

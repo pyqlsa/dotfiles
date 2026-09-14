@@ -497,6 +497,40 @@ in
                 --jinja
               '';
             };
+            "unsloth--Qwen3.8-27B" = {
+              name = "unsloth--Qwen3.8-27B";
+              description = "unsloth quantization of qwen 3.8";
+              macros = {
+                "model_file" = "unsloth--Qwen3.8-27B-UD-Q4_K_XL.gguf";
+                "default_ctx" = 0;
+                "temp" = 1.0;
+                "ubatch_size" = 2048;
+                "batch_size" = 2048;
+                "top_p" = 0.95;
+                "top_k" = 20;
+                "min_p" = 0.0;
+                "presence_penalty" = 0.0;
+                "repetition_penalty" = 1.1;
+              };
+              env = [
+                "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
+              ];
+              cmd = ''${llama-server} --port ''${PORT} --no-webui \
+                --model ''${models_dir}/''${model_file} \
+                --ctx-size ''${default_ctx} \
+                --temperature ''${temp} \
+                --ubatch-size ''${ubatch_size} \
+                --batch-size ''${batch_size} \
+                --top-p ''${top_p} \
+                --top-k ''${top_k} \
+                --min-p ''${min_p} \
+                --repeat-penalty ''${repetition_penalty} \
+                --presence-penalty ''${presence_penalty} \
+                --threads ''${threads} \
+                --ctx-checkpoints ''${ctx_checkpoints} \
+                --jinja
+              '';
+            };
           };
         };
       };
