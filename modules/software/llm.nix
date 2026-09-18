@@ -269,6 +269,10 @@ in
                 --min-p ''${min_p} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
+                --n-gpu-layers 999 \
+                --split-mode layer \
+                --cache-type-k q8_0 \
+                --cache-type-v q8_0 \
                 --jinja
               '';
             };
@@ -299,6 +303,10 @@ in
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
                 --no-mmap \
+                --n-gpu-layers 999 \
+                --split-mode layer \
+                --cache-type-k q8_0 \
+                --cache-type-v q8_0 \
                 --jinja
               '';
             };
@@ -329,6 +337,10 @@ in
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
                 --no-mmap \
+                --n-gpu-layers 999 \
+                --split-mode layer \
+                --cache-type-k q8_0 \
+                --cache-type-v q8_0 \
                 --jinja
               '';
             };
@@ -358,6 +370,10 @@ in
                 --top-k ''${top_k} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
+                --n-gpu-layers 999 \
+                --split-mode layer \
+                --cache-type-k q8_0 \
+                --cache-type-v q8_0 \
                 --jinja
               '';
             };
@@ -392,6 +408,10 @@ in
                 --presence-penalty ''${presence_penalty} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
+                --n-gpu-layers 999 \
+                --split-mode layer \
+                --cache-type-k q8_0 \
+                --cache-type-v q8_0 \
                 --jinja
               '';
             };
@@ -426,6 +446,10 @@ in
                 --presence-penalty ''${presence_penalty} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
+                --n-gpu-layers 999 \
+                --split-mode layer \
+                --cache-type-k q8_0 \
+                --cache-type-v q8_0 \
                 --jinja
               '';
             };
@@ -460,6 +484,10 @@ in
                 --presence-penalty ''${presence_penalty} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
+                --n-gpu-layers 999 \
+                --split-mode layer \
+                --cache-type-k q8_0 \
+                --cache-type-v q8_0 \
                 --jinja
               '';
             };
@@ -494,6 +522,10 @@ in
                 --presence-penalty ''${presence_penalty} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
+                --n-gpu-layers 999 \
+                --split-mode layer \
+                --cache-type-k q8_0 \
+                --cache-type-v q8_0 \
                 --jinja
               '';
             };
@@ -530,6 +562,10 @@ in
                 --presence-penalty ''${presence_penalty} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
+                --n-gpu-layers 999 \
+                --split-mode layer \
+                --cache-type-k q8_0 \
+                --cache-type-v q8_0 \
                 --jinja
               '';
             };

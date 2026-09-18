@@ -35,7 +35,7 @@ hf download unsloth/Qwen3.6-35B-A3B-GGUF README.md Qwen3.6-35B-A3B-MXFP4_MOE.ggu
 hf download unsloth/Qwen3.6-35B-A3B-MTP-GGUF README.md Qwen3.6-35B-A3B-MXFP4_MOE.gguf
 
 # 27b + mmproj + mtp
-hf download unsloth/Qwen3.8-27B-GGUF README.md Qwen3.8-27B-UD-Q4_K_XL.gguf mmproj-BF16.gguf MTP/mtp-Qwen3.8-27B-Q4_0.gguf
+hf download unsloth/Qwen3.8-27B-GGUF README.md Qwen3.8-27B-UD-Q4_K_XL.gguf Qwen3.8-27B-UD-Q5_K_M.gguf mmproj-BF16.gguf mmproj-F16.gguf MTP/mtp-Qwen3.8-27B-Q4_0.gguf
 
 
 # 30b
