@@ -42,6 +42,8 @@ with lib; let
     [[block]]
     block = "battery"
     format = " $icon $percentage {$time |}"
+    warning = 25
+    critical = 10
     missing_format = ""
 
     [[block]]
