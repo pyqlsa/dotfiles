@@ -533,7 +533,7 @@ in
               name = "unsloth--Qwen3.8-27B";
               description = "unsloth quantization of qwen 3.8";
               macros = {
-                "model_file" = "unsloth/Qwen3.8-27B-GGUF/Qwen3.8-27B-UD-Q4_K_XL.gguf";
+                "model_file" = "unsloth/Qwen3.8-27B-GGUF/Qwen3.8-27B-UD-Q5_K_M.gguf";
                 "mmproj_file" = "unsloth/Qwen3.8-27B-GGUF/mmproj-BF16.gguf";
                 "default_ctx" = 0;
                 "temp" = 1.0;
