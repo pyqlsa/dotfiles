@@ -534,7 +534,7 @@ in
               description = "unsloth quantization of qwen 3.8";
               macros = {
                 "model_file" = "unsloth/Qwen3.8-27B-GGUF/Qwen3.8-27B-UD-Q5_K_M.gguf";
-                "mmproj_file" = "unsloth/Qwen3.8-27B-GGUF/mmproj-BF16.gguf";
+                "mmproj_file" = "unsloth/Qwen3.8-27B-GGUF/mmproj-F16.gguf";
                 "default_ctx" = 0;
                 "temp" = 1.0;
                 "ubatch_size" = 2048;
@@ -548,6 +548,12 @@ in
               env = [
                 "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
               ];
+              #  --spec-type draft-mtp \
+              #  --spec-draft-n-max 3 \
+              #  --spec-draft-p-min 0.70 \
+              #  --spec-draft-ngl all \
+              #  --spec-draft-type-k q8_0 \
+              #  --spec-draft-type-v q8_0 \
               cmd = ''${llama-server} --port ''${PORT} --no-webui \
                 --model ''${models_dir}/''${model_file} \
                 --mmproj ''${models_dir}/''${mmproj_file} \
