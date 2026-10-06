@@ -106,7 +106,7 @@ in
           #"github.com/caddy-dns/namecheap@v1.0.0"
           "github.com/tailscale/caddy-tailscale@v0.0.0-20260106222316-bb080c4414ac"
         ];
-        hash = "sha256-o0oG/9hROjDl69AeuxUhhFVTsdluHJ8VyENVk1KHCOI=";
+        hash = "sha256-3Dzgarb1nhPEA8Bxfxk7L3cn4OsIIWshYUosWf3fhqM=";
       };
       virtualHosts = cfg.caddy.virtualHosts;
       globalConfig = cfg.caddy.globalConfig;

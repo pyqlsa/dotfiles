@@ -143,7 +143,7 @@
       enable = true;
     };
     web = {
-      enable = true;
+      enable = false;
       modelServiceUrl = "http://${config.sys.llm.modelService.host}:${lib.toString config.sys.llm.modelService.port}";
     };
     comfy = {

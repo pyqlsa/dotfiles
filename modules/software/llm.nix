@@ -247,7 +247,7 @@ in
               description = "unsloth quantization of GL-4.7-Flash, REAP'd";
               macros = {
                 "model_file" = "unsloth--GLM-4.7-Flash-REAP-23B-A3B-UD-Q4_K_XL.gguf";
-                "default_ctx" = 0;
+                "default_ctx" = 202752;
                 "temp" = 0.7;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
@@ -281,7 +281,7 @@ in
               description = "unsloth quantization of gemma4";
               macros = {
                 "model_file" = "unsloth--gemma-4-26B-A4B-it-MXFP4_MOE.gguf";
-                "default_ctx" = 0;
+                "default_ctx" = 262144;
                 "temp" = 1.0;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
@@ -315,7 +315,7 @@ in
               description = "unsloth quantization of gemma4";
               macros = {
                 "model_file" = "unsloth--gemma-4-31B-it-UD-Q4_K_XL.gguf";
-                "default_ctx" = 0;
+                "default_ctx" = 262144;
                 "temp" = 1.0;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
@@ -349,7 +349,7 @@ in
               description = "unsloth quantization of gemma4";
               macros = {
                 "model_file" = "unsloth--gemma-4-E4B-it-UD-Q4_K_XL.gguf";
-                "default_ctx" = 0;
+                "default_ctx" = 131072;
                 "temp" = 1.0;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
@@ -382,7 +382,7 @@ in
               description = "unsloth quantization of qwen 3.5";
               macros = {
                 "model_file" = "unsloth--Qwen3.5-9B-UD-Q4_K_XL.gguf";
-                "default_ctx" = 0;
+                "default_ctx" = 262144;
                 "temp" = 0.6;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
@@ -420,7 +420,7 @@ in
               description = "unsloth quantization of qwen 3.6";
               macros = {
                 "model_file" = "unsloth--Qwen3.6-27B-UD-Q4_K_XL.gguf";
-                "default_ctx" = 0;
+                "default_ctx" = 262144;
                 "temp" = 0.6;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
@@ -458,7 +458,7 @@ in
               description = "unsloth quantization of qwen 3.6";
               macros = {
                 "model_file" = "unsloth--Qwen3.6-35B-A3B-MXFP4_MOE.gguf";
-                "default_ctx" = 0;
+                "default_ctx" = 262144;
                 "temp" = 0.6;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
@@ -496,7 +496,7 @@ in
               description = "unsloth quantization of qwen 3.6";
               macros = {
                 "model_file" = "unsloth--Qwen3.6-35B-A3B-MTP-MXFP4_MOE.gguf";
-                "default_ctx" = 0;
+                "default_ctx" = 262144;
                 "temp" = 0.6;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
@@ -533,9 +533,10 @@ in
               name = "unsloth--Qwen3.8-27B";
               description = "unsloth quantization of qwen 3.8";
               macros = {
+                #"model_file" = "unsloth/Qwen3.8-27B-GGUF/Qwen3.8-27B-UD-Q4_K_XL.gguf";
                 "model_file" = "unsloth/Qwen3.8-27B-GGUF/Qwen3.8-27B-UD-Q5_K_M.gguf";
                 "mmproj_file" = "unsloth/Qwen3.8-27B-GGUF/mmproj-F16.gguf";
-                "default_ctx" = 0;
+                "default_ctx" = 262144;
                 "temp" = 1.0;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
