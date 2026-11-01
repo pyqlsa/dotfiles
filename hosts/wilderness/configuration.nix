@@ -137,14 +137,16 @@
   ];
 
   sys.llm = {
-    enable = true;
-    allowAllOrigins = true;
-    modelService = {
+    shared = {
+      enable-llm-agents = true;
+    };
+    llama = {
       enable = true;
     };
     web = {
       enable = false;
-      modelServiceUrl = "http://${config.sys.llm.modelService.host}:${lib.toString config.sys.llm.modelService.port}";
+      llamaUrl = "http://${config.sys.llm.llama.host}:${lib.toString config.sys.llm.llama.port}";
+      allowAllOrigins = true;
     };
     comfy = {
       enable = false;
@@ -158,10 +160,11 @@
         "1"
       ];
     };
-    searxng = {
-      enable = true;
-      environmentFile = config.sops.secrets."searxng/secretVals".path;
-    };
+  };
+
+  sys.searxng = {
+    enable = true;
+    environmentFile = config.sops.secrets."searxng/secretVals".path;
   };
 
   sys.android.enable = true;
@@ -192,7 +195,7 @@
         "https://llm.bleak-shaula.ts.net" = {
           extraConfig = ''
             bind tailscale/llm
-            reverse_proxy ${config.sys.llm.modelService.host}:${builtins.toString config.sys.llm.modelService.port} {
+            reverse_proxy ${config.sys.llm.llama.host}:${builtins.toString config.sys.llm.llama.port} {
               header_up Host {upstream_hostport}
               header_up Origin {upstream_hostport}
               header_up X-Real-IP {remote_host}
@@ -245,7 +248,7 @@
         "https://srx.bleak-shaula.ts.net" = {
           extraConfig = ''
             bind tailscale/srx
-            reverse_proxy ${config.sys.llm.searxng.host}:${builtins.toString config.sys.llm.searxng.port} {
+            reverse_proxy ${config.sys.searxng.host}:${builtins.toString config.sys.searxng.port} {
               header_down X-Real-IP {http.request.remote}
               header_down X-Forwarded-For {http.request.remote}
             }
