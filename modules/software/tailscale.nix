@@ -104,9 +104,9 @@ in
       package = pkgs.caddy.withPlugins {
         plugins = [
           #"github.com/caddy-dns/namecheap@v1.0.0"
-          "github.com/tailscale/caddy-tailscale@v0.0.0-20260106222316-bb080c4414ac"
+          "github.com/tailscale/caddy-tailscale@v0.0.0-20260826180304-de41b249af4f"
         ];
-        hash = "sha256-3Dzgarb1nhPEA8Bxfxk7L3cn4OsIIWshYUosWf3fhqM=";
+        hash = "sha256-I9A+/rwj97qu2yAP3rm+4+QBJjOKzngMM14nWZ3r6Q4=";
       };
       virtualHosts = cfg.caddy.virtualHosts;
       globalConfig = cfg.caddy.globalConfig;
