@@ -1,5 +1,3 @@
-import { resolve } from "node:path";
-import { readFile } from "node:fs/promises";
 import { SettingsManager, getAgentDir } from "@mariozechner/pi-coding-agent";
 import { cwd } from "node:process";
 
@@ -25,14 +23,17 @@ export async function getPluginConfig(
     const settings = SettingsManager.create(cwd(), agentDir);
     const globalSettings = settings.getGlobalSettings() as any;
     const packageSettings = (globalSettings as any).packageSettings;
-    console.log("[getPluginConfig] packageSettings:", JSON.stringify(packageSettings, null, 2));
-    console.log("[getPluginConfig] type:", type);
-    console.log("[getPluginConfig] qualifiedName:", qualifiedName);
-    console.log("[getPluginConfig] result:", packageSettings[type]?.[qualifiedName]);
 
-    return packageSettings[type]?.[qualifiedName];
-  } catch (error) {
-    console.log("[getPluginConfig] Error:", error);
+    return packageSettings?.[type]?.[qualifiedName];
+  } catch {
+    // Fail soft: a missing or unreadable config just means "no override".
+    // NOTE: never console.log()/print here. Extensions execute inside pi's
+    // own process (see docs/how-pi-works.md), so any write to stdout lands on
+    // the same fd as its TUI and corrupts the rendered screen — pi renders
+    // incrementally and cannot resync around out-of-band writes.
+    //
+    // Use ctx.ui.notify()/setStatus() for user-facing feedback instead, and if
+    // diagnostics are needed, gate them behind an env var writing to a file.
     return undefined;
   }
 }
