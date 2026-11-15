@@ -181,8 +181,8 @@
           timeouts {
             read_body 300s
             read_header 300s
-            write 300s
-            idle 300s
+            write 2h # was 300s: queued/slow-TTFB inference requests must survive >5 min silence
+            idle 1h  # was 300s: stop churning keep-alives between long turns
           }
         }
       '';
@@ -205,7 +205,8 @@
               header_up Upgrade {http.request.header.Upgrade}
               header_up Connection {http.request.header.Connection}
 
-              flush_interval -1
+              # used to force disable for better sse, likely not needed
+              #flush_interval -1
             }
           '';
         };
