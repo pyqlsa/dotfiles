@@ -49,9 +49,39 @@
           "reasoning": true,
           "input": ["text", "image"],
           "contextWindow": 262144,
+          "maxTokens": 65536,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "thinkingLevelMap": {
+            "minimal": "low",
+            "low": "low",
+            "medium": "medium",
+            "high": "xhigh",
+            "xhigh": "xhigh",
+            "max": "xhigh"
+          },
+          "samplingParams": {
+            "temperature": 1.0,
+            "top_p": 0.95,
+            "top_k": 20,
+            "min_p": 0.0,
+            "presence_penalty": 0.0,
+            "repeat_penalty": 1.0
+          },
+          "samplingParamsByThinkingLevel": {
+            "off": {
+              "temperature": 0.7,
+              "top_p": 0.8,
+              "presence_penalty": 1.5
+            }
+          },
           "compat": {
-            "thinkingFormat": "qwen-chat-template"
+            "thinkingFormat": "chat-template",
+            "chatTemplateKwargs": {
+              "enable_thinking": { "$var": "thinking.enabled" },
+              "reasoning_effort": { "$var": "thinking.effort" },
+              "preserve_thinking": true
+            },
+            "thinkingTokenBudgetField": "thinking_budget_tokens"
           }
         },
         {

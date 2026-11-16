@@ -384,14 +384,14 @@ in
                 "model_file" = "unsloth/Qwen3.8-27B-GGUF/Qwen3.8-27B-UD-Q5_K_M.gguf";
                 "mmproj_file" = "unsloth/Qwen3.8-27B-GGUF/mmproj-F16.gguf";
                 "default_ctx" = 262144;
-                "temp" = 1.0;
+                "temp" = 1.0; # Qwen3.8 model card, thinking mode
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
                 "top_p" = 0.95;
                 "top_k" = 20;
                 "min_p" = 0.0;
-                "presence_penalty" = 0.0;
-                "repetition_penalty" = 1.1;
+                "presence_penalty" = 0.0; # card: presence penalty is the anti-repetition knob for thinking models, not repeat penalty
+                "repetition_penalty" = 1.0; # card: repetition_penalty=1.0 in thinking mode (was 1.1, which forces paraphrasing loops during long reasoning)
               };
               env = [
                 "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant
