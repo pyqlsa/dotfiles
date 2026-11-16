@@ -144,6 +144,28 @@
           inherit pkgs;
         };
       };
-    }));
+    } // lib.optionalAttrs (lib.strings.hasSuffix "-linux" system) (
+      let
+        # bubblewrap-jailed pi, from ./pkgs/jailed.nix. jail-nix's default base
+        # permissions require `bubblewrap` and `shadow`, both Linux-only in
+        # nixpkgs, so these outputs exist only on linux systems.
+        #
+        # Note: the gate above is a plain string test on purpose; deriving it
+        # from `self.overlays`/the pkgs import would recurse infinitely, since
+        # eachDefaultSystem forces this attrset while the flake outputs are still
+        # being constructed.
+        jailedPi = pkgs.jailed.pi;
+      in
+      {
+        packages = {
+          "jailed-pi" = jailedPi;
+        };
+        apps = {
+          "jailed-pi" = {
+            type = "app";
+            program = "${jailedPi}/bin/pi";
+          };
+        };
+      }
+    )));
 }
-

@@ -121,6 +121,7 @@ let
       )
     );
 in
+rec
 {
   inherit piConfig;
 
@@ -159,4 +160,13 @@ in
         PI_CODING_AGENT_SESSION_DIR = (jail.combinators.noescape sessionDir);
       };
     };
+  pi = (makeJailedPi {
+    name = "pi";
+    enableNix = true;
+    nixConfigDir = null; # we run from a git-controlled flake, not `configuration.nix`
+    extraPkgs = with final;[
+      python-basic
+      bun
+    ];
+  });
 }
