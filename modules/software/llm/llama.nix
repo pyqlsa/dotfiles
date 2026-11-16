@@ -92,15 +92,22 @@ in
             "unsloth--GLM-4.7-Flash-REAP-23B-A3B" = {
               name = "unsloth--GLM-4.7-Flash-REAP-23B-A3B";
               description = "unsloth quantization of GL-4.7-Flash, REAP'd";
+              # Sampling per the official card (zai-org/GLM-4.7-Flash) "Default
+              # Settings (Most Tasks)": temp 1.0 / top-p 0.95. unsloth's GGUF
+              # tutorial (same source, Z.ai-recommended): repeat penalty disabled
+              # or 1.0, and --min-p 0.01 on llama.cpp (default 0.05 causes
+              # looping). The card's separate 0.7/1.0 line is for tool-calling
+              # (Terminal Bench / SWE-bench Verified) and is applied per-request
+              # by pi instead (see pkgs/pi-config/models.json).
               macros = {
                 "model_file" = "unsloth--GLM-4.7-Flash-REAP-23B-A3B-UD-Q4_K_XL.gguf";
                 "default_ctx" = 202752;
-                "temp" = 0.7;
+                "temp" = 1.0;
                 "ubatch_size" = 2048;
                 "batch_size" = 2048;
                 "repetition_penalty" = 1.0;
-                "top_p" = 1.0;
-                "min_p" = 0.1;
+                "top_p" = 0.95;
+                "min_p" = 0.01;
               };
               env = [
                 "CUDA_VISIBLE_DEVICES=0,1" # use discrete gpus, skip integrated gpu; core dumps when running on integrated gpu likely due to mxfp4 quant

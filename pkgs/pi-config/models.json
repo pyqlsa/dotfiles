@@ -249,9 +249,29 @@
           "reasoning": true,
           "input": ["text"],
           "contextWindow": 202752,
+          "maxTokens": 131072,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "thinkingLevelMap": {
+            "minimal": null,
+            "low": null,
+            "medium": null,
+            "high": "high",
+            "xhigh": null,
+            "max": null
+          },
+          "samplingParams": {
+            "temperature": 0.7,
+            "top_p": 1.0,
+            "min_p": 0.01,
+            "repeat_penalty": 1.0
+          },
           "compat": {
-            "thinkingFormat": "qwen-chat-template"
+            "thinkingFormat": "chat-template",
+            "chatTemplateKwargs": {
+              "enable_thinking": { "$var": "thinking.enabled" },
+              "clear_thinking": false
+            },
+            "thinkingTokenBudgetField": "thinking_budget_tokens"
           }
         }
       ]
