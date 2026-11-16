@@ -35,6 +35,9 @@ let
   };
 
   jailed-pi = (pkgs.jailed.makeJailedPi {
+    name = "pi";
+    enableNix = true;
+    nixConfigDir = null; # we run from a git-controlled flake, not `configuration.nix`
     extraPkgs = with pkgs;[
       python-basic
       bun
