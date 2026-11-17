@@ -81,7 +81,7 @@ in
         openFirewall = cfg.llm.llama.openFirewall;
         tls.enable = false;
         settings = {
-          logLevel = "info";
+          logLevel = "debug";
           macros = {
             "models_dir" = cfg.llm.llama.modelsDir;
             "default_ctx" = 16384;
@@ -156,7 +156,6 @@ in
                 --top-k ''${top_k} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --no-mmap \
                 --n-gpu-layers 999 \
                 --split-mode layer \
                 --cache-type-k q8_0 \
@@ -190,7 +189,6 @@ in
                 --top-k ''${top_k} \
                 --threads ''${threads} \
                 --ctx-checkpoints ''${ctx_checkpoints} \
-                --no-mmap \
                 --n-gpu-layers 999 \
                 --split-mode layer \
                 --cache-type-k q8_0 \
